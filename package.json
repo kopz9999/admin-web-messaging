@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "React chat UI example using Layer SDK",
   "scripts": {
+    "postinstall": "webpack --config ./webpack.config.js --progress --colors",
     "start": "node devServer.js",
     "build": "webpack --config webpack.config.js"
   },
