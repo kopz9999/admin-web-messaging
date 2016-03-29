@@ -2,18 +2,26 @@
 
 var path = require('path');
 var express = require('express');
-var webpack = require('webpack');
-var webpackDevMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
-var config = require('./webpack.config');
 var isDevelopment = (process.env.NODE_ENV !== 'production');
 var app = express();
-var port = isDevelopment ? 8080 : process.env.PORT;
+var port = isDevelopment ? 4000 : (process.env.PORT || 8080);
+var compiler = null;
+var webpack = null;
+var webpackDevMiddleware = null;
+var webpackHotMiddleware = null;
+var config = null;
 
-var compiler = webpack(config);
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
-app.use(webpackHotMiddleware(compiler));
 app.use(express.static('.'));
+if (isDevelopment) {
+  webpack = require('webpack');
+  webpackDevMiddleware = require('webpack-dev-middleware');
+  webpackHotMiddleware = require('webpack-hot-middleware');
+  config = require('./webpack.config');
+
+  compiler = webpack(config);
+  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+  app.use(webpackHotMiddleware(compiler));
+}
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
