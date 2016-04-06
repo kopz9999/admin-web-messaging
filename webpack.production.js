@@ -10,9 +10,9 @@ module.exports = {
     './src/index'
   ],
   output: {
-    path: __dirname,
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/static/',
     filename: 'bundle.js',
-    publicPath: '/'
   },
   plugins: [
     new webpack.NoErrorsPlugin(),

@@ -21,6 +21,8 @@ if (isDevelopment) {
   compiler = webpack(config);
   app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
   app.use(webpackHotMiddleware(compiler));
+} else {
+  app.use('/static', express.static('dist'));
 }
 
 app.get('/', function(req, res) {
