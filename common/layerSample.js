@@ -63,11 +63,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var button = document.querySelectorAll('#login button')[0];
 
-  button.addEventListener('click', function() {
+  button.addEventListener('click', function(e) {
     var appId = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
 
     // button.innerHTML = '<i class="fa fa-spinner fa-pulse"></i>';
-
+    e.preventDefault();
     window.layerSample.appId = appId;
     try {
        localStorage.layerAppId = appId;
