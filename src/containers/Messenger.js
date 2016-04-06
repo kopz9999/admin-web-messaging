@@ -40,16 +40,12 @@ export default class Messenger extends Component {
     // and the right-panel which consists of the child components
     // (currently IndexRoute, Route with NewConversation and Route with ActiveConversation)
     return (
-      <div className='messenger'>
-        <div className='left-panel'>
-          <ConversationListHeader
-            onNewConversation={newConversation}/>
-          <ConversationList
+      <div className="app-wrapper">
+        <ConversationList
             conversations={conversations}
             users={users}
             activeConversationId={activeConversationId}
             onDeleteConversation={deleteConversation}/>
-        </div>
         {this.props.children && React.cloneElement(this.props.children, {
           conversations,
           users

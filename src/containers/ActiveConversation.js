@@ -8,6 +8,7 @@ import ConversationHeader from '../components/ConversationHeader';
 import MessageList from '../components/MessageList';
 import MessageComposer from '../components/MessageComposer';
 import TypingIndicatorContainer from './TypingIndicatorContainer';
+import { Link } from 'react-router';
 
 function mapStateToProps({ activeConversation, router }) {
   return {
@@ -59,34 +60,45 @@ export default class ActiveConversation extends Component {
       return conversation.id === activeConversationId;
     });
 
+    var currTitle;
+    if (activeConversation) {
+      currTitle = activeConversation.participants[0];
+    }
+
     // Render the ConversationHeader, MessageList,
     // TypingIndicatorContainer and MessageComposer
     return (
-      <div className='right-panel'>
-        <ConversationHeader
-          title={title}
-          activeConversation={activeConversation}
-          editingTitle={editingTitle}
-          onEditConversationTitle={editConversationTitle}
-          onChangeConversationTitle={changeConversationTitle}
-          onSaveConversationTitle={saveConversationTitle}
-          onCancelEditConversationTitle={cancelEditConversationTitle}/>
+      <div className="conversation-content-view">
+        <header className="bar bar-nav">
+          <Link to={'/'} className='icon icon-left-nav pull-left' onClick={this.handleBackClick} >
+          </Link>
+          <h1 className="title">{currTitle}</h1>
+        </header>
+        <div className="content">
+          <MessageList
+              messages={messages}
+              users={users}
+              onMarkMessageRead={markMessageRead}
+              onLoadMoreMessages={loadMoreMessages}/>
 
-        <MessageList
-          messages={messages}
-          users={users}
-          onMarkMessageRead={markMessageRead}
-          onLoadMoreMessages={loadMoreMessages}/>
+          <TypingIndicatorContainer
+              users={users}
+              conversationId={activeConversationId}/>
 
-        <TypingIndicatorContainer
-          users={users}
-          conversationId={activeConversationId}/>
-
-        <MessageComposer
-          value={composerMessage}
-          onChange={changeComposerMessage}
-          onSubmit={submitComposerMessage}/>
+          <MessageComposer
+              value={composerMessage}
+              onChange={changeComposerMessage}
+              onSubmit={submitComposerMessage}/>
+        </div>
       </div>
     );
+  }
+
+  handleBackClick() {
+    var contentView = document.querySelector('.conversation-content-view');
+    document.querySelector('.conversation-list-view').style.display = 'block';
+    if (contentView !== null) {
+      contentView.style.display = 'none';
+    }
   }
 }

@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
           callback(res.data.identity_token);
 
           // Cleanup identity dialog
-          var node = document.getElementById('identity');
+          var node = document.getElementById('login');
           node.parentNode.removeChild(node);
         } else {
           console.error('challenge error: ', res.data);
@@ -61,12 +61,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  var button = document.querySelectorAll('#identity button')[0];
+  var button = document.querySelectorAll('#login button')[0];
 
   button.addEventListener('click', function() {
     var appId = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
 
-    button.innerHTML = '<i class="fa fa-spinner fa-pulse"></i>';
+    // button.innerHTML = '<i class="fa fa-spinner fa-pulse"></i>';
 
     window.layerSample.appId = appId;
     try {

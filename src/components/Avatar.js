@@ -14,8 +14,10 @@ export default class Avatar extends Component {
 
   render() {
     const { user, users } = this.props;
-    let usersToRender = user ? [user] : users.slice(-2);
+    let usersToRender = user ? [user] : users.slice(-1);
     let styles = cx({
+      'media-object': true,
+      'pull-left': true,
       avatar: true,
       cluster: usersToRender && usersToRender.length > 1
     });

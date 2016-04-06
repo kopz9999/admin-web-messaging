@@ -1,0 +1,49 @@
+.conversation-content {
+    display: none;
+}
+
+.messenger {
+    display: block;
+}
+
+
+/*
+.conversation-item .avatar {
+    display: inline-block;
+    float: left;
+}
+
+*/
+.conversation-item .media-body {
+    margin-top: 10px;
+}
+
+.message-composer {
+    height: 70px;
+}
+
+.right-panel {
+    display: none;
+}
+
+.conversation-header {
+    display: block;
+    height: 50px;
+}
+
+.media-body.message-text {
+    display: block;
+}
+
+.message-list {
+    height: 85%;
+}
+
+#login .content {
+    background-color: white;
+}
+#login .content .logo {
+    text-align: center;
+    margin-top: 40%;
+    margin-bottom: 15%;
+}

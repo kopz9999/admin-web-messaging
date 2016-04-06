@@ -31,8 +31,17 @@ export default class ConversationList extends Component {
     const { conversations } = this.props;
 
     return (
-      <div className="conversation-list">
-        {conversations.map(this.renderConversationListItem)}
+      <div className="conversation-list-view">
+        <header className="bar bar-nav">
+          <h1 className="title">Curaytor</h1>
+        </header>
+        <div className="content">
+          <div className='navigation-container'>
+            <ul className="table-view conversations">
+              {conversations.map(this.renderConversationListItem)}
+            </ul>
+          </div>
+        </div>
       </div>
     );
   }

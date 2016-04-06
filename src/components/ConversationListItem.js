@@ -28,19 +28,34 @@ export default class ConversationListItem extends Component {
     });
 
     const title = conversation.metadata.title || participantUsers.join(', ');
+    let lastTextString = conversation.lastMessage.parts[0].body;
     return (
-      <Link to={conversationUrl} className={styles}>
-        <Avatar users={participantUsers}/>
-        <div className='info'>
-          <div className='main'>
-            <span className='title'>{title}</span>
-            <span
-              className="delete fa fa-times-circle"
-              title="Delete conversation"
-              onClick={this.handleDeleteConversation}/>
+      <li className="table-view-cell media conversation-item">
+        <Link to={conversationUrl} className={styles} onClick={this.handleConversationClick} >
+          <div className="conversation-header">
+            <Avatar users={participantUsers}/>
+            <div className="media-body">
+              {participantUsers[0]}
+            </div>
           </div>
-        </div>
-      </Link>
+          <div className="media-body message-text">
+            {lastTextString}
+          </div>
+        </Link>
+      </li>
     );
   }
+
+  handleConversationClick() {
+    var content = document.querySelector('.content');
+    var contentView = document.querySelector('.conversation-content-view');
+    document.querySelector('.conversation-list-view').style.display = 'none';
+    if (contentView !== null) {
+      contentView.style.display = 'block';
+    }
+    // document.querySelector('.conversations').style.display = 'none';
+    // document.querySelector('.conversation-content').style.display = 'block';
+    content.scrollTop = content.scrollHeight;
+  }
+
 }
