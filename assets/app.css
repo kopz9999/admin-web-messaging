@@ -47,3 +47,8 @@
     margin-top: 40%;
     margin-bottom: 15%;
 }
+
+.typing-indicator-panel {
+    height: 20px;
+    padding: 0;
+}
