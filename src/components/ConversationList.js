@@ -33,7 +33,7 @@ export default class ConversationList extends Component {
     return (
       <div className="conversation-list-view">
         <header className="bar bar-nav">
-          <h1 className="title">Curaytor</h1>
+          <h1 className="title"><img src="common/icon.png"/></h1>
         </header>
         <div className="content">
           <div className='navigation-container'>

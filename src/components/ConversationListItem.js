@@ -27,14 +27,17 @@ export default class ConversationListItem extends Component {
       'selected-conversation': active
     });
 
-    const title = conversation.metadata.title || participantUsers.join(', ');
+    var maxSize = 78;
     let lastTextString = conversation.lastMessage.parts[0].body;
+    if (lastTextString.length > maxSize) {
+      lastTextString = lastTextString.substring(0, maxSize) + '...';
+    }
     return (
       <li className="table-view-cell media conversation-item">
         <Link to={conversationUrl} className={styles} onClick={this.handleConversationClick} >
           <div className="conversation-header">
             <Avatar users={participantUsers}/>
-            <div className="media-body">
+            <div className="media-body message-title">
               {participantUsers[0]}
             </div>
           </div>

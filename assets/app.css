@@ -52,3 +52,48 @@
     height: 20px;
     padding: 0;
 }
+
+.conversation-list-view header .title {
+    text-align: left;
+}
+
+.conversation-list-view header .title img {
+    margin-top: 20px;
+    margin-left: 15px;
+    width: 130px;
+}
+
+.conversation-list-view header.bar {
+    height: 60px;
+}
+
+.conversation-list-view header.bar-nav~.content {
+    padding-top: 60px;
+}
+
+/* Start list message */
+
+.conversation-list-view .conversation-item .media-body.message-title {
+    font-family: 'Proxima N W01 Bold', serif;
+    font-weight: bolder;
+    padding-top: 10px;
+}
+
+.conversation-list-view .conversation-item .media-body.message-text {
+    font-family: 'Proxima N W01 Thin Reg', serif;
+    margin-top: 0px;
+}
+
+.conversation-list-view .conversation-item .avatar {
+    background-color: #58585a;
+}
+
+.conversation-list-view .conversation-item .avatar span {
+    box-shadow: none;
+    color: white;
+    font-family: 'Proxima Nova W01 Medium', serif;
+    font-weight: normal;
+    font-size: 1.1rem;
+}
+
+/* End list message */

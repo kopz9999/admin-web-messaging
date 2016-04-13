@@ -3,6 +3,10 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'source-map',
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: 1000
+  },
   entry: [
     'webpack-hot-middleware/client',
     './src/index'
