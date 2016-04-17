@@ -19,7 +19,13 @@ if (isDevelopment) {
   config = require('./webpack.config');
 
   compiler = webpack(config);
-  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath,
+    watchOptions: {
+      poll: true
+    }
+  }));
   app.use(webpackHotMiddleware(compiler));
 } else {
   app.use('/static', express.static('dist'));
