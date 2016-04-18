@@ -34,6 +34,7 @@ export default class MessageComposer extends Component {
           value={this.props.value}
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}/>
+        <img className="submit-button" src={'./assets/button.png'} />
       </div>
     );
   }

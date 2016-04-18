@@ -6,7 +6,9 @@
     display: block;
 }
 
-
+.clear {
+    clear: both;
+}
 /*
 .conversation-item .avatar {
     display: inline-block;
@@ -36,7 +38,7 @@
 }
 
 .message-list {
-    height: 85%;
+    height: 87%;
 }
 
 #login .content {
@@ -102,8 +104,116 @@
 
 /* End list message */
 
+/* Start Bubble Messages Styles */
+
 .conversation-content-view .title {
-    font-family: 'ProximaNW01SC-ThinReg', serif;
-    font-weight: bold;
+    font-family: 'Proxima N W01 Light', serif;
     text-transform: uppercase;
 }
+
+.conversation-content-view .content .message-item {
+    position: relative;
+    display: block;
+}
+
+.conversation-content-view .content .message-item .conversation-avatar {
+    height: 24px;
+    width: 24px;
+    position: absolute;
+}
+
+.conversation-content-view .content .message-item .main {
+    display: block;
+    max-width: none;
+    margin-bottom: 5px;
+}
+
+.conversation-content-view .content .message-item .conversation-avatar {
+    display: none;
+    left: 0;
+    bottom: 20px;
+}
+
+.conversation-content-view .content .message-item.current-user-message .conversation-avatar {
+    right: 0;
+    left: inherit;
+}
+
+.conversation-content-view .content .message-item .data {
+    display: block;
+    font-size: 12px;
+    font-family: 'Proxima N W01 Light', serif;
+    font-weight: bold;
+    width: 90%;
+}
+
+.conversation-content-view .content .message-item.current-user-message .data {
+    margin-left: auto;
+}
+
+.conversation-content-view .content .message-item .data .message-date {
+    float: left;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.conversation-content-view .content .message-item .data .message-status {
+    float: right;
+    color: #1b83db;
+}
+
+.conversation-content-view .content .message-item .bubble.text {
+    font-family: 'Proxima N W01 Light', serif;
+    border-radius: 9px;
+    background-color: #ffffff;
+    width: 90%;
+    padding: 12px 17px;
+    margin-left: 0;
+}
+
+.conversation-content-view .content .message-item .bubble.text p {
+    color: #3d4c53;
+    margin-bottom: 0;
+}
+.conversation-content-view .content .message-item .bubble.text br {
+    line-height: 25px;
+}
+.conversation-content-view .content .message-item .bubble.text p span.user-name {
+    font-weight: bold;
+}
+
+.conversation-content-view .content .message-item.current-user-message .bubble.text {
+    background-color: #1b83db;
+    margin-left: auto;
+}
+
+.conversation-content-view .content .message-item.current-user-message .bubble.text p {
+    color: #ffffff;
+}
+
+/* End Bubble Messages Styles */
+
+/* Start Composer styles */
+.conversation-content-view .content .message-composer {
+    background-color: #ffffff;
+    height: 60px;
+}
+
+.conversation-content-view .content .message-composer .message-textarea {
+    font-family: 'Proxima N W01 Light', serif;
+    font-size: 14px;
+    border-radius: 4px 0 0 4px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    background-color: #f5f6f8;
+    color: #8599a2;
+    margin-right: 0;
+}
+.conversation-content-view .content .message-composer .submit-button {
+    height: 39px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+/* End Composer styles */

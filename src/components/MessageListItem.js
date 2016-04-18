@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import TextMessagePart from './TextMessagePart';
-import Avatar from './Avatar';
+import ConversationAvatar from './ConversationAvatar';
+import Helper from '../utils/Helper';
+import cx from 'classnames';
 
 /**
  * This Component renders a single Message in a Message List
@@ -29,41 +31,47 @@ export default class MessageListItem extends Component {
   }
 
   getMessageStatus(message) {
-    switch (message.readStatus) {
-      case 'NONE':
-        return 'unread';
-      case 'SOME':
-        return 'read by some';
-      case 'ALL':
-        return 'read';
-    }
+    return message.readStatus == 'ALL' ? 'Read' : '';
   }
 
   render() {
     const { message, users } = this.props;
     const user = message.sender.userId;
     const messageStatus = this.getMessageStatus(message);
+    let isCurrentUserMessage = user === window.layerSample.user;
+    let currentUserAvatarURL = './assets/admin-avatar-small.png';
+    let defaultUserAvatarURL = './assets/user-avatar-small.png';
+    let leftAvatar = !isCurrentUserMessage ?
+      (<ConversationAvatar avatarURL={defaultUserAvatarURL}/>) : null;
+    let rightAvatar = isCurrentUserMessage ?
+      (<ConversationAvatar avatarURL={currentUserAvatarURL}/>) : null;
+    let classes = cx({
+      'message-item': true,
+      'current-user-message': isCurrentUserMessage
+    });
+    let displayUser = isCurrentUserMessage ? 'You' : user;
 
     return (
-      <div className='message-item'>
-        <Avatar user={user}/>
+      <div className={classes}>
+        {leftAvatar}
         <div className='main'>
-          <span className='name'>{user}</span>
-
           <div className='message-parts'>
             {message.parts.map((messagePart) => {
               return (
                 <TextMessagePart
                   key={messagePart.id}
+                  user={displayUser}
                   messagePart={messagePart}/>
               )
             })}
           </div>
         </div>
-        <span className='timestamp'>
-          {window.layerSample.dateFormat(message.sentAt)}
-          <span className='message-status'>{messageStatus}</span>
-        </span>
+        {rightAvatar}
+        <div className='data'>
+          <div className='message-date'>{Helper.formatTimestamp(message.sentAt)}</div>
+          <div className='message-status'>{messageStatus}</div>
+          <div className="clear"></div>
+        </div>
       </div>
     );
   }
