@@ -64,13 +64,12 @@ export default class ActiveConversation extends Component {
     if (activeConversation) {
       currTitle = activeConversation.participants[0];
     }
-
     // Render the ConversationHeader, MessageList,
     // TypingIndicatorContainer and MessageComposer
     return (
       <div className="conversation-content-view">
         <header className="bar bar-nav">
-          <Link to={'/'} className='icon icon-left-nav pull-left' onClick={this.handleBackClick} >
+          <Link to={'/'} className='icon icon-left-nav pull-left'>
           </Link>
           <h1 className="title">{currTitle}</h1>
         </header>
@@ -92,13 +91,5 @@ export default class ActiveConversation extends Component {
         </div>
       </div>
     );
-  }
-
-  handleBackClick() {
-    var contentView = document.querySelector('.conversation-content-view');
-    document.querySelector('.conversation-list-view').style.display = 'block';
-    if (contentView !== null) {
-      contentView.style.display = 'none';
-    }
   }
 }

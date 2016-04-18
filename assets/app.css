@@ -53,6 +53,10 @@
     padding: 0;
 }
 
+.conversation-list-view.hide {
+    display: none;
+}
+
 .conversation-list-view header .title {
     text-align: left;
 }
@@ -97,3 +101,9 @@
 }
 
 /* End list message */
+
+.conversation-content-view .title {
+    font-family: 'ProximaNW01SC-ThinReg', serif;
+    font-weight: bold;
+    text-transform: uppercase;
+}

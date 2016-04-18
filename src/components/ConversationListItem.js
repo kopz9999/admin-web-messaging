@@ -14,7 +14,7 @@ export default class ConversationListItem extends Component {
     event.preventDefault();
     event.stopPropagation();
     this.props.onDeleteConversation(this.props.conversation.id);
-  }
+  };
 
   render() {
     const { conversation, users, active, deleteConversation } = this.props;
@@ -28,9 +28,14 @@ export default class ConversationListItem extends Component {
     });
 
     var maxSize = 78;
-    let lastTextString = conversation.lastMessage.parts[0].body;
-    if (lastTextString.length > maxSize) {
-      lastTextString = lastTextString.substring(0, maxSize) + '...';
+    let lastTextString = null;
+    if (conversation.lastMessage) {
+      lastTextString = conversation.lastMessage.parts[0].body;
+      if (lastTextString.length > maxSize) {
+        lastTextString = lastTextString.substring(0, maxSize) + '...';
+      }
+    } else {
+      lastTextString = '';
     }
     return (
       <li className="table-view-cell media conversation-item">
@@ -50,6 +55,7 @@ export default class ConversationListItem extends Component {
   }
 
   handleConversationClick() {
+    /*
     var content = document.querySelector('.content');
     var contentView = document.querySelector('.conversation-content-view');
     document.querySelector('.conversation-list-view').style.display = 'none';
@@ -59,6 +65,7 @@ export default class ConversationListItem extends Component {
     // document.querySelector('.conversations').style.display = 'none';
     // document.querySelector('.conversation-content').style.display = 'block';
     content.scrollTop = content.scrollHeight;
+    */
   }
 
 }

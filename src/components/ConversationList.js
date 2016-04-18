@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ConversationListItem from './ConversationListItem';
+import cx from 'classnames';
 
 export default class ConversationList extends Component {
 
@@ -10,7 +11,7 @@ export default class ConversationList extends Component {
     const {
       users,
       activeConversationId,
-      onDeleteConversation
+      onDeleteConversation,
     } = this.props;
 
     return (
@@ -21,17 +22,24 @@ export default class ConversationList extends Component {
         active={activeConversationId === conversation.id}
         onDeleteConversation={onDeleteConversation} />
     );
-  }
+  };
 
   /**
    * Render every Conversation in this.props.conversations
    * in the Conversation List.
    */
   render() {
-    const { conversations } = this.props;
+    const {
+      conversations,
+      displayConversations,
+    } = this.props;
+    let classes = cx({
+      'conversation-list-view': true,
+      'hide': !displayConversations,
+    });
 
     return (
-      <div className="conversation-list-view">
+      <div className={classes}>
         <header className="bar bar-nav">
           <h1 className="title"><img src="common/icon.png"/></h1>
         </header>
