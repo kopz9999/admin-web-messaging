@@ -38,7 +38,7 @@
 }
 
 .message-list {
-    height: 87%;
+    height: 100%;
 }
 
 #login .content {
@@ -193,13 +193,68 @@
 
 /* End Bubble Messages Styles */
 
+/* Start Bubble Messages Container */
+
+.conversation-content-view .content {
+    padding-bottom: 60px;
+}
+
+.conversation-content-view .bar.bar-standard.bar-footer {
+    height: 60px;
+}
+
+/* End Bubble Messages Container */
+
+/* Start typing indicator */
+
+.conversation-content-view .message-item.typing .bubble.text p {
+    font-size: 30px;
+    line-height: 10px;
+}
+.conversation-content-view .message-item.typing .bubble.text {
+    width: 20%;
+}
+.conversation-content-view .message-item.typing.hide {
+    display: none;
+}
+
+@keyframes blink {
+    0% {
+        color: #3d4c53;
+    }
+    50% {
+        color: #e6e9ee;
+    }
+    100% {
+        color: #3d4c53;
+    }
+}
+
+.blink-animation {
+    -moz-transition:all 0.5s ease-in-out;
+    -webkit-transition:all 0.5s ease-in-out;
+    -o-transition:all 0.5s ease-in-out;
+    -ms-transition:all 0.5s ease-in-out;
+    transition:all 0.5s ease-in-out;
+    -moz-animation:blink normal 1.5s infinite ease-in-out;
+    /* Firefox */
+    -webkit-animation:blink normal 1.5s infinite ease-in-out;
+    /* Webkit */
+    -ms-animation:blink normal 1.5s infinite ease-in-out;
+    /* IE */
+    animation:blink normal 1.5s infinite ease-in-out;
+    /* Opera */
+}
+
+/* End typing indicator */
+
 /* Start Composer styles */
-.conversation-content-view .content .message-composer {
+.conversation-content-view .message-composer {
     background-color: #ffffff;
     height: 60px;
 }
 
-.conversation-content-view .content .message-composer .message-textarea {
+.conversation-content-view .message-composer .message-textarea {
     font-family: 'Proxima N W01 Light', serif;
     font-size: 14px;
     border-radius: 4px 0 0 4px;
@@ -211,7 +266,7 @@
     color: #8599a2;
     margin-right: 0;
 }
-.conversation-content-view .content .message-composer .submit-button {
+.conversation-content-view .message-composer .submit-button {
     height: 39px;
     margin-top: 10px;
     margin-right: 10px;

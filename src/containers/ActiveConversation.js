@@ -77,13 +77,11 @@ export default class ActiveConversation extends Component {
           <MessageList
               messages={messages}
               users={users}
+              activeConversationId={activeConversationId}
               onMarkMessageRead={markMessageRead}
               onLoadMoreMessages={loadMoreMessages}/>
-
-          <TypingIndicatorContainer
-              users={users}
-              conversationId={activeConversationId}/>
-
+        </div>
+        <div className="bar bar-standard bar-footer">
           <MessageComposer
               value={composerMessage}
               onChange={changeComposerMessage}

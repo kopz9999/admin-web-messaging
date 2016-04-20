@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import MessageListItem from './MessageListItem';
 import throttledEventListener from '../utils/throttledEventListener';
+import TypingIndicatorContainer from '../containers/TypingIndicatorContainer';
 
 /**
  * A Component for rendering a list of Messages.
@@ -70,6 +71,10 @@ export default class MessageList extends Component {
     return (
       <div className='message-list'>
         {reversedMessages.map(this.renderMessageItem)}
+        <TypingIndicatorContainer
+            users={this.props.users}
+            onChange={this.scrollBottom.bind(this)}
+            conversationId={this.props.activeConversationId}/>
       </div>
     );
   }
