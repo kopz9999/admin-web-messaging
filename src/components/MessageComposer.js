@@ -18,9 +18,13 @@ export default class MessageComposer extends Component {
   handleKeyDown = (event) => {
     if (event.keyCode === ENTER && !event.shiftKey) {
       event.preventDefault();
-      if (this.props.value.length) {
-        this.props.onSubmit();
-      }
+      this.verifySendMessage();
+    }
+  };
+
+  verifySendMessage() {
+    if (this.props.value.length) {
+      this.props.onSubmit();
     }
   }
 
@@ -34,7 +38,7 @@ export default class MessageComposer extends Component {
           value={this.props.value}
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange}/>
-        <img className="submit-button" src={'./assets/button.png'} />
+        <img onClick={this.verifySendMessage.bind(this)} className="submit-button" src={'./assets/button.png'} />
       </div>
     );
   }
