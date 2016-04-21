@@ -1,3 +1,5 @@
+import * as Constants from './Constants';
+
 export default class Helper {
   static hashCode(str) { // java String#hashCode
     var hash = 0;
@@ -30,4 +32,56 @@ export default class Helper {
     else return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
   }
 
+  static timeSinceCompose(date) {
+    return `${Helper.timeSince(date)} ago`;
+  }
+
+  static initialsFromFullName(fullName) {
+    var names = fullName.split(' ');
+    var displayInitials;
+    if (names.length > 1) {
+      displayInitials = (names[0][0] + names[1][0]).toUpperCase();
+    } else {
+      displayInitials = fullName.substr(0, 2).toUpperCase();
+    }
+    return displayInitials;
+  };
+
+  static timeSince(date) {
+    var seconds = Math.floor((new Date() - date) / 1000);
+    var interval = Math.floor(seconds / 31536000);
+    if (interval > 1) {
+      return interval + " years";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+      return interval + " months";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+      return interval + "d";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+      return interval + "h";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+      return interval + "m";
+    }
+    return Math.floor(seconds) + "s";
+  }
+
+  /* String Manipulation */
+  static trimUserName(originalString) {
+    return Helper.cutString(originalString, Constants.MAX_USER_SIZE, ' ... ');
+  }
+
+  static cutString(originalString, maxSize, suffix) {
+    let finalString = originalString;
+    if (finalString && finalString.length > maxSize) {
+      finalString = finalString.substring(0, maxSize) + suffix;
+    }
+    return finalString;
+  }
 }

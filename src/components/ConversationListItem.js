@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import toUUID from '../utils/toUUID';
 import Avatar from './Avatar';
+import MessageTimestamp from './MessageTimestamp';
+import * as Constants from '../utils/Constants';
+import Helper from '../utils/Helper';
 
 /**
  * This Component provides for a Conversation item
@@ -10,41 +13,36 @@ import Avatar from './Avatar';
  * Avatar, title and Delete button.
  */
 export default class ConversationListItem extends Component {
-  handleDeleteConversation = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props.onDeleteConversation(this.props.conversation.id);
-  };
-
   render() {
-    const { conversation, users, active, deleteConversation } = this.props;
+    const { conversation, active } = this.props;
     const participantUsers = conversation.participants;
+    const displayUserName = participantUsers[0];
     const conversationUrl = `/conversations/${toUUID(conversation.id)}`;
-
+    const currentUserId = window.layerSample.user;
     const styles = cx({
       participant: true,
       'unread-messages': conversation.unreadCount > 0,
       'selected-conversation': active
     });
-
-    var maxSize = 78;
     let lastTextString = null;
+    let displayUserNameString = Helper.trimUserName(displayUserName);
     if (conversation.lastMessage) {
-      lastTextString = conversation.lastMessage.parts[0].body;
-      if (lastTextString.length > maxSize) {
-        lastTextString = lastTextString.substring(0, maxSize) + '...';
-      }
-    } else {
-      lastTextString = '';
+      lastTextString =
+          Helper.cutString(conversation.lastMessage.parts[0].body,
+              Constants.MAX_TEXT_SIZE, '...')
     }
     return (
       <li className="table-view-cell media conversation-item">
-        <Link to={conversationUrl} className={styles} onClick={this.handleConversationClick} >
+        <Link to={conversationUrl} className={styles}>
           <div className="conversation-header">
             <Avatar users={participantUsers}/>
             <div className="media-body message-title">
-              {participantUsers[0]}
+              {displayUserNameString}
             </div>
+            <MessageTimestamp
+                currentUserId={currentUserId}
+                displayUserName={displayUserName}
+                lastMessage={conversation.lastMessage} />
           </div>
           <div className="media-body message-text">
             {lastTextString}
@@ -52,20 +50,6 @@ export default class ConversationListItem extends Component {
         </Link>
       </li>
     );
-  }
-
-  handleConversationClick() {
-    /*
-    var content = document.querySelector('.content');
-    var contentView = document.querySelector('.conversation-content-view');
-    document.querySelector('.conversation-list-view').style.display = 'none';
-    if (contentView !== null) {
-      contentView.style.display = 'block';
-    }
-    // document.querySelector('.conversations').style.display = 'none';
-    // document.querySelector('.conversation-content').style.display = 'block';
-    content.scrollTop = content.scrollHeight;
-    */
   }
 
 }

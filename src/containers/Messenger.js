@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
 
 function getQueries() {
   return {
-    conversations: QueryBuilder.conversations()
+    conversations: QueryBuilder.conversations().sortBy('lastMessage.sentAt', false)
   };
 }
 
@@ -40,7 +40,7 @@ export default class Messenger extends Component {
   renderMessenger() {
     const { app, activeConversationId, actions, conversations } = this.props;
     const { users } = app;
-    const { newConversation, deleteConversation } = actions;
+    const { deleteConversation } = actions;
     let displayConversations = ROOT_PATH == this.props.router.location.pathname;
     // Render the left-panel which contains the Conversation List
     // and the right-panel which consists of the child components

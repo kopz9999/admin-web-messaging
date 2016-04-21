@@ -9,17 +9,6 @@ export default class Avatar extends Component {
     users: PropTypes.array
   };
 
-  static initialsFromFullName(fullName) {
-    var names = fullName.split(' ');
-    var displayInitials;
-    if (names.length > 1) {
-      displayInitials = (names[0][0] + names[1][0]).toUpperCase();
-    } else {
-      displayInitials = fullName.substr(0, 2).toUpperCase();
-    }
-    return displayInitials;
-  };
-
   renderUserItem = (user) => {
     var names = user.split(' ');
     var displayInitials;
@@ -35,7 +24,7 @@ export default class Avatar extends Component {
     const { user, users } = this.props;
     let usersToRender = user ? [user] : [users[0]]; //users.slice(-1);
     let participantUser = usersToRender[0];
-    let displayInitials = Avatar.initialsFromFullName(participantUser);
+    let displayInitials = Helper.initialsFromFullName(participantUser);
     let styles = cx({
       'media-object': true,
       'pull-left': true,

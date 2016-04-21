@@ -4,11 +4,10 @@ import { connect as connectRedux } from 'react-redux';
 import { QueryBuilder } from 'layer-sdk';
 import { connectQuery } from 'layer-react';
 import * as MessengerActions from '../actions/messenger';
-import ConversationHeader from '../components/ConversationHeader';
 import MessageList from '../components/MessageList';
 import MessageComposer from '../components/MessageComposer';
-import TypingIndicatorContainer from './TypingIndicatorContainer';
 import { Link } from 'react-router';
+import Helper from '../utils/Helper';
 
 function mapStateToProps({ activeConversation, router }) {
   return {
@@ -69,10 +68,17 @@ export default class ActiveConversation extends Component {
     return (
       <div className="conversation-content-view">
         <header className="bar bar-nav">
-          <Link to={'/'} className='icon icon-left-nav pull-left'>
+          <Link to={'/'} className='custom icon icon-left-nav pull-left'>
+            <img src="../assets/back-icon.png" />
           </Link>
-          <h1 className="title">{currTitle}</h1>
+          <h1 className="title">{Helper.trimUserName(currTitle)}</h1>
         </header>
+        <div className="bar bar-standard bar-footer">
+          <MessageComposer
+              value={composerMessage}
+              onChange={changeComposerMessage}
+              onSubmit={submitComposerMessage}/>
+        </div>
         <div className="content">
           <MessageList
               messages={messages}
@@ -80,12 +86,6 @@ export default class ActiveConversation extends Component {
               activeConversationId={activeConversationId}
               onMarkMessageRead={markMessageRead}
               onLoadMoreMessages={loadMoreMessages}/>
-        </div>
-        <div className="bar bar-standard bar-footer">
-          <MessageComposer
-              value={composerMessage}
-              onChange={changeComposerMessage}
-              onSubmit={submitComposerMessage}/>
         </div>
       </div>
     );
