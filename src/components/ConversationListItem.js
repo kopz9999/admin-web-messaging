@@ -4,7 +4,7 @@ import cx from 'classnames';
 import toUUID from '../utils/toUUID';
 import Avatar from './Avatar';
 import MessageTimestamp from './MessageTimestamp';
-import * as Constants from '../utils/Constants';
+import * as Constants from '../utils/constants';
 import Helper from '../utils/Helper';
 
 /**

@@ -1,4 +1,4 @@
-import * as Constants from './Constants';
+import * as Constants from './constants';
 
 export default class Helper {
   static hashCode(str) { // java String#hashCode
