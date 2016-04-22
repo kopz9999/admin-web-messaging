@@ -35,15 +35,6 @@
     height: 100%;
 }
 
-#login .content {
-    background-color: white;
-}
-#login .content .logo {
-    text-align: center;
-    margin-top: 40%;
-    margin-bottom: 15%;
-}
-
 .typing-indicator-panel {
     height: 20px;
     padding: 0;
@@ -71,9 +62,38 @@
     padding-top: 60px;
 }
 
+/* Start Login styles */
+
+#login {
+    z-index: 100;
+}
+
+#login.logged {
+    top: -100%;
+    bottom: 100%;
+    -webkit-transition-property: top, bottom;
+    -webkit-transition-duration: 1s;
+}
+
+#login .content {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#login .content .input-group {
+    margin-bottom: 10px;
+}
+#login .content .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* End Login styles */
+
 /* Start General wrapper styles */
 
-.conversation-list-view, .conversation-content-view {
+#login, .conversation-list-view, .conversation-content-view {
     position: fixed;
     top: 0;
     left: 0;
@@ -135,6 +155,7 @@
 .conversation-content-view .title {
     font-family: 'Proxima N W01 Light', serif;
     text-transform: uppercase;
+    font-weight: bold;
 }
 
 .conversation-content-view .content .message-item {
@@ -157,7 +178,7 @@
 .conversation-content-view .content .message-item .conversation-avatar {
     display: none;
     left: 0;
-    bottom: 20px;
+    bottom: 25px;
 }
 
 .conversation-content-view .content .message-item.current-user-message .conversation-avatar {
@@ -315,3 +336,63 @@
     margin-right: 10px;
 }
 /* End Composer styles */
+
+/* Media queries */
+
+/* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
+@media (min-width:600px) {
+    #login .content form.content-padded {
+        max-width: 500px;
+    }
+}
+
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media (min-width:801px) {
+    .conversation-list-view.hide {
+        display: block;
+        width: 300px;
+    }
+    .conversation-list-view header .title img {
+        width: 160px;
+    }
+    .conversation-content-view {
+        left: 300px;
+    }
+    .conversation-content-view .custom.icon.icon-left-nav.pull-left {
+        display: none;
+    }
+    .conversation-content-view header.bar.bar-nav{
+        height: 60px;
+        padding-top: 10px;
+    }
+    .conversation-content-view header h1.title {
+        text-align: left;
+        padding-left: 25px;
+    }
+    .conversation-content-view > .bar {
+        left: 300px;
+    }
+    .conversation-content-view .content .message-item .conversation-avatar {
+        display: block;
+    }
+    .conversation-content-view .bar-footer~.content {
+        padding-top: 60px;
+    }
+    .conversation-content-view .content .message-item .main {
+        margin-left: 30px;
+    }
+    .conversation-content-view .content .message-item .data {
+        margin-left: 30px;
+    }
+    .conversation-content-view .content .message-item.current-user-message .main {
+        margin-left: auto;
+        margin-right: 30px;
+    }
+    .conversation-content-view .content .message-item.current-user-message .data {
+        margin-left: auto;
+        margin-right: 30px;
+    }
+    .conversation-content-view .content .message-item .bubble.text, .conversation-content-view .content .message-item .data {
+        width: 300px;
+    }
+}

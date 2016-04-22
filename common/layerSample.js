@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
   /**
    * Hardcoded user identities
    */
+  var loginClicked = false;
+  var appId = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
   var USERS = [
     'Customer Support',
     'Customer'//,
@@ -39,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
           user_id: window.layerSample.user
         }
       }, function(res) {
+        loginClicked = false;
         if (res.success) {
           console.log('challenge: ok');
 
@@ -46,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
           // Cleanup identity dialog
           var node = document.getElementById('login');
-          node.parentNode.removeChild(node);
+          node.className = 'logged';
+          // node.parentNode.removeChild(node);
         } else {
           console.error('challenge error: ', res.data);
         }
@@ -64,8 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
   var button = document.querySelectorAll('#login button')[0];
 
   button.addEventListener('click', function(e) {
-    var appId = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
-
+    if (loginClicked) return;
+    loginClicked = true;
     // button.innerHTML = '<i class="fa fa-spinner fa-pulse"></i>';
     e.preventDefault();
     window.layerSample.appId = appId;
