@@ -1,63 +1,27 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Provider } from 'react-redux';
 import { Client } from 'layer-sdk';
 import { LayerProvider } from 'layer-react';
-import Messenger from './containers/Messenger';
-import NewConversation from './containers/NewConversation';
-import ActiveConversation from './containers/ActiveConversation';
-import DefaultPanel from './components/DefaultPanel';
-import configureStore from './store/configureStore';
-import { fetchUsersSuccess } from './actions/messenger';
-import { IndexRoute, Route } from 'react-router';
-import { ReduxRouter } from 'redux-router';
+import App from './containers/App';
 
-/**
- * Wait for identity dialog message to complete
- */
-window.addEventListener('message', function(evt) {
-  if (evt.data !== 'layer:identity') return;
+const AppId = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
 
-  /**
-   * Initialize Layer Client with `appId`
-   */
-  const client = new Client({
-    appId: window.layerSample.appId
-  });
+class AdminApp {
+  create({targetNode}) {
+    render(
+      <App
+        appId={AppId}
+      />,
+      targetNode
+    );
+  }
 
-  /**
-   * Client authentication challenge.
-   * Sign in to Layer sample identity provider service.
-   *
-   * See http://static.layer.com/sdk/docs/#!/api/layer.Client-event-challenge
-   */
-  client.once('challenge', e => {
-    window.layerSample.challenge(e.nonce, e.callback);
-  });
+  static get current() {
+    if (!AdminApp._current) AdminApp._current = new AdminApp();
+    return AdminApp._current;
+  }
+}
 
-  /**
-   * Share the client with the middleware layer
-   */
-  const store = configureStore(client);
-
-  /**
-   * Bootstrap users
-   */
-  store.dispatch(fetchUsersSuccess(window.layerSample.users));
-
-  // Render the UI wrapped in a LayerProvider
-  render(
-    <LayerProvider client={client}>
-      <Provider store={store}>
-        <ReduxRouter>
-          <Route path='/' component={Messenger}>
-            <IndexRoute component={DefaultPanel}/>
-            <Route path='/new' component={NewConversation}/>
-            <Route path='/conversations/:conversationId' component={ActiveConversation}/>
-          </Route>
-        </ReduxRouter>
-      </Provider>
-    </LayerProvider>,
-    document.getElementById('root')
-  );
+document.addEventListener("DOMContentLoaded", function() {
+  AdminApp.current.create({ targetNode: document.getElementById('root') })
 });

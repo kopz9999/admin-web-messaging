@@ -1,0 +1,57 @@
+.header {
+    height: 80px;
+    border-bottom: 1px solid #d8dee5;
+}
+
+.header .logo {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 35px;
+    padding-right: 30px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.header .leftContent {
+    float: left;
+}
+
+.header .rightContent {
+    float: right;
+}
+
+.header:after {
+    content: '';
+    clear: both;
+}
+
+.header .newConversation {
+    font-family: "Proxima N W01 Bold", serif;
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    padding-right: 22px;
+    padding-left: 22px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-radius: 16px;
+    background-color: rgb(54, 144, 255);
+    margin-top: 25px;
+}
+
+.header .newConversation > * {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.header .newConversation .icon {
+    background-image: url('/src/components/timeline/images/new-conversation.png');
+    width: 14px;
+    height: 13px;
+    margin-top: 2px;
+}
+
+.header .newConversation .label {
+    margin-left: 7px;
+}

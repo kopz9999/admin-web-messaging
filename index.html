@@ -6,51 +6,19 @@
   <title>Curaytor Messenger</title>
   <meta name="description" content="Curaytor Messenger">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-
-  <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet" type="text/css">
-  <link href="//fonts.googleapis.com/css?family=Raleway:300,400" rel="stylesheet" type="text/css">
+  <!-- Fonts CSS -->
+  <link type='text/css' rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat' />
   <link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/62e9cdee-1429-474a-8e7d-1929c597add2.css"/>
-  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-  <link href="vendor/ratchet/ratchet.min.css" rel="stylesheet">
-  <link href="vendor/ratchet/ratchet-theme-ios.min.css" rel="stylesheet">
-
-  <!-- Common CSS and Identity dialog -->
-  <link href="common/style.css" rel="stylesheet">
-  <script src="common/layerSample.js"></script>
-
-  <link href="assets/app.css" rel="stylesheet">
-
-  <!--
-  <script src='//goratchet.com/dist/js/ratchet.min.js'></script>
-  -->
-  <!-- Layer Web SDK -->
-  <script src='//cdn.layer.com/sdk/0.9/layer-websdk.min.js'></script>
-
-  <!-- React build -->
-  <script src="./static/bundle.js"></script>
+  <!-- App CSS -->
+  <link href="./assets/normalize.css" rel="stylesheet" type="text/css" />
+  <link href="./assets/wrapper.css" rel="stylesheet" type="text/css" />
+  <link href="./static/app.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-  <div id="login">
-    <div class="content">
-      <form class="content-padded">
-        <div class="logo">
-          <img src="common/icon.png" />
-        </div>
-        <div class="input-group">
-          <div class="input-row">
-            <label>Email</label>
-            <input type="email" placeholder="email@curaytor.com">
-          </div>
-          <div class="input-row">
-            <label>Password</label>
-            <input type="password" placeholder="yourPassword">
-          </div>
-        </div>
-        <button class="btn btn-primary btn-block btn-outlined">Login</button>
-      </form>
-    </div>
-  </div>
-  <div id="root" class='main-app'></div>
+  <div id="root"></div>
+  <!-- Layer Web SDK -->
+  <script src='//cdn.layer.com/sdk/0.9/layer-websdk.min.js'></script>
+  <!-- React build -->
+  <script src="./static/bundle.js"></script>
 </body>
 </html>

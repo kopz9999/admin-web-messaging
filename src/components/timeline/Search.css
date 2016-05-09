@@ -1,0 +1,27 @@
+.search {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 15px;
+    border-left: 1px solid #d8dee5;
+}
+
+.search .icon {
+    background-image: url('/src/components/timeline/images/search-icon.png');
+    height: 16px;
+    width: 16px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.search input.text {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    border: none;
+    font-weight: normal;
+    vertical-align: middle;
+    outline: none;
+    margin-left: 7px;
+    padding: 5px;
+    color: #4a5a65;
+}

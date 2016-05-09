@@ -1,0 +1,124 @@
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    margin: 0;
+    padding: 0;
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    color: #404F59;
+}
+
+.container form {
+    display: block;
+}
+
+.container .content {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+}
+
+@media (min-width: 600px) {
+    .container .content .padded {
+        max-width: 500px;
+    }
+}
+
+.container .content .padded {
+    margin: 10px;
+    transform: translateZ(0);
+    box-sizing: border-box;
+    display: block;
+}
+
+.container .content .padded .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.container .content .inputGroup {
+    margin-bottom: 10px;
+    padding: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='1'><rect fill='#c8c7cc' x='0' y='0' width='100%' height='0.5'/></svg>"), url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='1'><rect fill='#c8c7cc' x='0' y='0' width='100%' height='0.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 0 100%,0 0;
+    border: 0;
+    height: auto;
+    background-color: #fff;
+}
+
+.container .content .inputGroup .inputRow {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='1'><rect fill='#c8c7cc' x='0' y='0' width='100%' height='0.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: 15px 100%;
+    border-bottom: 0;
+    height: 35px;
+    overflow: hidden;
+}
+
+.container .content .inputGroup .inputRow label {
+    float: left;
+    width: 35%;
+    padding: 8px 15px;
+    font-family: "Helvetica Neue",Helvetica,sans-serif;
+    line-height: 1.1;
+    box-sizing: border-box;
+}
+
+.container .content .inputGroup .inputRow input:last-child {
+    background-image: none;
+}
+
+.container .content .inputGroup .inputRow input {
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: 15px 100%;
+    border: 0;
+    height: 40px;
+    padding: 10px 15px;
+    float: right;
+    width: 65%;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-appearance: none;
+    outline: 0;
+    font-family: "Helvetica Neue",Helvetica,sans-serif;
+    font-size: 17px;
+    color: inherit;
+    box-sizing: border-box;
+}
+
+.container .content .submitButton {
+    color: #007aff;
+    background-color: transparent;
+    border: 1px solid #007aff;
+    transition-duration: .2s;
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+    position: relative;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: top;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: "Helvetica Neue",Helvetica,sans-serif;
+    -webkit-appearance: button;
+    text-transform: none;
+    overflow: visible;
+}
