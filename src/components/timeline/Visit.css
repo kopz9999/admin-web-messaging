@@ -1,0 +1,45 @@
+.visit {
+    composes: container from "./TimeLineItem.css";
+}
+
+.leftElement {
+    composes: leftElement from "./TimeLineItem.css";
+}
+
+.rightElement {
+    composes: rightElement from "./TimeLineItem.css";
+}
+
+.displayName {
+    composes: nameLabel from "./TimeLineItem.css";
+}
+
+.linkLabel {
+    composes: linkLabel from "./TimeLineItem.css";
+    text-decoration: none;
+}
+
+.metaDataLabel {
+    composes: metaDataLabel from "./TimeLineItem.css";
+}
+
+.title {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.metaData, .title {
+    display: block;
+}
+
+.metaData .icon {
+    width: 12px;
+    height: 11px;
+    background-image: url('/src/components/timeline/images/speech-icon.png');
+    margin-right: 5px;
+}
+
+.title > div, .metaData > div {
+    display: inline-block;
+    vertical-align: middle;
+}

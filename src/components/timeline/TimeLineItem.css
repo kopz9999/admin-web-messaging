@@ -1,0 +1,36 @@
+.container {
+    display: block;
+    width: 100%;
+    height: 70px;
+    min-height: 70px;
+}
+
+.leftElement, .rightElement {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.leftElement {
+    width: 95px;
+    max-width: 95px;
+}
+
+.nameLabel {
+    font-family: "Proxima N W01 Bold", serif;
+    font-size: 15px;
+    color: black;
+}
+
+.linkLabel {
+    font-family: "Proxima N W01 Smbd", serif;
+    font-size: 15px;
+    color: #4198e1;
+}
+
+.metaDataLabel {
+    font-family: "Proxima N W01 Smbd", serif;
+    font-size: 15px;
+    color: #a8b2bb;
+}

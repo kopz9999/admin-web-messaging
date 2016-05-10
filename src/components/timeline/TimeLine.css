@@ -1,0 +1,17 @@
+.timeLine {
+    flex: 1 1 auto;
+    position: relative;
+    padding: 0 0 0 0;
+    margin: 0;
+}
+
+.timeLine:before {
+    /* this is the vertical line */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 62px;
+    height: 100%;
+    width: 1px;
+    background: #c5d8f3;
+}

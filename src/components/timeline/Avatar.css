@@ -1,0 +1,23 @@
+.avatar {
+    margin-top: 10px;
+    margin-left: 34px;
+}
+
+.avatar .image, .avatar .letter {
+    border: 5px solid white;
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+    position: relative;
+}
+
+.avatar .letter {
+    text-align: center;
+    font-family: "Proxima N W01 Smbd", serif;
+    font-size: 22px;
+    color: white;
+    padding-top: 8px;
+    box-sizing: border-box;
+    height: 55px;
+    width: 55px;
+}

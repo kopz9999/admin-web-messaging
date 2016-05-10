@@ -1,0 +1,94 @@
+.feedButton {
+    composes: container from "./TimeLineItem.css";
+}
+
+.leftElement {
+    composes: leftElement from "./TimeLineItem.css";
+}
+
+.rightElement {
+    composes: rightElement from "./TimeLineItem.css";
+    padding-top: 25px;
+}
+
+.leftElement:before {
+    content: '';
+    display: block;
+    width: 100%;
+    background-color: white;
+    height: 18px;
+    position: relative;
+}
+
+.feedButton .btn {
+    cursor: pointer;
+    margin-left: 47px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #4198e1;
+    position: relative;
+}
+
+.feedButton .btn:before {
+    content: '';
+    position: absolute;
+    background-color: #4198e1;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    top: -10px;
+    left: -10px;
+    display: block;
+    animation: pulse 3s ease-out;
+    animation-iteration-count: infinite;
+}
+
+.feedButton .btn:after {
+    content: '';
+    position: absolute;
+    background-image: url('/src/components/timeline/images/feed-icon.png');
+    width: 9px;
+    height: 15px;
+    display: block;
+    top: 50%;
+    left: 50%;
+    margin-left: -4.5px;
+    margin-top: -7.5px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0);
+        opacity: 0.0;
+    }
+    25% {
+        transform: scale(0);
+        opacity: 0.1;
+    }
+    50% {
+        transform: scale(0.1);
+        opacity: 0.3;
+    }
+    75% {
+        transform: scale(0.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.0;
+    }
+}
+
+.eventsLabel {
+    composes: nameLabel from "./TimeLineItem.css";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.loadLabel {
+    composes: linkLabel from "./TimeLineItem.css";
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}

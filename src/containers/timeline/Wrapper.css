@@ -1,7 +1,10 @@
 .content {
-
+    display: flex;
+    flex-flow: column;
+    height: 100%;
 }
 
 .content .container {
-
+    flex: 1 1 auto;
+    display: flex;
 }

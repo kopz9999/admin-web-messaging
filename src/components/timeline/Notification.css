@@ -19,8 +19,17 @@
 
 .notification .icon {
     background-image: url('/src/components/timeline/images/notification-icon.png');
+    background-position: 0 0;
     width: 13px;
     height: 16px;
+}
+
+.notification:active {
+    background-color: #9ba7b7;
+}
+
+.notification:active .icon {
+    background-position: 0 -16px;
 }
 
 .notification .balloon {
