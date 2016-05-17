@@ -15,9 +15,14 @@ import configureStore from '../store/configureStore';
 
 export default class App extends Component {
   render() {
-    const { appId } = this.props;
+    const { appId, challengeCallback } = this.props;
     const client = new Client({appId: appId });
     const store = configureStore(client);
+
+    // TODO: Replace with token when session has been initialized
+    client.once('challenge', e => {
+      challengeCallback(e.nonce, e.callback);
+    });
 
     return (
       <LayerProvider client={client}>

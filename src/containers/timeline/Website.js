@@ -1,4 +1,6 @@
+// React
 import React, { Component } from 'react';
+// App
 import TimeLine from '../../components/timeline/TimeLine';
 import Visit from '../../components/timeline/Visit';
 import Message from '../../components/timeline/Message';
@@ -92,11 +94,57 @@ export default class Website extends Component {
     });
   }
 
+  /* TODO: Get it from somewhere else */
+  getCurrentUserId() {
+    return 'Customer Support';
+  }
+
+  getMessageFromConversation(conversation) {
+    let body = null, sentAt = null;
+    const { participants, lastMessage } = conversation;
+    const username =
+      participants.filter((e) => e != this.getCurrentUserId())[0];
+    if (lastMessage) {
+      body = lastMessage.parts[0].body;
+      sentAt = lastMessage.sentAt;
+    }
+
+    return ({
+      user: {
+        displayName: username,
+        avatarURL: null
+      },
+      page: {
+        title: '55 Stone Run Rd'
+      },
+      message: {
+        body: body
+      },
+      receivedAt: sentAt
+    });
+  }
+
+  renderConversations() {
+    const { conversations } = this.props;
+    return conversations.map((conversation)=> {
+      let element = this.getMessageFromConversation(conversation);
+      return (
+        <Message
+          {
+            ...({
+              ...element,
+              key: conversation.id
+            })
+          }
+        />
+      )
+    });
+  }
+
   render() {
     return (
       <TimeLine>
-        { this.renderVisits() }
-        { this.renderMessages() }
+        { this.renderConversations() }
       </TimeLine>
     );
   }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
+import { cutString, trimUserName } from '../../utils/Helper';
+import { MAX_TEXT_SIZE, MAX_USER_SIZE } from '../../utils/constants';
 import styles from './Message.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
@@ -23,6 +25,8 @@ export default class Message extends Component {
     const { title } = this.page;
     const { body } = this.message;
     const { receivedAt } = this.props;
+    const bodyText = cutString(body, MAX_TEXT_SIZE, '...');
+    const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
 
     return (
       <div className={styles.message}>
@@ -31,7 +35,7 @@ export default class Message extends Component {
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
-            <div className={styles.displayName}> {displayName} </div>
+            <div className={styles.displayName}> {displayNameText} </div>
             <EventTimestamp eventAt={receivedAt} />
           </div>
           <div className={styles.metaData}>
@@ -42,7 +46,7 @@ export default class Message extends Component {
             <Link to='/home' className={styles.linkLabel}> {title} </Link>
           </div>
           <div className={styles.messageBody}>
-            { body }
+            { bodyText }
           </div>
           <Link to='/home' className={styles.replyBtn}> Reply </Link>
         </div>
