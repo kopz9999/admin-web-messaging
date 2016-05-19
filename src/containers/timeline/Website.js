@@ -110,6 +110,7 @@ export default class Website extends Component {
     }
 
     return ({
+      isRead: conversation.unreadCount == 0,
       user: {
         displayName: username,
         avatarURL: null

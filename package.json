@@ -17,6 +17,7 @@
     "express": "^4.13.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "history": "^1.12.3",
+    "randomcolor": "^0.4.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^2.1.2",
@@ -26,6 +27,7 @@
     "redux-router": "^1.0.0-beta3",
     "style-loader": "^0.12.4",
     "url-loader": "^0.5.7",
+    "velocity-animate": "^1.2.3",
     "webpack": "^1.9.11"
   },
   "devDependencies": {

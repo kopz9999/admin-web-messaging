@@ -40,6 +40,12 @@
     margin-top: 25px;
 }
 
+@media screen and (max-width: 600px) {
+    .header .newConversation {
+        display: none;
+    }
+}
+
 .header .newConversation > * {
     display: inline-block;
     vertical-align: top;

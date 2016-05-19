@@ -11,6 +11,10 @@
     position: relative;
 }
 
+.avatar.unread .image, .avatar.unread .letter {
+    border: 5px solid #eef3f8;
+}
+
 .avatar .letter {
     text-align: center;
     font-family: "Proxima N W01 Smbd", serif;

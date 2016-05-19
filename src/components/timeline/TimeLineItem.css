@@ -5,6 +5,15 @@
     min-height: 70px;
 }
 
+.event {
+    display: none;
+}
+
+.unread {
+    background-color: #eef3f8;
+    border-top: 1px solid white;
+}
+
 .leftElement, .rightElement {
     display: inline-block;
     vertical-align: top;

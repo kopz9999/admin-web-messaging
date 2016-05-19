@@ -1,10 +1,27 @@
 .message {
-    composes: container from "./TimeLineItem.css";
+    composes: container, event from "./TimeLineItem.css";
     height: auto;
+    position: relative;
+}
+
+.unread {
+    composes: unread from "./TimeLineItem.css";
 }
 
 .leftElement {
     composes: leftElement from "./TimeLineItem.css";
+}
+
+.unread .leftElement:before {
+    content: '';
+    height: 8px;
+    width: 8px;
+    background-color: #4198e1;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    top: 32px;
+    left: 20px;
 }
 
 .rightElement {
@@ -46,6 +63,12 @@
     vertical-align: middle;
 }
 
+@media screen and (max-width: 400px) {
+    .metaData .metaDataLabel, .metaData .linkLabel {
+        display: none;
+    }
+}
+
 .messageBody {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -65,4 +88,6 @@
 .replyBtn {
     composes: metaDataLabel from "./TimeLineItem.css";
     text-decoration: none;
+    margin-bottom: 15px;
+    display: block;
 }

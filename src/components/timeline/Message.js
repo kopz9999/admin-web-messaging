@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import { Link } from 'react-router';
-
+// Lib
+import Velocity from 'velocity-animate';
+require('velocity-animate/velocity.ui');
+// App
 import { cutString, trimUserName } from '../../utils/Helper';
 import { MAX_TEXT_SIZE, MAX_USER_SIZE } from '../../utils/constants';
 import styles from './Message.css';
@@ -20,18 +24,24 @@ export default class Message extends Component {
     return this.props.message;
   }
 
+  componentDidMount() {
+    const domNode = findDOMNode(this);
+    this.props.onRenderNode(domNode);
+  }
+
   render() {
     const { displayName } = this.user;
     const { title } = this.page;
     const { body } = this.message;
-    const { receivedAt } = this.props;
+    const { receivedAt, isRead } = this.props;
     const bodyText = cutString(body, MAX_TEXT_SIZE, '...');
     const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
+    const extraStyle = isRead ? '' : styles.unread;
 
     return (
-      <div className={styles.message}>
+      <div className={`${styles.message} ${extraStyle}`}>
         <div className={styles.leftElement}>
-          <Avatar user={this.user} />
+          <Avatar user={this.user} isRead={isRead} />
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
