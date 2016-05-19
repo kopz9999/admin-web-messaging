@@ -1,0 +1,46 @@
+.messageComposer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    height: 70px;
+    box-shadow: -1px 20px 74px 0px rgba(0,0,0,0.75);
+}
+
+.messageComposer .textArea {
+    width: calc(100% - 80px);
+    flex-grow: 1;
+    text-indent: 8px;
+    resize: none;
+    outline: none;
+    margin-left: 10px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: rgba(0,0,0,0.87);
+    line-height: 30px;
+    overflow: hidden;
+    border: 1px solid #E4E9EC;
+    font-family: 'Proxima N W01 Light', serif;
+    font-size: 14px;
+    border-radius: 4px 0 0 4px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0;
+    padding-right: 0;
+    background-color: #f5f6f8;
+    color: #97a7af;
+    margin-right: 0;
+}
+
+.messageComposer .textArea::-webkit-input-placeholder {
+    padding-left: 10px;
+}
+
+.messageComposer .submitButton {
+    cursor: pointer;
+    position: relative;
+    margin-top: 15px;
+    display: inline-block;
+    vertical-align: top;
+    height: 42px;
+}

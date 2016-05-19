@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { Link } from 'react-router';
-// Lib
-import Velocity from 'velocity-animate';
-require('velocity-animate/velocity.ui');
 // App
 import { cutString, trimUserName } from '../../utils/Helper';
 import { MAX_TEXT_SIZE, MAX_USER_SIZE } from '../../utils/constants';
@@ -33,15 +30,16 @@ export default class Message extends Component {
     const { displayName } = this.user;
     const { title } = this.page;
     const { body } = this.message;
-    const { receivedAt, isRead } = this.props;
+    const { receivedAt, isRead, conversationURL } = this.props;
     const bodyText = cutString(body, MAX_TEXT_SIZE, '...');
     const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
     const extraStyle = isRead ? '' : styles.unread;
+    const avatarStyle = isRead ? '' : 'unread';
 
     return (
       <div className={`${styles.message} ${extraStyle}`}>
         <div className={styles.leftElement}>
-          <Avatar user={this.user} isRead={isRead} />
+          <Avatar user={this.user} customStyle={avatarStyle} />
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
@@ -58,7 +56,7 @@ export default class Message extends Component {
           <div className={styles.messageBody}>
             { bodyText }
           </div>
-          <Link to='/home' className={styles.replyBtn}> Reply </Link>
+          <Link to={conversationURL} className={styles.replyBtn}> Reply </Link>
         </div>
       </div>
     );

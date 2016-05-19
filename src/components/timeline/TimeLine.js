@@ -22,7 +22,7 @@ export default class TimeLine extends Component {
 
   constructor(props) {
     super(props);
-    this._messagesDisplayed = false;
+    this._messagesDisplayed = props.messagesDisplayed;
     this._childrenNodes = [];
   }
 
@@ -64,10 +64,19 @@ export default class TimeLine extends Component {
     );
   }
 
+  renderFeedButton() {
+    return (
+      <FeedButton  />
+    );
+  }
+
   render() {
+    const { hasFeedButton } = this.props;
+    const feedButton = hasFeedButton ? this.renderFeedButton() : null;
+
     return (
       <section className={styles.timeLine}>
-        <FeedButton  />
+        { feedButton }
         <div className={styles.container}>
           { this.renderChildren() }
         </div>
@@ -75,3 +84,13 @@ export default class TimeLine extends Component {
     );
   }
 }
+
+TimeLine.propTypes = {
+  hasFeedButton: React.PropTypes.bool
+};
+
+TimeLine.defaultProps = {
+  messagesDisplayed: false,
+  hasFeedButton: true
+};
+

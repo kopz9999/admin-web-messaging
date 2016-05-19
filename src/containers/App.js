@@ -9,6 +9,7 @@ import { Client } from 'layer-sdk';
 import Wrapper from './timeline/Wrapper';
 import Website from './timeline/Website';
 import SignIn from './login/SignIn';
+import Conversation from './timeline/Conversation';
 
 // App Store
 import configureStore from '../store/configureStore';
@@ -33,6 +34,8 @@ export default class App extends Component {
             </Route>
             <Route path='/home' component={Wrapper}>
               <IndexRoute component={Website}/>
+              <Route path='/conversations/:conversationId'
+                     component={Conversation}/>
             </Route>
           </ReduxRouter>
         </Provider>

@@ -37,8 +37,8 @@ export default class Avatar extends Component {
 
   render() {
     const { avatarURL } = this.user;
-    const { isRead } = this.props;
-    const extraStyle = isRead ? '' : styles.unread;
+    const { customStyle } = this.props;
+    const extraStyle = customStyle ? styles[customStyle] : '';
     const avatar = avatarURL == null ?
       this.renderInitials() : this.renderAvatarURL();
 

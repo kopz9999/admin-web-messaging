@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import TimeLine from '../../components/timeline/TimeLine';
 import Visit from '../../components/timeline/Visit';
 import Message from '../../components/timeline/Message';
+import toUUID from '../../utils/toUUID';
 
 export default class Website extends Component {
   static getVisitData() {
@@ -102,6 +103,7 @@ export default class Website extends Component {
   getMessageFromConversation(conversation) {
     let body = null, sentAt = null;
     const { participants, lastMessage } = conversation;
+    const conversationURL = `/conversations/${toUUID(conversation.id)}`;
     const username =
       participants.filter((e) => e != this.getCurrentUserId())[0];
     if (lastMessage) {
@@ -111,6 +113,7 @@ export default class Website extends Component {
 
     return ({
       isRead: conversation.unreadCount == 0,
+      conversationURL: conversationURL,
       user: {
         displayName: username,
         avatarURL: null
