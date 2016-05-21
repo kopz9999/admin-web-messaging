@@ -32,7 +32,7 @@ export function formatTimestamp(date) {
 }
 
 export function timeSinceCompose(date) {
-  return `${timeSince(date)} ago`;
+  return timeSince(date, 'ago');
 }
 
 export function initialsFromFullName(fullName) {
@@ -46,29 +46,30 @@ export function initialsFromFullName(fullName) {
   return displayInitials;
 }
 
-export function timeSince(date) {
+export function timeSince(date, suffix) {
   var seconds = Math.floor((new Date() - date) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-    return interval + " years";
+    return interval + `years ${suffix}`;
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-    return interval + " months";
+    return interval + `months ${suffix}`;
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
-    return interval + "d";
+    return interval + `d ${suffix}`;
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 1) {
-    return interval + "h";
+    return interval + `h ${suffix}`;
   }
   interval = Math.floor(seconds / 60);
   if (interval > 1) {
-    return interval + "m";
+    return interval + `m ${suffix}`;
   }
-  return Math.floor(seconds) + "s";
+  if (seconds < 0) return 'Just now';
+  else return Math.floor(seconds) + `s ${suffix}`;
 }
 
 /* String Manipulation */

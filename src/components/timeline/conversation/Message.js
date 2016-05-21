@@ -17,6 +17,15 @@ export default class Message extends TimeLineItem {
     return this.props.message;
   }
 
+  get currentUserId() {
+    return 'Customer Support';
+  }
+
+  get readLabel() {
+    return (this.message.readStatus !== 'NONE' &&
+      this.message.sender.userId !== this.currentUserId) ? 'Read' : '';
+  }
+
   render() {
     const { displayName } = this.user;
     const { parts, sentAt } = this.message;
@@ -24,7 +33,7 @@ export default class Message extends TimeLineItem {
     const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
 
     return (
-      <div className={`${styles.message}`} style={this.inlineStyles}>
+      <div className={`${styles.message} ${styles.conversation}`} style={this.inlineStyles}>
         <div className={styles.leftElement}>
           <Avatar user={this.user} />
         </div>
@@ -35,6 +44,9 @@ export default class Message extends TimeLineItem {
           </div>
           <div className={styles.messageBody}>
             { bodyText }
+          </div>
+          <div className={styles.readLabel}>
+            { this.readLabel }
           </div>
         </div>
       </div>

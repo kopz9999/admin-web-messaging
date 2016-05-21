@@ -5,6 +5,26 @@
     min-height: 70px;
 }
 
+.container:first-of-type:before {
+    top: 20px;
+    height: calc(100% - 20px);
+}
+
+.container:last-of-type:before {
+    height: 20px;
+}
+
+.container:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 61px;
+    width: 1px;
+    background: #c5d8f3;
+    height: 100%;
+    z-index: 1;
+}
+
 .event {
     display: none;
 }
