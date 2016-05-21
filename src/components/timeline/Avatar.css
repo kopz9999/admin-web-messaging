@@ -3,12 +3,24 @@
     margin-left: 34px;
 }
 
+.avatar:before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 61px;
+    width: 1px;
+    background: #c5d8f3;
+    height: 40px;
+    z-index: 1;
+}
+
 .avatar .image, .avatar .letter {
     border: 5px solid white;
     border-radius: 50%;
     height: 45px;
     width: 45px;
     position: relative;
+    z-index: 2;
 }
 
 .avatar.unread .image, .avatar.unread .letter {

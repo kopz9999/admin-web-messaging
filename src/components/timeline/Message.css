@@ -1,5 +1,5 @@
 .message {
-    composes: container, event from "./TimeLineItem.css";
+    composes: container from "./TimeLineItem.css";
     height: auto;
     position: relative;
 }

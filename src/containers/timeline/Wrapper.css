@@ -1,7 +1,8 @@
 .content {
     display: flex;
     flex-flow: column;
-    height: 100%;
+    height: calc(100% - 80px);
+    padding-top: 80px;
 }
 
 .content .container {

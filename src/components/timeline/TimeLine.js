@@ -8,12 +8,12 @@ require('velocity-animate/velocity.ui');
 import FeedButton from './FeedButton';
 
 export default class TimeLine extends Component {
-  set messagesDisplayed(value) {
-    this._messagesDisplayed = value;
+  set childrenDisplayed(value) {
+    this._childrenDisplayed = value;
   }
 
-  get messagesDisplayed() {
-    return this._messagesDisplayed;
+  get childrenDisplayed() {
+    return this._childrenDisplayed;
   }
 
   get childrenNodes() {
@@ -22,20 +22,20 @@ export default class TimeLine extends Component {
 
   constructor(props) {
     super(props);
-    this._messagesDisplayed = props.messagesDisplayed;
+    this.childrenDisplayed = false;
     this._childrenNodes = [];
   }
 
-  renderNode(node) {
-    if (this.messagesDisplayed) {
-      this.animateChildNode(node);
+  enqueueNode(node) {
+    if (this.childrenDisplayed) {
+      return this.animateChildNode(node);
     }
     this._childrenNodes.push(node);
   }
 
   animateChildNode(node) {
     return Velocity(node, 'transition.slideDownBigIn',
-      { delay: 500, duration: 500 });
+      { duration: 500 });
   }
 
   displayTimeLineItems() {
@@ -50,16 +50,18 @@ export default class TimeLine extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.messagesDisplayed && this.props.children && this.props.children.length > 0) {
-      this.displayTimeLineItems();
-      this.messagesDisplayed = true;
+    if (!this.childrenDisplayed && this.props.children &&
+      this.props.children.length > 0) {
+      this.childrenDisplayed = true;
     }
   }
 
   renderChildren() {
     return React.Children.map(this.props.children,
       (child) => React.cloneElement(child, {
-        onRenderNode: this.renderNode.bind(this)
+        enqueueNode: this.enqueueNode.bind(this),
+        animateNode: this.animateChildNode.bind(this),
+        elementsDisplayed: this.childrenDisplayed
       })
     );
   }
@@ -90,7 +92,6 @@ TimeLine.propTypes = {
 };
 
 TimeLine.defaultProps = {
-  messagesDisplayed: false,
   hasFeedButton: true
 };
 

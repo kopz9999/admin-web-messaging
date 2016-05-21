@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import { Link } from 'react-router';
 // App
-import { cutString, trimUserName } from '../../../utils/Helper';
-import { MAX_TEXT_SIZE, MAX_USER_SIZE } from '../../../utils/constants';
+import { trimUserName } from '../../../utils/Helper';
+import { MAX_USER_SIZE } from '../../../utils/constants';
 import styles from '../Message.css';
 import EventTimestamp from '../EventTimestamp';
 import Avatar from '../Avatar';
+import TimeLineItem from '../TimeLineItem';
 
-export default class Message extends Component {
+export default class Message extends TimeLineItem {
   get user() {
     return this.props.user;
   }
@@ -17,20 +17,14 @@ export default class Message extends Component {
     return this.props.message;
   }
 
-  componentDidMount() {
-    const domNode = findDOMNode(this);
-    this.props.onRenderNode(domNode);
-  }
-
   render() {
     const { displayName } = this.user;
     const { parts, sentAt } = this.message;
-    const { isRead } = this.props;
     const bodyText = parts[0] ? parts[0].body : '';
     const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
 
     return (
-      <div className={`${styles.message}`}>
+      <div className={`${styles.message}`} style={this.inlineStyles}>
         <div className={styles.leftElement}>
           <Avatar user={this.user} />
         </div>

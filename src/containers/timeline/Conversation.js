@@ -51,12 +51,13 @@ export default class Conversation extends Component {
 
   render() {
     const { actions, composerMessage } = this.props;
-    const reversedMessages = this.props.messages.concat().reverse();
+    const reversedMessages =
+      this.props.messages.filter((m)=> m.isSaved).reverse();
     const { changeComposerMessage, submitComposerMessage } = actions;
 
     return (
       <div className={styles.conversation}>
-        <TimeLine hasFeedButton={false} messagesDisplayed={true}>
+        <TimeLine hasFeedButton={false}>
           {reversedMessages.map(this.renderMessageItem.bind(this))}
         </TimeLine>
         <MessageComposer

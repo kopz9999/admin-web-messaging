@@ -1,6 +1,11 @@
 .header {
     height: 80px;
     border-bottom: 1px solid #d8dee5;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: white;
+    z-index: 100;
 }
 
 .header .logo {

@@ -7,8 +7,9 @@ import { MAX_TEXT_SIZE, MAX_USER_SIZE } from '../../utils/constants';
 import styles from './Message.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
+import TimeLineItem from './TimeLineItem';
 
-export default class Message extends Component {
+export default class Message extends TimeLineItem {
   get user() {
     return this.props.user;
   }
@@ -19,11 +20,6 @@ export default class Message extends Component {
 
   get message() {
     return this.props.message;
-  }
-
-  componentDidMount() {
-    const domNode = findDOMNode(this);
-    this.props.onRenderNode(domNode);
   }
 
   render() {
@@ -37,7 +33,8 @@ export default class Message extends Component {
     const avatarStyle = isRead ? '' : 'unread';
 
     return (
-      <div className={`${styles.message} ${extraStyle}`}>
+      <div className={`${styles.message} ${extraStyle}`}
+           style={this.inlineStyles}>
         <div className={styles.leftElement}>
           <Avatar user={this.user} customStyle={avatarStyle} />
         </div>
