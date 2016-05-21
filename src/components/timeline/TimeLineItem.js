@@ -16,15 +16,23 @@ export default class TimeLineItem extends Component {
   }
 
   onComponentDisplayed(){
+    const domNode = findDOMNode(this);
+    domNode.parentNode.style.height = null;
     this.setState({ isEntering: false, isVisible: true });
   }
 
   componentDidMount() {
-    const { elementsDisplayed } = this.props;
-    let domNode = null;
-    if (elementsDisplayed) {
+    let domNode = null, height = null;
+    if (!this.state.isVisible) {
       domNode = findDOMNode(this);
-      this.setState({ isEntering: true });
+      domNode.style.visibility = 'hidden';
+      domNode.style.display = 'block';
+      height = domNode.offsetHeight;
+      this.setState({ isEntering: true, height: height });
+      domNode.style.display = 'none';
+      domNode.style.visibility = 'visible';
+      domNode.parentNode.style.height =
+        `${domNode.parentNode.offsetHeight + height}px`;
       this.props.animateNode(domNode)
         .then(this.onComponentDisplayed.bind(this));
     }
