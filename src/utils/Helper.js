@@ -50,11 +50,11 @@ export function timeSince(date, suffix) {
   var seconds = Math.floor((new Date() - date) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-    return interval + `years ${suffix}`;
+    return interval + ` years ${suffix}`;
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-    return interval + `months ${suffix}`;
+    return interval + ` months ${suffix}`;
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {

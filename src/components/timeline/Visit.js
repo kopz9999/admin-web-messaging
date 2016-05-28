@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import styles from './Visit.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
+import SiteAvatar from './SiteAvatar';
 
 export default class Visit extends Component {
   get user() {
@@ -14,15 +15,27 @@ export default class Visit extends Component {
     return this.props.page;
   }
 
+  get site() {
+    return this.props.site;
+  }
+
   render() {
     const { displayName } = this.user;
     const { title } = this.page;
-    const { receivedAt } = this.props;
+    const siteTitle = this.site.title;
+    const siteId = this.site.id;
+    const pageId = this.page.id;
+    const { receivedAt, isRead, displaySite } = this.props;
+    const siteIcon = displaySite ? (<SiteAvatar site={this.site} />) : null;
+    const readStyle = isRead ? '' : styles.unread;
+    const avatarStyle = isRead ? '' : 'unread';
+    const displaySiteStyle = displaySite ? styles.displaySite : '';
 
     return (
-      <div className={styles.visit}>
+      <div className={`${styles.visit} ${readStyle} ${displaySiteStyle}`}>
         <div className={styles.leftElement}>
-          <Avatar user={this.user} />
+          <Avatar user={this.user} customStyle={avatarStyle} />
+          { siteIcon }
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
@@ -32,7 +45,10 @@ export default class Visit extends Component {
           <div className={styles.metaData}>
             <div className={styles.icon}></div>
             <div className={styles.metaDataLabel}> Viewed: </div>
-            <Link to='/home' className={styles.linkLabel}> {title} </Link>
+            <Link to={`/sites/${siteId}/pages/${pageId}`} className={styles.linkLabel}> {title} </Link>
+            <div className={styles.metaDataLabel}> on </div>
+            <Link to={`/sites/${siteId}`} className={styles.linkLabel}> {siteTitle} </Link>
+            <div className={styles.metaDataLabel}> website </div>
           </div>
         </div>
       </div>

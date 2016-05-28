@@ -7,7 +7,7 @@ import { LayerProvider } from 'layer-react';
 import { Client } from 'layer-sdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
-import Website from './timeline/Website';
+import Global from './timeline/Global';
 import SignIn from './login/SignIn';
 import Conversation from './timeline/Conversation';
 
@@ -33,8 +33,12 @@ export default class App extends Component {
               <IndexRoute component={SignIn}/>
             </Route>
             <Route path='/home' component={Wrapper}>
-              <IndexRoute component={Website}/>
-              <Route path='/conversations/:conversationId'
+              <IndexRoute component={Global}/>
+              <Route path='/sites/:siteId'
+                     component={Global}/>
+              <Route path='/sites/:siteId/pages/:pageId'
+                     component={Global}/>
+              <Route path='/sites/:siteId/pages/:pageId/users/:userId/conversations/:conversationId'
                      component={Conversation}/>
             </Route>
           </ReduxRouter>

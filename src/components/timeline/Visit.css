@@ -1,5 +1,6 @@
 .visit {
     composes: container from "./TimeLineItem.css";
+    padding-bottom: 15px;
 }
 
 .leftElement {
@@ -33,13 +34,23 @@
 }
 
 .metaData .icon {
-    width: 12px;
-    height: 11px;
-    background-image: url('/src/components/timeline/images/speech-icon.png');
+    width: 16px;
+    height: 9px;
+    background-image: url('/src/components/timeline/images/view-icon.png');
     margin-right: 5px;
 }
 
 .title > div, .metaData > div {
     display: inline-block;
     vertical-align: middle;
+}
+
+.unread {
+    composes: unread from "./TimeLineItem.css";
+}
+
+/* With Site Icons */
+
+.displaySite {
+    composes: displaySite from "./TimeLineItem.css";
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import styles from './Avatar.css';
-import randomColor from 'randomcolor';
 
 export default class Avatar extends Component {
   get user() {
@@ -15,21 +14,12 @@ export default class Avatar extends Component {
     );
   }
 
-  /* TODO: Improve solution */
-  componentDidMount() {
-    const backgroundColor = randomColor({hue: 'red'});
-    const domNode = findDOMNode(this);
-    const letterElement = domNode.getElementsByClassName( styles.letter )[0];
-    if (letterElement) {
-      letterElement.style.backgroundColor = backgroundColor;
-    }
-  }
-
   renderInitials() {
-    const { displayName } = this.user;
+    const { displayName, color } = this.user;
+    const inlineStyles = { backgroundColor: color };
 
     return (
-      <div className={styles.letter}>
+      <div className={styles.letter} style={inlineStyles}>
         { displayName[0].toLowerCase() }
       </div>
     );
@@ -39,8 +29,8 @@ export default class Avatar extends Component {
     const { avatarURL } = this.user;
     const { customStyle } = this.props;
     const extraStyle = customStyle ? styles[customStyle] : '';
-    const avatar = avatarURL == null ?
-      this.renderInitials() : this.renderAvatarURL();
+    const avatar = avatarURL ?
+      this.renderAvatarURL() : this.renderInitials();
 
     return (
       <div className={`${styles.avatar} ${extraStyle}`}>

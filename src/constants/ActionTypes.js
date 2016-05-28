@@ -2,3 +2,8 @@ export const DATA_FETCHED = 'DATA_FETCHED';
 export const DATA_SUCCEEDED = 'DATA_SUCCEEDED';
 export const DATA_FAILED = 'DATA_FAILED';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+// Fetch actions
+export const REQUEST_EVENTS = 'REQUEST_EVENTS';
+export const REQUEST_QUERY_EVENTS = 'REQUEST_QUERY_EVENTS';
+
+export const RECEIVE_EVENTS = 'RECEIVE_EVENTS';

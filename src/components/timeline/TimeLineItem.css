@@ -34,6 +34,18 @@
     border-top: 1px solid white;
 }
 
+.unread .leftElement:before {
+    content: '';
+    height: 8px;
+    width: 8px;
+    background-color: #4198e1;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    top: 32px;
+    left: 20px;
+}
+
 .leftElement, .rightElement {
     display: inline-block;
     vertical-align: top;
@@ -44,6 +56,10 @@
 .leftElement {
     width: 95px;
     max-width: 95px;
+}
+
+.rightElement {
+    width: calc(100% - 130px);
 }
 
 .nameLabel {
@@ -62,4 +78,15 @@
     font-family: "Proxima N W01 Smbd", serif;
     font-size: 15px;
     color: #a8b2bb;
+}
+
+
+.displaySite .leftElement {
+    position: relative;
+    width: 130px;
+    max-width: 130px;
+}
+
+.displaySite .rightElement {
+    width: calc(100% - 165px);
 }

@@ -1,0 +1,1 @@
+export const EVENTS_API = 'http://private-9b421-events59.apiary-mock.com/events';

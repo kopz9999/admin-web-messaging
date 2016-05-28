@@ -7,6 +7,7 @@ import { MAX_TEXT_SIZE, MAX_USER_SIZE } from '../../utils/constants';
 import styles from './Message.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
+import SiteAvatar from './SiteAvatar';
 import TimeLineItem from './TimeLineItem';
 
 export default class Message extends TimeLineItem {
@@ -22,21 +23,34 @@ export default class Message extends TimeLineItem {
     return this.props.message;
   }
 
+  get site() {
+    return this.props.site;
+  }
+
   render() {
     const { displayName } = this.user;
     const { title } = this.page;
-    const { body } = this.message;
-    const { receivedAt, isRead, conversationURL } = this.props;
+    const { body, conversationId } = this.message;
+    const siteTitle = this.site.title;
+    const siteId = this.site.id;
+    const pageId = this.page.id;
+    const userId = this.user.id;
+    const { receivedAt, isRead, displaySite } = this.props;
     const bodyText = cutString(body, MAX_TEXT_SIZE, '...');
     const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
-    const extraStyle = isRead ? '' : styles.unread;
+    const readStyle = isRead ? '' : styles.unread;
+    const displaySiteStyle = displaySite ? styles.displaySite : '';
     const avatarStyle = isRead ? '' : 'unread';
+    const siteIcon = displaySite ? (<SiteAvatar site={this.site} />) : null;
+    const conversationURL = `/sites/${siteId}/pages/${pageId}/users/${userId}` +
+      `/conversations/${conversationId}`;
 
     return (
-      <div className={`${styles.message} ${extraStyle}`}
+      <div className={`${styles.message} ${readStyle} ${displaySiteStyle}`}
            style={this.inlineStyles}>
         <div className={styles.leftElement}>
           <Avatar user={this.user} customStyle={avatarStyle} />
+          { siteIcon }
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
@@ -46,9 +60,12 @@ export default class Message extends TimeLineItem {
           <div className={styles.metaData}>
             <div className={styles.icon}></div>
             <div className={styles.metaDataLabel}> Sent </div>
-            <Link to='/home' className={styles.linkLabel}> message </Link>
+            <Link to={conversationURL} className={styles.linkLabel}> message </Link>
             <div className={styles.metaDataLabel}> from </div>
-            <Link to='/home' className={styles.linkLabel}> {title} </Link>
+            <Link to={`/sites/${siteId}/pages/${pageId}`} className={styles.linkLabel}> {title} </Link>
+            <div className={styles.metaDataLabel}> on </div>
+            <Link to={`/sites/${siteId}`} className={styles.linkLabel}> {siteTitle} </Link>
+            <div className={styles.metaDataLabel}> website </div>
           </div>
           <div className={styles.messageBody}>
             { bodyText }

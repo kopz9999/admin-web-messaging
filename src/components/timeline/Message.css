@@ -12,21 +12,8 @@
     composes: leftElement from "./TimeLineItem.css";
 }
 
-.unread .leftElement:before {
-    content: '';
-    height: 8px;
-    width: 8px;
-    background-color: #4198e1;
-    display: block;
-    position: absolute;
-    border-radius: 50%;
-    top: 32px;
-    left: 20px;
-}
-
 .rightElement {
     composes: rightElement from "./TimeLineItem.css";
-    max-width: 600px;
 }
 
 .displayName {
@@ -52,9 +39,9 @@
 }
 
 .metaData .icon {
-    width: 16px;
-    height: 9px;
-    background-image: url('/src/components/timeline/images/view-icon.png');
+    width: 12px;
+    height: 11px;
+    background-image: url('/src/components/timeline/images/speech-icon.png');
     margin-right: 5px;
 }
 
@@ -105,4 +92,10 @@
     font-family: "Proxima N W01 Smbd", serif;
     font-size: 13px;
     color: #b7c3cf
+}
+
+/* With Site Icons */
+
+.displaySite {
+    composes: displaySite from "./TimeLineItem.css";
 }

@@ -1,29 +1,37 @@
 // React
 import React, { Component } from 'react';
-// Layer
-import { connectQuery } from 'layer-react';
-import { QueryBuilder } from 'layer-sdk';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 // App
 import Header from './Header';
 import styles from './Wrapper.css';
+// Actions
+import * as TimeLineActions from '../../actions/timeLineActions';
 
-function getQueries() {
+function mapStateToProps({ timeLine, settings, router }) {
   return {
-    conversations:
-      QueryBuilder.conversations().sortBy('lastMessage.sentAt', false)
+    timeLine,
+    settings,
+    // activeConversationId: `layer:///conversations/${router.params.conversationId}`
   };
 }
 
-@connectQuery({}, getQueries)
+function mapDispatchToProps(dispatch) {
+  return { actions: bindActionCreators(TimeLineActions, dispatch) };
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Wrapper extends Component {
   render() {
-    const { conversations } = this.props;
+    const { timeLine, settings, actions } = this.props;
     return (
       <div className={styles.content}>
         <Header />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
-            conversations
+            ...timeLine,
+            ...actions,
+            settings
           })}
         </div>
       </div>
