@@ -5,10 +5,12 @@ import {
   REQUEST_SITE,
   RECEIVE_SITE
 } from '../constants/ActionTypes';
-
 import {
   SITES_API,
 } from '../constants/Endpoints';
+import {
+  siteFactoryInstance,
+} from '../models/Site';
 
 function requestSite(siteId) {
   return {
@@ -46,7 +48,8 @@ export function fetchSite(siteId) {
     return fetch(pageURL.toString())
       .then(response => response.json())
       .then(json =>
-        dispatch(receiveSite(siteId, json))
+        dispatch(receiveSite(siteId,
+          siteFactoryInstance.buildFromAPI(json)))
       );
   }
 }

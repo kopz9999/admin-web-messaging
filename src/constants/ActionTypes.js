@@ -16,3 +16,4 @@ export const RECEIVE_SITE = 'RECEIVE_SITE';
 // Users
 export const REQUEST_USER = 'REQUEST_USER';
 export const RECEIVE_USER = 'RECEIVE_USER';
+export const NOT_FOUND_USER = 'NOT_FOUND_USER';

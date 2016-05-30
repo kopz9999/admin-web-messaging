@@ -11,6 +11,9 @@ import {
   EVENTS_API,
   EVENTS_QUERY_API,
 } from '../constants/Endpoints';
+import {
+  eventFactoryInstance,
+} from '../models/Event';
 
 function requestEvents(fromTimestamp) {
   return {
@@ -41,7 +44,8 @@ function receiveEvents(events) {
 }
 
 export function fetchQueryEvents(fromTimestamp, limit, query={}) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
+    eventFactoryInstance.settings = getState().settings;
     dispatch(queryEvents(fromTimestamp, query));
     var eventsAPI = urlWithParams(EVENTS_QUERY_API,
       { from: fromTimestamp, limit: limit });
@@ -55,20 +59,21 @@ export function fetchQueryEvents(fromTimestamp, limit, query={}) {
       })
       .then(response => response.json())
       .then(json =>
-        dispatch(receiveEvents(json))
+        dispatch(receiveEvents(eventFactoryInstance.buildFromAPICollection(json)))
       );
   }
 }
 
 export function fetchEvents(fromTimestamp, limit) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
+    eventFactoryInstance.settings = getState().settings;
     dispatch(requestEvents(fromTimestamp));
     var eventsAPI = urlWithParams(EVENTS_API,
       { from: fromTimestamp, limit: limit });
     return fetch(eventsAPI)
       .then(response => response.json())
       .then(json =>
-        dispatch(receiveEvents(json))
+        dispatch(receiveEvents(eventFactoryInstance.buildFromAPICollection(json)))
       );
   }
 }

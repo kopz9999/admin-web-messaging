@@ -38,21 +38,22 @@ export default function users(state = {}, action) {
     case RECEIVE_USER:
       return {
         ...state,
-        [payload.userId]: user(state[payload.userId], action)
+        [payload.layerId]: user(state[payload.layerId], action)
       };
     case RECEIVE_EVENTS: // Make a cache of all pages
       let nextState = {};
       payload.events.forEach((event) => {
-        let requestUser = event.user;
-        let userState = state[requestUser.id];
+        let eventUser = event.user;
+        let stateKey = eventUser.layerId;
+        let userState = state[stateKey];
         if (userState) {
-          if (!userState.site && !userState.isFetching) {
-            nextState[requestUser.id] = user(state[requestUser.id],
-              { type, payload: { user: requestUser } });
+          if (!userState.user && !userState.isFetching) {
+            nextState[stateKey] = user(state[stateKey],
+              { type, payload: { user: eventUser } });
           }
         } else {
-          nextState[requestUser.id] = user(state[requestUser.id],
-            { type, payload: { user: requestUser } });
+          nextState[stateKey] = user(state[stateKey],
+            { type, payload: { user: eventUser } });
         }
       });
       return Object.assign({}, state, nextState);

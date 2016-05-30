@@ -56,7 +56,7 @@ export default class Message extends TimeLineItem {
     const { body, conversationId } = this.message;
     const siteId = this.site.id;
     const pageId = this.page.id;
-    const userId = this.user.id;
+    const layerId = this.user.layerId;
     const { receivedAt, isRead, displaySite } = this.props;
     const bodyText = cutString(body, MAX_TEXT_SIZE, '...');
     const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
@@ -65,7 +65,7 @@ export default class Message extends TimeLineItem {
     const avatarStyle = isRead ? '' : 'unread';
     const siteIcon = displaySite ? (<SiteAvatar site={this.site} />) : null;
     const layerUUID = toUUID(conversationId);
-    const conversationURL = `/sites/${siteId}/pages/${pageId}/users/${userId}` +
+    const conversationURL = `/sites/${siteId}/pages/${pageId}/users/${layerId}` +
       `/conversations/${layerUUID}`;
 
     return (

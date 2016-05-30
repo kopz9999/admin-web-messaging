@@ -1,36 +1,49 @@
 // Libs
 import fetch from 'isomorphic-fetch';
+import { urlWithParams } from '../utils/Helper';
 // App
 import {
   REQUEST_USER,
-  RECEIVE_USER
+  RECEIVE_USER,
+  NOT_FOUND_USER,
 } from '../constants/ActionTypes';
-
 import {
   USERS_API,
 } from '../constants/Endpoints';
+import {
+  userFactoryInstance,
+} from '../models/User';
 
-function requestUser(userId) {
+function requestUser(layerId) {
   return {
     type: REQUEST_USER,
     payload: {
-      userId
+      layerId
     }
   }
 }
 
-function receiveUser(userId, user) {
+function receiveUser(layerId, user) {
   return {
     type: RECEIVE_USER,
     payload: {
-      userId,
+      layerId,
       user
     }
   }
 }
 
-function shouldFetchUser(state, userId) {
-  const user = state.users[userId];
+function notFoundUser(layerId) {
+  return {
+    type: NOT_FOUND_USER,
+    payload: {
+      layerId,
+    }
+  }
+}
+
+function shouldFetchUser(state, layerId) {
+  const user = state.users[layerId];
   if (!user) {
     return true
   } else {
@@ -38,23 +51,25 @@ function shouldFetchUser(state, userId) {
   }
 }
 
-export function fetchUser(userId) {
+export function fetchUser(layerId) {
   return function (dispatch) {
-    dispatch(requestUser(userId));
-    var pageURL = new URL(USERS_API);
-    pageURL.pathname += `/${userId}`;
-    return fetch(pageURL.toString())
+    dispatch(requestUser(layerId));
+    var usersAPI = urlWithParams(USERS_API, { layerId: layerId });
+    return fetch(usersAPI)
       .then(response => response.json())
-      .then(json =>
-        dispatch(receiveUser(userId, json))
-      );
+      .then(json => (
+        (json.length > 0) ?
+          dispatch(receiveUser(layerId,
+            userFactoryInstance.buildFromAPI(json[0]))) :
+          dispatch(notFoundUser(layerId))
+      ));
   }
 }
 
-export function verifyFetchUser(userId) {
+export function verifyFetchUser(layerId) {
   return (dispatch, getState) => {
-    if (shouldFetchUser(getState(), userId)) {
-      return dispatch(fetchUser(userId));
+    if (shouldFetchUser(getState(), layerId)) {
+      return dispatch(fetchUser(layerId));
     } else {
       return Promise.resolve()
     }

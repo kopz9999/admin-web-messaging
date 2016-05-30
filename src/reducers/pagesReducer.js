@@ -43,10 +43,10 @@ export default function pages(state = {}, action) {
     case RECEIVE_EVENTS: // Make a cache of all pages
       let nextState = {};
       payload.events.forEach((event) => {
-        let requestPage = event.content.page;
+        let requestPage = event.page;
         let pageState = state[requestPage.id];
         if (pageState) {
-          if (!pageState.site && !pageState.isFetching) {
+          if (!pageState.page && !pageState.isFetching) {
             nextState[requestPage.id] = page(pageState,
               { type, payload: { page: requestPage } });
           }

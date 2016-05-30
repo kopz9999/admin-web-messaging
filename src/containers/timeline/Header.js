@@ -44,14 +44,14 @@ export default class Header extends Component {
   }
 
   componentDidMount() {
-    const { siteId, pageId, userId } = this.props;
+    const { siteId, pageId, layerId } = this.props;
     const { sitesActions, pagesActions, usersActions } = this.props;
     const { verifyFetchSite } = sitesActions;
     const { verifyFetchPage } = pagesActions;
     const { verifyFetchUser } = usersActions;
     if (siteId) verifyFetchSite(siteId);
     if (pageId) verifyFetchPage(pageId);
-    if (userId) verifyFetchUser(userId);
+    if (layerId) verifyFetchUser(layerId);
   }
 
   /*
@@ -70,51 +70,37 @@ export default class Header extends Component {
   */
 
   renderSite() {
-    let site = null;
     const { siteId, sites } = this.props;
     const siteState = sites[siteId];
     if (siteState && siteState.site) {
-      site = siteState.site;
-      return (
-        <Site
-          site={{
-            id: site.id,
-            title: site.name,
-            thumbnailURL: site.thumbnail_url
-          }}
-        />
-      );
+      return (<Site site={siteState.site} />);
     } else {
       return null;
     }
   }
 
   renderPage() {
-    let page = null;
     const { pageId, siteId, pages } = this.props;
     const pageState = pages[pageId];
     if (pageState && pageState.page) {
-      page = pageState.page;
-      return (
-        <Page
-          page={{
-            siteId,
-            id: page.id,
-            title: page.name,
-            thumbnailURL: page.thumbnail_url
-          }}
-        />
-      );
+      return (<Page siteId={siteId} page={pageState.page} />);
     } else {
       return null;
     }
   }
 
   renderUser() {
-    const { userId, users } = this.props;
-    const userState = users[userId];
+    const { layerId, siteId, pageId, conversationId, users } = this.props;
+    const userState = users[layerId];
     if (userState && userState.user) {
-      return (<User site={userState.user} />);
+      return (
+        <User
+          siteId={siteId}
+          pageId={pageId}
+          conversationId={conversationId}
+          user={userState.user}
+        />
+      );
     } else {
       return null;
     }
@@ -134,7 +120,6 @@ export default class Header extends Component {
           <Search />
         </div>
         <div className={styles.rightContent}>
-          { this.renderNewConversation() }
           <Notification />
         </div>
       </div>

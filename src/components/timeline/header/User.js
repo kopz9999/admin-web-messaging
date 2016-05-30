@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import styles from './Search.css';
+import { Link } from 'react-router';
+import styles from './Breadcrumb.css';
+// App
+import Avatar from '../Avatar';
 
-export default class Search extends Component {
+export default class User extends Component {
   render() {
+    const { user, siteId, pageId, conversationId } = this.props;
+    const { displayName, layerId } = user;
+    const conversationURL = `/sites/${siteId}/pages/${pageId}/users/${layerId}` +
+      `/conversations/${conversationId}`;
+    const avatarStyle = 'header';
+
     return (
-      <div className={styles.search}>
-        <div className={styles.icon}></div>
-        <input className={styles.text} type="text" placeholder="Search" />
-      </div>
+      <Link to={conversationURL} className={styles.container}>
+        <Avatar user={user} customStyle={avatarStyle} />
+        <div className={styles.title}> { displayName } </div>
+      </Link>
     );
   }
 }

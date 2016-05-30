@@ -18,6 +18,22 @@
     border: 5px solid #eef3f8;
 }
 
+.avatar.header {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.avatar.header .image, .avatar.header .letter {
+    height: 35px;
+    width: 35px;
+    border: none;
+}
+
+.avatar.header .letter {
+    padding-top: 20%;
+    font-size: 15px;
+}
+
 .avatar .letter {
     text-align: center;
     font-family: "Proxima N W01 Smbd", serif;

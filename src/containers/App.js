@@ -40,7 +40,7 @@ export default class App extends Component {
                      component={Site}/>
               <Route path='/sites/:siteId/pages/:pageId'
                      component={Page}/>
-              <Route path='/sites/:siteId/pages/:pageId/users/:userId/conversations/:conversationId'
+              <Route path='/sites/:siteId/pages/:pageId/users/:layerId/conversations/:conversationId'
                      component={Conversation}/>
             </Route>
           </ReduxRouter>

@@ -15,7 +15,7 @@ function mapStateToProps({ timeLine, settings, router }) {
     query: {
       siteId: router.params.siteId,
       pageId: router.params.pageId,
-      userId: router.params.userId,
+      layerId: router.params.layerId,
       conversationId: router.params.conversationId,
     },
   };

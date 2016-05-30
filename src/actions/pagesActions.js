@@ -5,10 +5,12 @@ import {
   REQUEST_PAGE,
   RECEIVE_PAGE
 } from '../constants/ActionTypes';
-
 import {
   PAGES_API,
 } from '../constants/Endpoints';
+import {
+  pageFactoryInstance,
+} from '../models/Page';
 
 function requestPage(pageId) {
   return {
@@ -46,7 +48,8 @@ export function fetchPage(pageId) {
     return fetch(pageURL.toString())
       .then(response => response.json())
       .then(json =>
-        dispatch(receivePage(pageId, json))
+        dispatch(receivePage(pageId,
+          pageFactoryInstance.buildFromAPI(json)))
       );
   }
 }
