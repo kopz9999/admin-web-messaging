@@ -5,7 +5,9 @@ import activeConversationReducer from './activeConversationReducer';
 import newConversationReducer from './newConversationReducer';
 import loginReducer from './loginReducer';
 import timeLineReducer from './timeLineReducer';
-import pages from './pagesReducer';
+import pagesReducer from './pagesReducer';
+import sitesReducer from './sitesReducer';
+import usersReducer from './usersReducer';
 import settingsReducer from './settingsReducer';
 
 const rootReducer = combineReducers({
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
   login: loginReducer,
   timeLine: timeLineReducer,
   settings: settingsReducer,
-  pages: pages,
+  pages: pagesReducer,
+  sites: sitesReducer,
+  users: usersReducer,
 });
 
 export default rootReducer;

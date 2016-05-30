@@ -31,7 +31,7 @@ export default class Wrapper extends Component {
     const { timeLine, settings, actions, query } = this.props;
     return (
       <div className={styles.content}>
-        <Header />
+        <Header {...query} />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
             ...timeLine,

@@ -10,3 +10,9 @@ export const RECEIVE_EVENTS = 'RECEIVE_EVENTS';
 // Pages
 export const REQUEST_PAGE = 'REQUEST_PAGE';
 export const RECEIVE_PAGE = 'RECEIVE_PAGE';
+// Sites
+export const REQUEST_SITE = 'REQUEST_SITE';
+export const RECEIVE_SITE = 'RECEIVE_SITE';
+// Users
+export const REQUEST_USER = 'REQUEST_USER';
+export const RECEIVE_USER = 'RECEIVE_USER';

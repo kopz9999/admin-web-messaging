@@ -7,3 +7,7 @@ export const EVENTS_QUERY_COUNT_API =
 
 export const PAGES_API =
   'http://private-9b421-events59.apiary-mock.com/pages';
+export const USERS_API =
+  'http://private-9b421-events59.apiary-mock.com/users';
+export const SITES_API =
+  'http://private-9b421-events59.apiary-mock.com/sites';

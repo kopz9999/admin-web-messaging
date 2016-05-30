@@ -19,10 +19,11 @@ function requestPage(pageId) {
   }
 }
 
-function receivePage(page) {
+function receivePage(pageId, page) {
   return {
     type: RECEIVE_PAGE,
     payload: {
+      pageId,
       page
     }
   }
@@ -41,11 +42,11 @@ export function fetchPage(pageId) {
   return function (dispatch) {
     dispatch(requestPage(pageId));
     var pageURL = new URL(PAGES_API);
-    pageURL.pathname = pageId;
+    pageURL.pathname += `/${pageId}`;
     return fetch(pageURL.toString())
       .then(response => response.json())
       .then(json =>
-        dispatch(receivePage(json))
+        dispatch(receivePage(pageId, json))
       );
   }
 }

@@ -1,58 +1,58 @@
 import {
-  REQUEST_PAGE,
-  RECEIVE_PAGE,
+  REQUEST_SITE,
+  RECEIVE_SITE,
   RECEIVE_EVENTS,
 } from '../constants/ActionTypes';
 
 const initialState = {
   isFetching: false,
-  page: null
+  site: null
 };
 
-function page(state = initialState, action) {
+function site(state = initialState, action) {
   const { payload, type } = action;
 
   switch (type) {
-    case REQUEST_PAGE:
+    case REQUEST_SITE:
       return {
         ...state,
         isFetching: true,
       };
     case RECEIVE_EVENTS:
-    case RECEIVE_PAGE:
+    case RECEIVE_SITE:
       return {
         ...state,
         isFetching: false,
-        page: payload.page,
+        site: payload.site,
       };
     default:
       return state;
   }
 }
 
-export default function pages(state = {}, action) {
+export default function sites(state = {}, action) {
   const { payload, type } = action;
 
   switch (type) {
-    case REQUEST_PAGE:
-    case RECEIVE_PAGE:
+    case REQUEST_SITE:
+    case RECEIVE_SITE:
       return {
         ...state,
-        [payload.pageId]: page(state[payload.pageId], action)
+        [payload.siteId]: site(state[payload.siteId], action)
       };
     case RECEIVE_EVENTS: // Make a cache of all pages
       let nextState = {};
       payload.events.forEach((event) => {
-        let requestPage = event.content.page;
-        let pageState = state[requestPage.id];
-        if (pageState) {
-          if (!pageState.site && !pageState.isFetching) {
-            nextState[requestPage.id] = page(pageState,
-              { type, payload: { page: requestPage } });
+        let requestSite = event.site;
+        let siteState = state[requestSite.id];
+        if (siteState) {
+          if (!siteState.site && !siteState.isFetching) {
+            nextState[requestSite.id] = site(siteState,
+              { type, payload: { site: requestSite } });
           }
         } else {
-          nextState[requestPage.id] = page(pageState,
-            { type, payload: { page: requestPage } });
+          nextState[requestSite.id] = site(siteState,
+            { type, payload: { site: requestSite } });
         }
       });
       return Object.assign({}, state, nextState);
