@@ -94,6 +94,10 @@
     color: #b7c3cf
 }
 
+.originInformation {
+    composes: originInformation from "./TimeLineItem.css";
+}
+
 /* With Site Icons */
 
 .displaySite {

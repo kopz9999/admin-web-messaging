@@ -54,6 +54,7 @@
 }
 
 .leftElement {
+    position: relative;
     width: 95px;
     max-width: 95px;
 }
@@ -72,21 +73,26 @@
     font-family: "Proxima N W01 Smbd", serif;
     font-size: 15px;
     color: #4198e1;
+    display: inline;
 }
 
 .metaDataLabel {
     font-family: "Proxima N W01 Smbd", serif;
     font-size: 15px;
     color: #a8b2bb;
+    display: inline;
 }
 
 
 .displaySite .leftElement {
-    position: relative;
     width: 130px;
     max-width: 130px;
 }
 
 .displaySite .rightElement {
     width: calc(100% - 165px);
+}
+
+.originInformation {
+    display: inline;
 }

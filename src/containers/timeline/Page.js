@@ -4,10 +4,10 @@ import React, { Component } from 'react';
 import TimeLine from '../../components/timeline/TimeLine';
 import EventComponent from './EventComponent';
 
-export default class Global extends EventComponent {
+export default class Page extends EventComponent {
   componentDidMount() {
-    const { fetchEvents, eventPagination } = this.props;
-    fetchEvents(Date.now(), eventPagination);
+    const { fetchQueryEvents, eventPagination, query } = this.props;
+    fetchQueryEvents(Date.now(), eventPagination, query);
   }
 
   render() {
@@ -16,7 +16,8 @@ export default class Global extends EventComponent {
         {
           this.renderEventsFeed({
             eventProperties: {
-              displaySite: true
+              displaySite: false,
+              currentPage: true
             }
           })
         }

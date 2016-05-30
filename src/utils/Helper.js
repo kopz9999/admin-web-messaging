@@ -84,3 +84,17 @@ export function cutString(originalString, maxSize, suffix) {
   }
   return finalString;
 }
+
+export function urlWithParams(urlString, params={}) {
+  var url = new URL(urlString);
+  var searchParams = new URLSearchParams();
+  Object.keys(params).forEach((key) => {
+    searchParams.append(key, params[key]);
+  });
+  url.search = searchParams.toString();
+  return url.toString();
+}
+
+export function toUUID(layerIdentifier) {
+  return layerIdentifier.replace(/^layer:\/\/\/.+\//, '');
+}

@@ -5,8 +5,9 @@ import styles from './Visit.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
 import SiteAvatar from './SiteAvatar';
+import TimeLineItem from './TimeLineItem';
 
-export default class Visit extends Component {
+export default class Visit extends TimeLineItem {
   get user() {
     return this.props.user;
   }
@@ -17,6 +18,30 @@ export default class Visit extends Component {
 
   get site() {
     return this.props.site;
+  }
+
+  renderOriginInformation() {
+    const { currentPage } = this.props;
+    const { title } = this.page;
+    const siteTitle = this.site.title;
+    const siteId = this.site.id;
+    const pageId = this.page.id;
+
+    if (currentPage) {
+      return (
+        <div className={styles.metaDataLabel}> Viewed from this page </div>
+      );
+    } else {
+      return (
+        <div className={styles.originInformation}>
+          <div className={styles.metaDataLabel}> Viewed: </div>
+          <Link to={`/sites/${siteId}/pages/${pageId}`} className={styles.linkLabel}> {title} </Link>
+          <div className={styles.metaDataLabel}> on </div>
+          <Link to={`/sites/${siteId}`} className={styles.linkLabel}> {siteTitle} </Link>
+          <div className={styles.metaDataLabel}> website </div>
+        </div>
+      );
+    }
   }
 
   render() {
@@ -44,11 +69,7 @@ export default class Visit extends Component {
           </div>
           <div className={styles.metaData}>
             <div className={styles.icon}></div>
-            <div className={styles.metaDataLabel}> Viewed: </div>
-            <Link to={`/sites/${siteId}/pages/${pageId}`} className={styles.linkLabel}> {title} </Link>
-            <div className={styles.metaDataLabel}> on </div>
-            <Link to={`/sites/${siteId}`} className={styles.linkLabel}> {siteTitle} </Link>
-            <div className={styles.metaDataLabel}> website </div>
+            { this.renderOriginInformation() }
           </div>
         </div>
       </div>

@@ -49,6 +49,10 @@
     composes: unread from "./TimeLineItem.css";
 }
 
+.originInformation {
+    composes: originInformation from "./TimeLineItem.css";
+}
+
 /* With Site Icons */
 
 .displaySite {

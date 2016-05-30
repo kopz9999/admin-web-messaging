@@ -8,6 +8,8 @@ import { Client } from 'layer-sdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
 import Global from './timeline/Global';
+import Site from './timeline/Site';
+import Page from './timeline/Page';
 import SignIn from './login/SignIn';
 import Conversation from './timeline/Conversation';
 
@@ -35,9 +37,9 @@ export default class App extends Component {
             <Route path='/home' component={Wrapper}>
               <IndexRoute component={Global}/>
               <Route path='/sites/:siteId'
-                     component={Global}/>
+                     component={Site}/>
               <Route path='/sites/:siteId/pages/:pageId'
-                     component={Global}/>
+                     component={Page}/>
               <Route path='/sites/:siteId/pages/:pageId/users/:userId/conversations/:conversationId'
                      component={Conversation}/>
             </Route>
