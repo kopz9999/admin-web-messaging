@@ -78,7 +78,7 @@ class AdminApp {
           id: 2,
           displayName: 'Customer',
           layerId: 'Customer',
-          color: '#ffae2e'
+          color: '#ff3f5f'
         })
       );
       users.push(

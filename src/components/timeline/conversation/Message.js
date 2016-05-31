@@ -36,6 +36,7 @@ export default class Message extends TimeLineItem {
       <div className={`${styles.message} ${styles.conversation}`} style={this.inlineStyles}>
         <div className={styles.leftElement}>
           <Avatar user={this.user} />
+          <i className={styles.icon} />
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
