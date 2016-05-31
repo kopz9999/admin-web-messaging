@@ -147,7 +147,7 @@ export default class Website extends Component {
 
   render() {
     return (
-      <TimeLine>
+      <TimeLine hasFeedButton={false}>
         { this.renderConversations() }
       </TimeLine>
     );
