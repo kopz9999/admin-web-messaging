@@ -32,11 +32,11 @@ function receiveSite(siteId, site) {
 }
 
 function shouldFetchSite(state, siteId) {
-  const site = state.sites[siteId];
-  if (!site) {
+  const siteState = state.sites[siteId];
+  if (!siteState) {
     return true
   } else {
-    return !site.isFetching
+    return !siteState.site && !siteState.isFetching;
   }
 }
 

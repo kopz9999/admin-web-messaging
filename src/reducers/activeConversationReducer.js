@@ -1,3 +1,4 @@
+// App
 import {
   ROUTER_DID_CHANGE,
   CHANGE_COMPOSER_MESSAGE,
@@ -8,9 +9,20 @@ import {
   CANCEL_EDIT_CONVERSATION_TITLE,
   LOAD_MORE_MESSAGES
 } from '../actions/messenger';
+import {
+  REQUEST_PARTICIPANTS,
+  RECEIVE_PARTICIPANTS,
+  REQUEST_CONVERSATION,
+  RECEIVE_CONVERSATION,
+} from '../constants/ActionTypes';
 
 const initialState = {
   editingTitle: false,
+  loadedUsers: false,
+  loadingConversation: false,
+  conversationLoaded: false,
+  conversationId: null,
+  conversation: null,
   title: '',
   composerMessage: '',
   messagePagination: 30
@@ -58,6 +70,34 @@ export default function activeConversationReducer(state = initialState, action) 
       return {
         ...state,
         messagePagination: state.messagePagination + 30
+      };
+    case REQUEST_PARTICIPANTS:
+      return {
+        ...state,
+        participantIds: payload.participantIds,
+        participants: [],
+        loadedUsers: false,
+      };
+    case RECEIVE_PARTICIPANTS:
+      return {
+        ...state,
+        participants: payload.participants,
+        loadedUsers: true,
+      };
+    case REQUEST_CONVERSATION:
+      return {
+        ...state,
+        conversationId: payload.conversationId,
+        conversation: null,
+        loadingConversation: true,
+        conversationLoaded: false,
+      };
+    case RECEIVE_CONVERSATION:
+      return {
+        ...state,
+        conversation: payload.conversation,
+        loadingConversation: false,
+        conversationLoaded: true,
       };
     default:
       return state;

@@ -12,7 +12,7 @@ function mapStateToProps({ timeLine, settings, router }) {
   return {
     timeLine,
     settings,
-    query: {
+    currentQuery: {
       siteId: router.params.siteId,
       pageId: router.params.pageId,
       layerId: router.params.layerId,
@@ -28,15 +28,15 @@ function mapDispatchToProps(dispatch) {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Wrapper extends Component {
   render() {
-    const { timeLine, settings, actions, query } = this.props;
+    const { timeLine, settings, actions, currentQuery } = this.props;
     return (
       <div className={styles.content}>
-        <Header {...query} />
+        <Header {...currentQuery} />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
             ...timeLine,
             ...actions,
-            query,
+            currentQuery,
             settings,
           })}
         </div>

@@ -6,8 +6,8 @@ import EventComponent from './EventComponent';
 
 export default class Site extends EventComponent {
   componentDidMount() {
-    const { fetchQueryEvents, eventPagination, query } = this.props;
-    fetchQueryEvents(Date.now(), eventPagination, query);
+    const { fetchQueryEvents, eventPagination, currentQuery } = this.props;
+    fetchQueryEvents(Date.now(), eventPagination, currentQuery);
   }
 
   render() {

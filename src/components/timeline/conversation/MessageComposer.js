@@ -33,6 +33,7 @@ export default class MessageComposer extends Component {
     return (
       <div className={styles.messageComposer}>
         <textarea
+          autoFocus={true}
           className={styles.textArea}
           placeholder='Enter a message...'
           rows='1'

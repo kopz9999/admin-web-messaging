@@ -23,7 +23,7 @@ function requestUser(layerId) {
   }
 }
 
-function receiveUser(layerId, user) {
+export function receiveUser(layerId, user) {
   return {
     type: RECEIVE_USER,
     payload: {
@@ -43,11 +43,11 @@ function notFoundUser(layerId) {
 }
 
 function shouldFetchUser(state, layerId) {
-  const user = state.users[layerId];
-  if (!user) {
+  const userState = state.users[layerId];
+  if (!userState) {
     return true
   } else {
-    return !user.isFetching
+    return !userState.user && !userState.isFetching;
   }
 }
 

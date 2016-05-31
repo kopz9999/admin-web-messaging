@@ -98,3 +98,7 @@ export function urlWithParams(urlString, params={}) {
 export function toUUID(layerIdentifier) {
   return layerIdentifier.replace(/^layer:\/\/\/.+\//, '');
 }
+
+export function getLayerConversationId(conversationId) {
+  return `layer:///conversations/${conversationId}`;
+}

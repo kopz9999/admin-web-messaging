@@ -7,29 +7,36 @@ import { connect as connectRedux } from 'react-redux';
 import { QueryBuilder } from 'layer-sdk';
 import { connectQuery } from 'layer-react';
 // App
-import * as MessengerActions from '../../actions/messenger';
 import TimeLine from '../../components/timeline/TimeLine';
 import Message from '../../components/timeline/conversation/Message';
 import MessageComposer from '../../components/timeline/conversation/MessageComposer';
 import styles from './Conversation.css';
 import throttledEventListener from '../../utils/throttledEventListener';
+import { getLayerConversationId } from '../../utils/Helper';
+// Actions
+import * as MessengerActions from '../../actions/messenger';
+import * as ConversationActions from '../../actions/conversationActions';
 
-function mapStateToProps({ activeConversation, router }) {
+function mapStateToProps({ app, activeConversation, users }) {
   return {
+    app,
+    users,
     ...activeConversation,
-    activeConversationId: `layer:///conversations/${router.params.conversationId}`
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return { actions: bindActionCreators(MessengerActions, dispatch) };
+  return {
+    actions: bindActionCreators(MessengerActions, dispatch),
+    conversationActions: bindActionCreators(ConversationActions, dispatch),
+  };
 }
 
-function getQueries({ activeConversationId, messagePagination }) {
+function getQueries({ messagePagination, currentQuery }) {
   return {
     messages: QueryBuilder
       .messages()
-      .forConversation(activeConversationId)
+      .forConversation(getLayerConversationId(currentQuery.conversationId))
       .paginationWindow(messagePagination)
   };
 }
@@ -49,17 +56,38 @@ export default class Conversation extends Component {
     return document.body;
   }
 
-  componentDidMount() {
-    // this.removeScrollListener = throttledEventListener(this.scrollNode, 'scroll', this.handleScroll, this);
-    this.removeScrollListener = throttledEventListener(window, 'scroll', this.handleScroll, this);
-    this.removeResizeListener = throttledEventListener(window, 'resize', this.handleScroll, this);
+  addDocumentListeners() {
+    this.removeScrollListener = throttledEventListener(window, 'scroll',
+      this.handleScroll, this);
+    this.removeResizeListener = throttledEventListener(window, 'resize',
+      this.handleScroll, this);
     this.scrollBottom();
+  }
+
+  verifyConversationLoad() {
+    const { app, loadingConversation, conversationLoaded } = this.props;
+    const { clientReady } = app;
+    if (clientReady && !loadingConversation && !conversationLoaded) {
+      this.loadConversation();
+    }
+  }
+
+  loadConversation() {
+    const { conversationActions, currentQuery } = this.props;
+    const { requestConversation } = conversationActions;
+    requestConversation(getLayerConversationId(currentQuery.conversationId));
+  }
+
+  componentDidMount() {
+    this.addDocumentListeners();
+    this.verifyConversationLoad();
   }
 
   componentDidUpdate() {
     if (this.state.stickBottom) {
       this.scrollBottom();
     }
+    this.verifyConversationLoad();
   }
 
   scrollBottom() {
@@ -92,9 +120,9 @@ export default class Conversation extends Component {
   }
 
   renderMessageItem(message) {
-    const { actions } = this.props;
+    const { actions, users } = this.props;
     const { markMessageRead } = actions;
-    const user = { displayName: message.sender.userId, avatarURL: null };
+    const user = users[message.sender.userId].user;
 
     return (
       <Message
@@ -106,16 +134,25 @@ export default class Conversation extends Component {
     )
   }
 
+  renderMessages() {
+    const { loadedUsers, conversationLoaded } = this.props;
+    let reversedMessages = null;
+    if (loadedUsers && conversationLoaded) {
+      reversedMessages = this.props.messages.filter((m)=> m.isSaved).reverse();
+      return reversedMessages.map(this.renderMessageItem.bind(this));
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const { actions, composerMessage } = this.props;
-    const reversedMessages =
-      this.props.messages.filter((m)=> m.isSaved).reverse();
     const { changeComposerMessage, submitComposerMessage } = actions;
 
     return (
       <div className={styles.conversation}>
         <TimeLine hasFeedButton={false}>
-          {reversedMessages.map(this.renderMessageItem.bind(this))}
+          { this.renderMessages() }
         </TimeLine>
         <MessageComposer
           value={composerMessage}

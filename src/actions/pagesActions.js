@@ -32,11 +32,11 @@ function receivePage(pageId, page) {
 }
 
 function shouldFetchPage(state, pageId) {
-  const page = state.pages[pageId];
-  if (!page) {
+  const pageState = state.pages[pageId];
+  if (!pageState) {
     return true
   } else {
-    return !page.isFetching
+    return !pageState.page && !pageState.isFetching;
   }
 }
 

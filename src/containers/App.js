@@ -4,7 +4,6 @@ import { IndexRoute, Route } from 'react-router';
 import { ReduxRouter } from 'redux-router';
 // Layer
 import { LayerProvider } from 'layer-react';
-import { Client } from 'layer-sdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
 import Global from './timeline/Global';
@@ -13,19 +12,9 @@ import Page from './timeline/Page';
 import SignIn from './login/SignIn';
 import Conversation from './timeline/Conversation';
 
-// App Store
-import configureStore from '../store/configureStore';
-
 export default class App extends Component {
   render() {
-    const { appId, challengeCallback } = this.props;
-    const client = new Client({appId: appId });
-    const store = configureStore(client);
-
-    // TODO: Replace with token when session has been initialized
-    client.once('challenge', e => {
-      challengeCallback(e.nonce, e.callback);
-    });
+    const { client, store } = this.props;
 
     return (
       <LayerProvider client={client}>
