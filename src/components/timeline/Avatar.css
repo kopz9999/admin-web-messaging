@@ -1,6 +1,8 @@
 .avatar {
     margin-top: 10px;
     margin-left: 34px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .avatar .image, .avatar .letter {
@@ -16,13 +18,51 @@
     border: 5px solid #eef3f8;
 }
 
+.avatar.header {
+    margin: 0;
+    vertical-align: middle;
+}
+
+.avatar.header .image, .avatar.header .letter {
+    height: 35px;
+    width: 35px;
+    border: none;
+}
+
+.avatar.header .letter {
+    padding-top: 20%;
+    font-size: 15px;
+}
+
 .avatar .letter {
     text-align: center;
-    font-family: "Proxima N W01 Smbd", serif;
+    font-family: "Proxima N W01 Light", serif;
     font-size: 22px;
     color: white;
     padding-top: 8px;
     box-sizing: border-box;
     height: 55px;
     width: 55px;
+}
+
+.avatar.site {
+    margin: 0;
+    margin-top: 20px;
+    margin-left: -15px;
+}
+
+.avatar.site .image {
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0 1px 6px 0 #c5c9cd;
+    height: 35px;
+    width: 35px;
+}
+
+.avatar .letter.upperCase {
+    padding-top: 16%;
+}
+
+.avatar.header .letter.upperCase {
+    padding-top: 24%;
 }

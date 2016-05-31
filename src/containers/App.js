@@ -34,7 +34,7 @@ export default class App extends Component {
             </Route>
             <Route path='/home' component={Wrapper}>
               <IndexRoute component={Website}/>
-              <Route path='/conversations/:conversationId'
+              <Route path='/users/:layerId/conversations/:conversationId'
                      component={Conversation}/>
             </Route>
           </ReduxRouter>

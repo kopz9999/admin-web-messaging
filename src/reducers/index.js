@@ -4,6 +4,7 @@ import appReducer from './appReducer';
 import activeConversationReducer from './activeConversationReducer';
 import newConversationReducer from './newConversationReducer';
 import loginReducer from './loginReducer';
+import usersReducer from './usersReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   activeConversation: activeConversationReducer,
   newConversation: newConversationReducer,
   login: loginReducer,
+  users: usersReducer,
 });
 
 export default rootReducer;

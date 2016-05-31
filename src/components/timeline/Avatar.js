@@ -3,6 +3,14 @@ import { findDOMNode } from 'react-dom';
 import styles from './Avatar.css';
 
 export default class Avatar extends Component {
+  static propTypes = {
+    upperCase: React.PropTypes.bool,
+  };
+
+  static defaultProps = {
+    upperCase: true,
+  };
+
   get user() {
     return this.props.user;
   }
@@ -14,22 +22,16 @@ export default class Avatar extends Component {
     );
   }
 
-  /* TODO: Improve solution */
-  componentDidMount() {
-    const backgroundColor = '#a5b0bb';
-    const domNode = findDOMNode(this);
-    const letterElement = domNode.getElementsByClassName( styles.letter )[0];
-    if (letterElement) {
-      letterElement.style.backgroundColor = backgroundColor;
-    }
-  }
-
   renderInitials() {
-    const { displayName } = this.user;
+    const { upperCase } = this.props;
+    const { displayName, color } = this.user;
+    const inlineStyles = { backgroundColor: color };
+    const caseStyle = upperCase ? styles.upperCase : '';
 
     return (
-      <div className={styles.letter}>
-        { displayName[0].toLowerCase() }
+      <div className={`${styles.letter} ${caseStyle}`} style={inlineStyles}>
+        { (upperCase ? displayName[0].toUpperCase() :
+            displayName[0].toLowerCase()) }
       </div>
     );
   }
@@ -38,8 +40,8 @@ export default class Avatar extends Component {
     const { avatarURL } = this.user;
     const { customStyle } = this.props;
     const extraStyle = customStyle ? styles[customStyle] : '';
-    const avatar = avatarURL == null ?
-      this.renderInitials() : this.renderAvatarURL();
+    const avatar = avatarURL ?
+      this.renderAvatarURL() : this.renderInitials();
 
     return (
       <div className={`${styles.avatar} ${extraStyle}`}>

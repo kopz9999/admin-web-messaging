@@ -6,10 +6,9 @@ import Avatar from '../Avatar';
 
 export default class User extends Component {
   render() {
-    const { user, siteId, pageId, conversationId } = this.props;
+    const { user, conversationId } = this.props;
     const { displayName, layerId } = user;
-    const conversationURL = `/sites/${siteId}/pages/${pageId}/users/${layerId}` +
-      `/conversations/${conversationId}`;
+    const conversationURL = `/users/${layerId}/conversations/${conversationId}`;
     const avatarStyle = 'header';
 
     return (

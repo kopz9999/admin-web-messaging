@@ -9,16 +9,26 @@ import {
   clientReady,
   selectConversation
 } from '../actions/messenger';
-
+import { onReceiveConversation } from '../actions/conversationActions';
+import {
+  REQUEST_CONVERSATION,
+} from '../constants/ActionTypes';
 const {
   STARTED,
   FINISHED
 } = TypingIndicators;
 
-function handleAction(layerClient, typingPublisher, state, action, next) {
+function handleAction(layerClient, typingPublisher, state, action, next, dispatch) {
   const { type, payload } = action;
 
   switch(type) {
+    case REQUEST_CONVERSATION:
+      const searchedConversation = layerClient.getConversation(payload.conversationId,
+        true);
+      searchedConversation.on('conversations:loaded', () => {
+        dispatch(onReceiveConversation(searchedConversation));
+      });
+      return;
     case SUBMIT_COMPOSER_MESSAGE:
       if (state.router.location.pathname === '/new') {
         const { participants, title } = state.newConversation;
@@ -92,7 +102,8 @@ const layerMiddleware = layerClient => store => {
   return next => action => {
     const state = store.getState();
 
-    handleAction(layerClient, typingPublisher, state, action, next);
+    handleAction(layerClient, typingPublisher, state, action, next,
+      store.dispatch);
 
     const nextState = next(action);
 

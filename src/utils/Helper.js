@@ -50,11 +50,11 @@ export function timeSince(date, suffix) {
   var seconds = Math.floor((new Date() - date) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-    return interval + `years ${suffix}`;
+    return interval + ` years ${suffix}`;
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-    return interval + `months ${suffix}`;
+    return interval + ` months ${suffix}`;
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
@@ -83,4 +83,22 @@ export function cutString(originalString, maxSize, suffix) {
     finalString = finalString.substring(0, maxSize) + suffix;
   }
   return finalString;
+}
+
+export function urlWithParams(urlString, params={}) {
+  var url = new URL(urlString);
+  var searchParams = new URLSearchParams();
+  Object.keys(params).forEach((key) => {
+    searchParams.append(key, params[key]);
+  });
+  url.search = searchParams.toString();
+  return url.toString();
+}
+
+export function toUUID(layerIdentifier) {
+  return layerIdentifier.replace(/^layer:\/\/\/.+\//, '');
+}
+
+export function getLayerConversationId(conversationId) {
+  return `layer:///conversations/${conversationId}`;
 }

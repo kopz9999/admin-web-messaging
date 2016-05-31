@@ -11,6 +11,7 @@ import styles from './Wrapper.css';
 function mapStateToProps({ router }) {
   return {
     currentQuery: {
+      layerId: router.params.layerId,
       conversationId: router.params.conversationId,
     },
   };
@@ -30,7 +31,7 @@ export default class Wrapper extends Component {
     const { conversations, currentQuery } = this.props;
     return (
       <div className={styles.content}>
-        <Header />
+        <Header {...currentQuery} />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
             conversations,
