@@ -43,13 +43,6 @@ export default class Message extends TimeLineItem {
             <div className={styles.displayName}> {displayNameText} </div>
             <EventTimestamp eventAt={receivedAt} />
           </div>
-          <div className={styles.metaData}>
-            <div className={styles.icon}></div>
-            <div className={styles.metaDataLabel}> Sent </div>
-            <Link to='/home' className={styles.linkLabel}> message </Link>
-            <div className={styles.metaDataLabel}> from </div>
-            <Link to='/home' className={styles.linkLabel}> {title} </Link>
-          </div>
           <div className={styles.messageBody}>
             { bodyText }
           </div>

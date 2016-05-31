@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import styles from './Avatar.css';
-import randomColor from 'randomcolor';
 
 export default class Avatar extends Component {
   get user() {
@@ -17,7 +16,7 @@ export default class Avatar extends Component {
 
   /* TODO: Improve solution */
   componentDidMount() {
-    const backgroundColor = randomColor({hue: 'red'});
+    const backgroundColor = '#a5b0bb';
     const domNode = findDOMNode(this);
     const letterElement = domNode.getElementsByClassName( styles.letter )[0];
     if (letterElement) {

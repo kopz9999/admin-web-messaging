@@ -57,11 +57,13 @@ export default class TimeLine extends Component {
   }
 
   renderChildren() {
+    const { hasEntranceEffect } = this.props;
     return React.Children.map(this.props.children,
       (child) => React.cloneElement(child, {
         enqueueNode: this.enqueueNode.bind(this),
         animateNode: this.animateChildNode.bind(this),
-        elementsDisplayed: this.childrenDisplayed
+        elementsDisplayed: this.childrenDisplayed,
+        hasEntranceEffect
       })
     );
   }
@@ -88,10 +90,12 @@ export default class TimeLine extends Component {
 }
 
 TimeLine.propTypes = {
-  hasFeedButton: React.PropTypes.bool
+  hasFeedButton: React.PropTypes.bool,
+  hasEntranceEffect: React.PropTypes.bool
 };
 
 TimeLine.defaultProps = {
-  hasFeedButton: true
+  hasFeedButton: true,
+  hasEntranceEffect: false
 };
 

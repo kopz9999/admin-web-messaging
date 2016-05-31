@@ -18,6 +18,7 @@ export default class TimeLineItem extends Component {
   onComponentDisplayed(){
     const domNode = findDOMNode(this);
     domNode.parentNode.style.height = null;
+    domNode.style.transform = null;
     this.setState({ isEntering: false, isVisible: true });
   }
 
@@ -44,8 +45,8 @@ export default class TimeLineItem extends Component {
   }
 
   componentWillMount() {
-    const { elementsDisplayed } = this.props;
-    if (elementsDisplayed) {
+    const { elementsDisplayed, hasEntranceEffect } = this.props;
+    if (elementsDisplayed && hasEntranceEffect) {
       this.setState({ isVisible: false });
     }
   }

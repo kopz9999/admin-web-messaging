@@ -112,7 +112,7 @@ export default class Website extends Component {
     }
 
     return ({
-      isRead: conversation.unreadCount == 0,
+      isRead: true,
       conversationURL: conversationURL,
       user: {
         displayName: username,
