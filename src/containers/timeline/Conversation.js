@@ -17,10 +17,10 @@ import { getLayerConversationId } from '../../utils/Helper';
 import * as MessengerActions from '../../actions/messenger';
 import * as ConversationActions from '../../actions/conversationActions';
 
-function mapStateToProps({ app, activeConversation, users }) {
+function mapStateToProps({ app, activeConversation, layerUsers }) {
   return {
     app,
-    users,
+    layerUsers,
     ...activeConversation,
   };
 }
@@ -120,9 +120,11 @@ export default class Conversation extends Component {
   }
 
   renderMessageItem(message) {
-    const { actions, users } = this.props;
+    const { actions, layerUsers, currentQuery } = this.props;
     const { markMessageRead } = actions;
-    const user = users[message.sender.userId].user;
+    const conversationUsers =
+      layerUsers[getLayerConversationId(currentQuery.conversationId)];
+    const user = conversationUsers[message.sender.userId].layerUser;
 
     return (
       <Message

@@ -6,9 +6,9 @@ import {
   RECEIVE_CONVERSATION,
 } from '../constants/ActionTypes';
 import {
-  verifyFetchUser,
-  receiveUser
-} from './usersActions';
+  verifyFetchLayerUser,
+  receiveLayerUser
+} from './layerUsersActions';
 import { userFactoryInstance } from '../models/User';
 
 function requestParticipants(participantIds) {
@@ -30,34 +30,29 @@ function receiveParticipants(participants) {
 }
 
 export function loadParticipants(conversation) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
+    let participantUser = null;
     const { appParticipants } = conversation.metadata;
-    let state = getState(), participantUser, userState, stateKey;
     if (appParticipants) {
       Object.keys(appParticipants).forEach((k) => {
         participantUser =
           userFactoryInstance.buildFromMetadata(appParticipants[k]);
-        stateKey = participantUser.layerId;
-        userState = state[stateKey];
-        if (userState) {
-          if (!userState.user && !userState.isFetching) {
-            dispatch(receiveUser(stateKey, participantUser));
-          }
-        } else {
-          dispatch(receiveUser(stateKey, participantUser));
-        }
+        dispatch(receiveLayerUser(conversation.id, participantUser.layerId,
+          participantUser));
       });
     }
-    return dispatch(fetchParticipants(conversation.participants))
+    return dispatch(fetchParticipants(conversation.id,
+      conversation.participants))
   }
 }
 
-export function fetchParticipants(participantIds) {
+export function fetchParticipants(conversationId, participantIds) {
   return (dispatch, getState) => {
     let state = null, participants = null, promises = null;
     dispatch( requestParticipants(participantIds) );
     promises =
-      participantIds.map((layerId) => dispatch(verifyFetchUser(layerId)));
+      participantIds.map((layerId) =>
+        dispatch(verifyFetchLayerUser(conversationId, layerId)));
     return Promise.all(promises).then(()=> {
       state = getState();
       participants = participantIds.map((layerId) => state.users[layerId]);

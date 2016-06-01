@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+// App
+import { getLayerConversationId } from '../../utils/Helper';
 // App Assets
 import styles from './Header.css';
 import logo from './images/logo.png';
 // App Components
 import User from '../../components/timeline/header/User';
 
-function mapStateToProps({ users }) {
+function mapStateToProps({ layerUsers }) {
   return {
-    users: users,
+    layerUsers,
   };
 }
 
@@ -25,13 +27,15 @@ export default class Header extends Component {
   }
 
   renderUser() {
-    const { layerId, conversationId, users } = this.props;
-    const userState = users[layerId];
-    if (userState && userState.user) {
+    const { layerId, conversationId, layerUsers } = this.props;
+    const conversationUsers =
+      layerUsers[getLayerConversationId(conversationId)];
+    const userState = conversationUsers ? conversationUsers[layerId] : null;
+    if (userState && userState.layerUser) {
       return (
         <User
           conversationId={conversationId}
-          user={userState.user}
+          user={userState.layerUser}
         />
       );
     } else {

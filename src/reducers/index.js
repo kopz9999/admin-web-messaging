@@ -5,6 +5,8 @@ import activeConversationReducer from './activeConversationReducer';
 import newConversationReducer from './newConversationReducer';
 import loginReducer from './loginReducer';
 import usersReducer from './usersReducer';
+import layerUsersReducer from './layerUsersReducer';
+import conversationListReducer from './conversationListReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   newConversation: newConversationReducer,
   login: loginReducer,
   users: usersReducer,
+  layerUsers: layerUsersReducer,
+  conversationList: conversationListReducer,
 });
 
 export default rootReducer;
