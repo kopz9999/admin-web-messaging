@@ -47,17 +47,18 @@ export default class SignIn extends Component {
             <div className={styles.logo}>
               <img src={logo} />
             </div>
-            <div className={styles.inputGroup}>
-              <div className={styles.inputRow}>
-                <label>Email</label>
-                <input type="email" placeholder="email@curaytor.com" />
+            <div className={styles.fieldBox}>
+              <h1 className={styles.title}>Login</h1>
+              <div className={styles.inputGroup}>
+                <div className={styles.inputRow}>
+                  <input type="email" placeholder="Email" />
+                </div>
+                <div className={styles.inputRow}>
+                  <input type="password" placeholder="Password" />
+                </div>
               </div>
-              <div className={styles.inputRow}>
-                <label>Password</label>
-                <input type="password" placeholder="yourPassword" />
-              </div>
+              <button className={styles.submitButton}>Login</button>
             </div>
-            <button className={styles.submitButton}>Login</button>
           </form>
         </div>
       </div>
