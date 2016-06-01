@@ -7,6 +7,9 @@ import { QueryBuilder } from 'layer-sdk';
 // App
 import Header from './Header';
 import styles from './Wrapper.css';
+import {
+  getCookie,
+} from '../../utils/Helper';
 
 function mapStateToProps({ router }) {
   return {
@@ -27,6 +30,21 @@ function getQueries() {
 @connect(mapStateToProps)
 @connectQuery({}, getQueries)
 export default class Wrapper extends Component {
+  checkLogin() {
+    const result = getCookie('loggedIn');
+    if (result.trim() == '') {
+      this.props.history.push('/');
+    }
+  }
+
+  componentWillMount() {
+    this.checkLogin();
+  }
+
+  componentWillReceiveProps() {
+    this.checkLogin();
+  }
+
   render() {
     const { conversations, currentQuery } = this.props;
     return (

@@ -9,6 +9,9 @@ import {
 import {
   LOGIN_ENDPOINT,
 } from '../constants/Endpoints';
+import {
+  setCookie,
+} from '../utils/Helper';
 
 export function requestAccess() {
   return {
@@ -47,7 +50,9 @@ export function doLogin(username, password) {
       body: JSON.stringify(payload)
     })
       .then(response => response.json())
-      .then(json => dispatch(loginSuccess())
-      ).catch(() => dispatch(loginFail()) );
+      .then(json => {
+        setCookie("loggedIn", 'true', 1);
+        dispatch(loginSuccess());
+      }).catch(() => dispatch(loginFail()) );
   }
 }
