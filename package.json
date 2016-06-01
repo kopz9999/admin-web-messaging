@@ -21,6 +21,7 @@
     "randomcolor": "^0.4.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
+    "react-link-state": "^0.1.2",
     "react-redux": "^2.1.2",
     "react-router": "^1.0.0-rc1",
     "react-transform-hmr": "^1.0.0",

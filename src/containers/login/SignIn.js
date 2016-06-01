@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect as connectRedux } from 'react-redux';
+import linkState from 'react-link-state';
 // import { push } from 'react-router-redux';
 
 // App Actions
@@ -27,11 +28,20 @@ export default class SignIn extends Component {
     return this.props.actions;
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+    };
+  }
+
   // TODO: Handle with AJAX request
   handleSubmit(e) {
-    const { loginSuccess } = this.actions;
+
+    const { doLogin } = this.actions;
     e.preventDefault();
-    loginSuccess();
+    doLogin(this.state.username, this.state.password);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -51,10 +61,14 @@ export default class SignIn extends Component {
               <h1 className={styles.title}>Login</h1>
               <div className={styles.inputGroup}>
                 <div className={styles.inputRow}>
-                  <input type="email" placeholder="Email" />
+                  <input type="email"
+                         placeholder="Email"
+                         valueLink={linkState(this, 'username')} />
                 </div>
                 <div className={styles.inputRow}>
-                  <input type="password" placeholder="Password" />
+                  <input type="password"
+                         placeholder="Password"
+                         valueLink={linkState(this, 'password')} />
                 </div>
               </div>
               <button className={styles.submitButton}>Login</button>

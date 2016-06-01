@@ -11,3 +11,6 @@ export const USERS_API =
   'https://private-9b421-events59.apiary-mock.com/users';
 export const SITES_API =
   'https://private-9b421-events59.apiary-mock.com/sites';
+
+export const LOGIN_ENDPOINT =
+  'https://api.curaytor.com/auth/user_token';
