@@ -45,6 +45,12 @@
     padding-top: 25px;
 }
 
+.container .content .fieldBox .errorNotification {
+    color: red;
+    display: block;
+    text-align: center;
+}
+
 .container .content .fieldBox .title {
     font-weight: normal;
     text-align: center;
