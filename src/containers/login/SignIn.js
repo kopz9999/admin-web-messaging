@@ -49,6 +49,19 @@ export default class SignIn extends Component {
     if (loggedIn) this.props.history.push('/home');
   }
 
+  renderLoginFailure() {
+    const { loginFailed } = this.loginState;
+    if (loginFailed) {
+      return (
+        <div className={styles.errorNotification}>
+          Login Failed
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <div className={styles.container}>
@@ -59,6 +72,7 @@ export default class SignIn extends Component {
             </div>
             <div className={styles.fieldBox}>
               <h1 className={styles.title}>Login</h1>
+              { this.renderLoginFailure() }
               <div className={styles.inputGroup}>
                 <div className={styles.inputRow}>
                   <input type="email"
