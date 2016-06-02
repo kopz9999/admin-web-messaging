@@ -5,6 +5,8 @@ export const DATA_FAILED = 'DATA_FAILED';
 export const REQUEST_ACCESS = 'REQUEST_ACCESS';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const REQUEST_USER_INFO = 'REQUEST_USER_INFO';
+export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO';
 
 // Event Fetch actions
 export const REQUEST_EVENTS = 'REQUEST_EVENTS';
