@@ -7,7 +7,7 @@ import { LayerProvider } from 'layer-react';
 import { Client } from 'layer-sdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
-import Website from './timeline/Website';
+import ConversationList from './timeline/ConversationList';
 import SignIn from './login/SignIn';
 import Conversation from './timeline/Conversation';
 
@@ -33,7 +33,7 @@ export default class App extends Component {
               <IndexRoute component={SignIn}/>
             </Route>
             <Route path='/home' component={Wrapper}>
-              <IndexRoute component={Website}/>
+              <IndexRoute component={ConversationList}/>
               <Route path='/users/:layerId/conversations/:conversationId'
                      component={Conversation}/>
             </Route>
