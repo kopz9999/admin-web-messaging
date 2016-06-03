@@ -4,6 +4,8 @@ import {
   RECEIVE_PARTICIPANTS,
   REQUEST_CONVERSATION,
   RECEIVE_CONVERSATION,
+  CHANGE_COMPOSER_MESSAGE,
+  SUBMIT_COMPOSER_MESSAGE,
 } from '../constants/ActionTypes';
 import {
   verifyFetchLayerUser,
@@ -70,13 +72,25 @@ export function requestConversation(conversationId) {
   }
 }
 
-export function receiveConversation(conversation) {
+export function receiveConversation() {
   return {
     type: RECEIVE_CONVERSATION,
-    payload: {
-      conversation
-    }
   }
+}
+
+export function changeComposerMessage(value) {
+  return {
+    type: CHANGE_COMPOSER_MESSAGE,
+    payload: {
+      value
+    }
+  };
+}
+
+export function submitComposerMessage() {
+  return {
+    type: SUBMIT_COMPOSER_MESSAGE
+  };
 }
 
 export function onReceiveConversation(conversation) {

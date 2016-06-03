@@ -64,30 +64,14 @@ export default class Conversation extends Component {
     this.scrollBottom();
   }
 
-  verifyConversationLoad() {
-    const { app, loadingConversation, conversationLoaded } = this.props;
-    const { clientReady } = app;
-    if (clientReady && !loadingConversation && !conversationLoaded) {
-      this.loadConversation();
-    }
-  }
-
-  loadConversation() {
-    const { conversationActions, currentQuery } = this.props;
-    const { requestConversation } = conversationActions;
-    requestConversation(getLayerConversationId(currentQuery.conversationId));
-  }
-
   componentDidMount() {
     this.addDocumentListeners();
-    this.verifyConversationLoad();
   }
 
   componentDidUpdate() {
     if (this.state.stickBottom) {
       this.scrollBottom();
     }
-    this.verifyConversationLoad();
   }
 
   scrollBottom() {
@@ -148,8 +132,8 @@ export default class Conversation extends Component {
   }
 
   render() {
-    const { actions, composerMessage } = this.props;
-    const { changeComposerMessage, submitComposerMessage } = actions;
+    const { composerMessage, onSubmitComposerMessage,
+      onChangeComposerMessage } = this.props;
 
     return (
       <div className={styles.conversation}>
@@ -158,8 +142,8 @@ export default class Conversation extends Component {
         </TimeLine>
         <MessageComposer
           value={composerMessage}
-          onChange={changeComposerMessage}
-          onSubmit={submitComposerMessage}/>
+          onChange={onChangeComposerMessage}
+          onSubmit={onSubmitComposerMessage}/>
       </div>
     );
   }
