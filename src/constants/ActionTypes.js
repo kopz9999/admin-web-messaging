@@ -12,6 +12,7 @@ export const CLIENT_RESET = 'CLIENT_RESET';
 // App
 export const REQUEST_USER_INFO = 'REQUEST_USER_INFO';
 export const RECEIVE_USER_INFO = 'RECEIVE_USER_INFO';
+export const LOGOUT = 'LOGOUT';
 
 // Event Fetch actions
 export const REQUEST_EVENTS = 'REQUEST_EVENTS';
