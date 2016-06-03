@@ -3,6 +3,8 @@ import {
   RECEIVE_USER_INFO,
   LOGOUT,
 } from '../constants/ActionTypes';
+import { USER_INFO_ENDPOINT } from '../constants/Endpoints';
+import { urlWithParams, getCookie } from '../utils/Helper';
 
 import {
   userFactoryInstance
@@ -31,21 +33,21 @@ export function receiveUserInfo(currentUser) {
 
 export function fetchUserInfo() {
   return (dispatch) => {
-    const json = {
-      "id": 2,
-      "name": "Jana Matic",
-      "email": "jana@curaytor.com",
-      "headshot": "gpbbqxcpnbk9yttqfghl",
-      "sites": [
-        {
-          "id": 1,
-          "domain": "curaytor.com"
-        }
-      ]
-    };
+    const result = getCookie('jwt');
     dispatch(requestUserInfo());
-    return dispatch(receiveUserInfo(
-      userFactoryInstance.buildFromBaseAPI(json)
-    ));
+    if (result.trim() == '') {
+      dispatch(logout());
+      return Promise.resolve();
+    } else {
+      return fetch(urlWithParams(USER_INFO_ENDPOINT, { token: result }))
+        .then(response => response.json())
+        .then(json => {
+          dispatch(receiveUserInfo(userFactoryInstance.buildFromBaseAPI(json)));
+        }).catch(() => dispatch(logout()) );
+
+      // return dispatch(receiveUserInfo(
+      // userFactoryInstance.buildFromBaseAPI(json)
+      // ));
+    }
   }
 }

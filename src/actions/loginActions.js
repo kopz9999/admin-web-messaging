@@ -51,7 +51,7 @@ export function doLogin(username, password) {
     })
       .then(response => response.json())
       .then(json => {
-        setCookie("loggedIn", 'true', 1);
+        setCookie("jwt", json.jwt, 1);
         dispatch(loginSuccess());
       }).catch(() => dispatch(loginFail()) );
   }

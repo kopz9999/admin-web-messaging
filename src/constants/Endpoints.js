@@ -14,3 +14,5 @@ export const SITES_API =
 
 export const LOGIN_ENDPOINT =
   'https://api.curaytor.com/auth/user_token';
+export const USER_INFO_ENDPOINT =
+  'https://api.curaytor.com/users/me';
