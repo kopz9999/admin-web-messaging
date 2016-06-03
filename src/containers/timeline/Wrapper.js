@@ -31,6 +31,13 @@ export default class Wrapper extends Component {
     fetchUserInfo();
   }
 
+  componentDidUpdate() {
+    const { loggedOut } = this.props;
+    if (loggedOut) {
+      this.props.history.push('/');
+    }
+  }
+
   renderContent() {
     const { currentQuery, currentUser } = this.props;
     return (

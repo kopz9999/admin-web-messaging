@@ -1,6 +1,7 @@
 import {
   REQUEST_USER_INFO,
   RECEIVE_USER_INFO,
+  LOGOUT,
 } from '../constants/ActionTypes';
 
 import {
@@ -10,6 +11,12 @@ import {
 export function requestUserInfo() {
   return {
     type: REQUEST_USER_INFO,
+  };
+}
+
+export function logout() {
+  return {
+    type: LOGOUT,
   };
 }
 

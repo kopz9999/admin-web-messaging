@@ -10,6 +10,7 @@ import Wrapper from './timeline/Wrapper';
 import ConversationListWrapper from './timeline/ConversationListWrapper';
 import SignIn from './login/SignIn';
 import ConversationWrapper from './timeline/ConversationWrapper';
+import Logout from '../components/Logout';
 
 // App Store
 import configureStore from '../store/configureStore';
@@ -28,6 +29,7 @@ export default class App extends Component {
             <IndexRoute component={ConversationListWrapper}/>
             <Route path='/users/:layerId/conversations/:conversationId'
                    component={ConversationWrapper}/>
+            <Route path='/logout' component={Logout} />
           </Route>
         </ReduxRouter>
       </Provider>

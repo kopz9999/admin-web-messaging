@@ -5,6 +5,7 @@ import {
 import {
   REQUEST_USER_INFO,
   RECEIVE_USER_INFO,
+  LOGOUT,
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
   usersLoaded: false,
   currentUser: null,
   userLoaded: false,
+  loggedOut: false,
   users: [],
 };
 
@@ -35,6 +37,11 @@ export default function appReducer(state = initialState, action) {
         ...state,
         currentUser: payload.currentUser,
         userLoaded: true,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        loggedOut: true,
       };
     default:
       return state;
