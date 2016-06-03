@@ -22,7 +22,6 @@ const initialState = {
   loadingConversation: false,
   conversationLoaded: false,
   conversationId: null,
-  conversation: null,
   title: '',
   composerMessage: '',
   messagePagination: 30
@@ -88,14 +87,12 @@ export default function activeConversationReducer(state = initialState, action) 
       return {
         ...state,
         conversationId: payload.conversationId,
-        conversation: null,
         loadingConversation: true,
         conversationLoaded: false,
       };
     case RECEIVE_CONVERSATION:
       return {
         ...state,
-        conversation: payload.conversation,
         loadingConversation: false,
         conversationLoaded: true,
       };

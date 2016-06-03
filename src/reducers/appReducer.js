@@ -1,13 +1,18 @@
 import {
   CLIENT_READY,
-  FETCH_USERS_SUCCESS
+  FETCH_USERS_SUCCESS,
 } from '../actions/messenger';
+import {
+  REQUEST_USER_INFO,
+  RECEIVE_USER_INFO,
+} from '../constants/ActionTypes';
 
 const initialState = {
   ready: false,
-  clientReady: false,
   usersLoaded: false,
-  users: []
+  currentUser: null,
+  userLoaded: false,
+  users: [],
 };
 
 export default function appReducer(state = initialState, action) {
@@ -18,14 +23,18 @@ export default function appReducer(state = initialState, action) {
       return {
         ...state,
         ready: state.usersLoaded,
-        clientReady: true
       };
     case FETCH_USERS_SUCCESS:
       return {
         ...state,
-        ready: state.clientReady,
         usersLoaded: true,
         users: payload.users
+      };
+    case RECEIVE_USER_INFO:
+      return {
+        ...state,
+        currentUser: payload.currentUser,
+        userLoaded: true,
       };
     default:
       return state;

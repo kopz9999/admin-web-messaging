@@ -7,6 +7,8 @@ import loginReducer from './loginReducer';
 import usersReducer from './usersReducer';
 import layerUsersReducer from './layerUsersReducer';
 import conversationListReducer from './conversationListReducer';
+import settingsReducer from './settingsReducer';
+import layerClientReducer from './layerClientReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -17,6 +19,8 @@ const rootReducer = combineReducers({
   users: usersReducer,
   layerUsers: layerUsersReducer,
   conversationList: conversationListReducer,
+  settings: settingsReducer,
+  layerClient: layerClientReducer,
 });
 
 export default rootReducer;

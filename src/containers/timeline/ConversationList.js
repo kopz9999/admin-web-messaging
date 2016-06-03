@@ -39,7 +39,7 @@ export default class ConversationList extends Component {
   getCurrentUserId() {
     return 'Customer Support';
   }
-
+  
   getMessageFromConversation(conversation) {
     let body = null, sentAt = null;
     const { layerUsers } = this.props;

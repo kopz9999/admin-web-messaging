@@ -39,6 +39,25 @@ export class UserFactory {
       // avatarURL: opts.avatarURL
     });
   }
+
+  buildFromBaseAPI(opts) {
+    return new User({
+      id: opts.id,
+      layerId: opts.id,
+      displayName: opts.name,
+      color: '#a5b0bb',
+    });
+  }
+
+  serializeToJSON(userInstance) {
+    let obj = {}, prop;
+    Object.keys(userInstance).forEach(k => {
+      if (prop = userInstance[k]) {
+        obj[k] = prop.toString();
+      }
+    });
+    return obj;
+  }
 }
 
 export const userFactoryInstance = new UserFactory();

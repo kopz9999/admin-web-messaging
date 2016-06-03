@@ -7,39 +7,30 @@ import { LayerProvider } from 'layer-react';
 import { Client } from 'layer-sdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
-import ConversationList from './timeline/ConversationList';
+import ConversationListWrapper from './timeline/ConversationListWrapper';
 import SignIn from './login/SignIn';
-import Conversation from './timeline/Conversation';
+import ConversationWrapper from './timeline/ConversationWrapper';
 
 // App Store
 import configureStore from '../store/configureStore';
 
 export default class App extends Component {
   render() {
-    const { appId, challengeCallback } = this.props;
-    const client = new Client({appId: appId });
-    const store = configureStore(client);
-
-    // TODO: Replace with token when session has been initialized
-    client.once('challenge', e => {
-      challengeCallback(e.nonce, e.callback);
-    });
+    const store = configureStore();
 
     return (
-      <LayerProvider client={client}>
-        <Provider store={store}>
-          <ReduxRouter>
-            <Route path='/'>
-              <IndexRoute component={SignIn}/>
-            </Route>
-            <Route path='/home' component={Wrapper}>
-              <IndexRoute component={ConversationList}/>
-              <Route path='/users/:layerId/conversations/:conversationId'
-                     component={Conversation}/>
-            </Route>
-          </ReduxRouter>
-        </Provider>
-      </LayerProvider>
+      <Provider store={store}>
+        <ReduxRouter>
+          <Route path='/'>
+            <IndexRoute component={SignIn}/>
+          </Route>
+          <Route path='/home' component={Wrapper}>
+            <IndexRoute component={ConversationListWrapper}/>
+            <Route path='/users/:layerId/conversations/:conversationId'
+                   component={ConversationWrapper}/>
+          </Route>
+        </ReduxRouter>
+      </Provider>
     );
   }
 }
