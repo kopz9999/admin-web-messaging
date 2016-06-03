@@ -92,7 +92,8 @@ function addParticipantToConversation(conversation, currentUser) {
         conversation.on('conversations:change', (e) => {
           const changes = e.changes.filter((c) => c.property == 'participants');
           if (changes.length > 0) {
-            resolve();
+            // TODO: REMOVE and find why!!
+            setTimeout(() => { resolve() }, 2000);
             conversation.off('conversations:change');
           }
         });
@@ -116,15 +117,13 @@ export function processConversationForUser(currentUser, conversationId) {
         dispatch(requestConversation(conversationId));
         searchedConversation.on('conversations:loaded', () => {
           dispatch(receiveConversation());
-          const promise =
-            dispatch(
-              addParticipantToConversation(searchedConversation, currentUser)
-            ).then(() => {
-              return dispatch(
-                loadParticipants(searchedConversation)
-              );
-            });
-          resolve(promise);
+          return dispatch(
+            addParticipantToConversation(searchedConversation, currentUser)
+          ).then(() => {
+            return dispatch(
+              loadParticipants(searchedConversation)
+            ).then( () => { resolve() });
+          });
         });
       });
     });
