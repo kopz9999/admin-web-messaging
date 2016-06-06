@@ -40,12 +40,16 @@ export class UserFactory {
     });
   }
 
-  buildFromBaseAPI(opts) {
+  buildFromBaseAPI(opts, settings) {
+    const headShotId = opts.headshot;
+    const avatarURL = headShotId ?
+      `${settings.headShotBaseURL}/${headShotId}` : null;
     return new User({
       id: opts.id,
       layerId: opts.id,
       displayName: opts.name,
       color: '#a5b0bb',
+      avatarURL,
     });
   }
 

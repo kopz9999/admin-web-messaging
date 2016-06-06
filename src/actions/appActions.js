@@ -32,7 +32,7 @@ export function receiveUserInfo(currentUser) {
 }
 
 export function fetchUserInfo() {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     const result = getCookie('jwt');
     dispatch(requestUserInfo());
     if (result.trim() == '') {
@@ -42,12 +42,12 @@ export function fetchUserInfo() {
       return fetch(urlWithParams(USER_INFO_ENDPOINT, { token: result }))
         .then(response => response.json())
         .then(json => {
-          dispatch(receiveUserInfo(userFactoryInstance.buildFromBaseAPI(json)));
+          dispatch(
+            receiveUserInfo(
+              userFactoryInstance.buildFromBaseAPI(json, getState().settings)
+            )
+          );
         }).catch(() => dispatch(logout()) );
-
-      // return dispatch(receiveUserInfo(
-      // userFactoryInstance.buildFromBaseAPI(json)
-      // ));
     }
   }
 }

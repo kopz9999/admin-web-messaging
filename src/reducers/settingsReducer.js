@@ -4,6 +4,7 @@ const initialState = {
   appId: 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8',
   defaultLayerId: 'Customer Support',
   identityProviderURL: 'https://layer-identity-provider.herokuapp.com/identity_tokens',
+  headShotBaseURL: '//res.cloudinary.com/curaytor/image/upload/c_thumb,h_108,w_108',
 };
 
 export default function settingsReducer(state = initialState, action) {
