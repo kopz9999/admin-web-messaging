@@ -175,3 +175,10 @@ export function changeLayerMessage(value, typingPublisher, conversationId) {
     return Promise.resolve();
   };
 }
+
+export function markMessageRead(layerClient, messageId) {
+  return () => {
+    layerClient.getMessage(messageId).isRead = true;
+    return Promise.resolve();
+  }
+}

@@ -18,12 +18,26 @@ export default class Message extends TimeLineItem {
   }
 
   get currentUserId() {
-    return 'Customer Support';
+    return this.props.currentUser.layerId;
   }
 
   get readLabel() {
-    return (this.message.readStatus !== 'NONE' &&
-      this.message.sender.userId !== this.currentUserId) ? 'Read' : '';
+    const { consumerUser } = this.props;
+    return (this.message.recipientStatus[consumerUser.layerId] == 'read' &&
+      this.message.sender.userId === this.currentUserId) ? 'Read' : '';
+  }
+
+  componentDidMount() {
+    this.markMessageRead();
+  }
+
+  componentWillReceiveProps() {
+    this.markMessageRead();
+  }
+
+  markMessageRead() {
+    const { onMarkMessageRead, message } = this.props;
+    if (message.isUnread) onMarkMessageRead(message.id);
   }
 
   render() {

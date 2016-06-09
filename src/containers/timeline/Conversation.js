@@ -104,18 +104,21 @@ export default class Conversation extends Component {
   }
 
   renderMessageItem(message) {
-    const { actions, layerUsers, currentQuery } = this.props;
-    const { markMessageRead } = actions;
+    const { layerUsers, currentQuery, onMarkMessageRead,
+      currentUser } = this.props;
     const conversationUsers =
       layerUsers[getLayerConversationId(currentQuery.conversationId)];
     const user = conversationUsers[message.sender.userId].layerUser;
+    const consumerUser = conversationUsers[currentQuery.layerId].layerUser;
 
     return (
       <Message
+        consumerUser={consumerUser}
+        currentUser={currentUser}
         user={user}
         key={message.id}
         message={message}
-        onMarkMessageRead={markMessageRead}
+        onMarkMessageRead={onMarkMessageRead}
       />
     )
   }

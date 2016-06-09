@@ -46,7 +46,7 @@ export class UserFactory {
       `${settings.headShotBaseURL}/${headShotId}` : null;
     return new User({
       id: opts.id,
-      layerId: opts.id,
+      layerId: opts.id.toString(),
       displayName: opts.name,
       color: '#a5b0bb',
       avatarURL,

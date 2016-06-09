@@ -57,17 +57,24 @@ export default class ConversationWrapper extends Component {
 
   renderConversationList() {
     const { client } = this.state;
-    const { currentQuery } = this.props;
+    const { currentQuery, currentUser } = this.props;
 
     return (
       <LayerProvider client={client}>
         <Conversation
+          currentUser={currentUser}
           currentQuery={currentQuery}
+          onMarkMessageRead={this.onMarkMessageRead.bind(this)}
           onSubmitComposerMessage={this.onSubmitComposerMessage.bind(this)}
           onChangeComposerMessage={this.onChangeComposerMessage.bind(this)}
       />
       </LayerProvider>
     );
+  }
+
+  onMarkMessageRead(messageId) {
+    const { markMessageRead } = this.props.layerClientActions;
+    markMessageRead( this.state.client, messageId);
   }
 
   onChangeComposerMessage(value) {
