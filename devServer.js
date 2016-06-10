@@ -10,9 +10,16 @@ var webpack = null;
 var webpackDevMiddleware = null;
 var webpackHotMiddleware = null;
 var config = null;
+var watcher = null;
+var chokidar = null;
 
 app.use(express.static('.'));
+app.use(function(req, res, next) {
+  require('./server/app')(req, res, next);
+});
+
 if (isDevelopment) {
+  chokidar = require('chokidar');
   webpack = require('webpack');
   webpackDevMiddleware = require('webpack-dev-middleware');
   webpackHotMiddleware = require('webpack-hot-middleware');
@@ -27,6 +34,19 @@ if (isDevelopment) {
     }
   }));
   app.use(webpackHotMiddleware(compiler));
+  watcher = chokidar.watch('./server', {
+    persistent: true,
+    usePolling: true,
+  });
+
+  watcher.on('ready', function() {
+    watcher.on('all', function() {
+      console.log("Clearing /server/ module cache from server");
+      Object.keys(require.cache).forEach(function(id) {
+        if (/[\/\\]server[\/\\]/.test(id)) delete require.cache[id];
+      });
+    });
+  });
 } else {
   app.use('/static', express.static('dist'));
 }
