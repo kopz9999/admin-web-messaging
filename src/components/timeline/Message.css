@@ -47,6 +47,10 @@
     margin-bottom: 3px;
 }
 
+.message.conversation .title {
+    margin-top: 25px;
+}
+
 .metaData {
     padding-left: 5px;
 }
@@ -90,8 +94,9 @@
 .readLabel {
     margin-top: 5px;
     font-family: "Proxima N W01 Smbd", serif;
-    font-size: 13px;
-    color: #b7c3cf
+    font-size: 10px;
+    color: #1b83db;
+    padding-bottom: 10px;
 }
 
 .actionBtn {

@@ -53,7 +53,7 @@ export default class Message extends TimeLineItem {
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
-            <div className={styles.displayName}> {displayNameText} </div>
+            <div className={styles.linkLabel}> {displayNameText} </div>
             <EventTimestamp eventAt={sentAt} />
           </div>
           <div className={styles.messageBody}>
