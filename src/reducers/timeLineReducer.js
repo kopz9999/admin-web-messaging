@@ -20,7 +20,6 @@ export default function timeLineReducer(state = initialState, action) {
       return {
         ...state,
         isFetching: true,
-        events: [],
         fromTimestamp: payload.fromTimestamp
       };
     case RECEIVE_EVENTS:

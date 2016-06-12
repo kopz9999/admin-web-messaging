@@ -5,9 +5,28 @@ import TimeLine from '../../components/timeline/TimeLine';
 import EventComponent from './EventComponent';
 
 export default class Global extends EventComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      timeoutId: null,
+    };
+  }
+
+  doFetchEvents() {
+    const { eventPagination, eventsIndex, fetchEvents } = this.props;
+    fetchEvents(eventsIndex, Date.now(), eventPagination).then(()=> {
+      this.state.timeoutId = setTimeout(()=> this.doFetchEvents(), 1000);
+    });
+  }
+
   componentDidMount() {
-    const { fetchEvents, eventPagination, eventsIndex } = this.props;
-    fetchEvents(eventsIndex, Date.now(), eventPagination);
+    this.doFetchEvents();
+  }
+
+  componentWillUnmount() {
+    if (this.state.timeoutId) {
+      clearTimeout(this.state.timeoutId);
+    }
   }
 
   render() {

@@ -134,6 +134,7 @@ function processEvents(rawEvents) {
 export function fetchEvents(index, fromTimestamp, limit) {
   return function (dispatch, getState) {
     eventFactoryInstance.settings = getState().settings;
+    index.clearCache();
     dispatch(requestEvents(fromTimestamp));
     return index.search('', { hitsPerPage: limit })
       .then(content =>
