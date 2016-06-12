@@ -4,13 +4,16 @@ import { siteFactoryInstance } from './Site';
 import { messageFactoryInstance } from './Message';
 
 export class Event {
-  constructor({key, id, type, isRead, site, user, page, message, receivedAt}) {
+  constructor({key, id, type, isRead, site, user, users, backendUser, page, message,
+      receivedAt}) {
     this.key = key;
     this.id = id;
     this.type = type;
     this.isRead = isRead;
     this.site = site;
     this.user = user;
+    this.backendUser = backendUser;
+    this.users = users || [];
     this.page = page;
     this.message = message;
     this.receivedAt = receivedAt;
@@ -55,9 +58,19 @@ export class EventFactory {
       id: opts.id,
       type: opts.type,
       isRead: opts.is_viewed,
-      site: siteFactoryInstance.buildFromEvent(opts.site),
-      user: userFactoryInstance.buildFromEvent(opts.user),
-      page: pageFactoryInstance.buildFromEvent(opts.content.page),
+      message,
+      receivedAt: new Date(opts.logged_at)
+    });
+  }
+
+  buildFromAlgolia(opts) {
+    const message = opts.message ?
+      messageFactoryInstance.buildFromEvent(opts.message) : null;
+
+    return new Event({
+      key: opts.objectID,
+      id: opts.objectID,
+      type: opts.type,
       message,
       receivedAt: new Date(opts.logged_at)
     });

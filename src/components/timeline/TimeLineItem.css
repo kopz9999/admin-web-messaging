@@ -5,6 +5,10 @@
     min-height: 70px;
 }
 
+.container:hover {
+    background-color: #f2f6f9;
+}
+
 .container:first-of-type:before {
     top: 20px;
     height: calc(100% - 20px);
@@ -39,6 +43,7 @@
     vertical-align: top;
     height: 100%;
     box-sizing: border-box;
+    position: relative;
 }
 
 .leftElement {
@@ -62,4 +67,10 @@
     font-family: "Proxima N W01 Smbd", serif;
     font-size: 15px;
     color: #a8b2bb;
+}
+
+.inlineContent > * {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
 }

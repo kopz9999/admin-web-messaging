@@ -2,15 +2,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+// Libs
+import algoliasearch from 'algoliasearch';
 // App
 import Header from './Header';
 import styles from './Wrapper.css';
 // Actions
 import * as AppActions from '../../actions/appActions';
+import * as TimeLineActions from '../../actions/timeLineActions';
 
-function mapStateToProps({ app, router }) {
+function mapStateToProps({ timeLine, app, router }) {
   return {
     ...app,
+    timeLine,
     currentQuery: {
       layerId: router.params.layerId,
       conversationId: router.params.conversationId,
@@ -21,11 +25,22 @@ function mapStateToProps({ app, router }) {
 function mapDispatchToProps(dispatch) {
   return {
     appActions: bindActionCreators(AppActions, dispatch),
+    timeLineActions: bindActionCreators(TimeLineActions, dispatch),
   };
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Wrapper extends Component {
+  constructor(props) {
+    super(props);
+    const algoliaClient = algoliasearch('V0L0EPPR59',
+      '363cd668faa7d392287982a6cb352d26');
+    const eventsIndex = algoliaClient.initIndex('events_log');
+    this.state = {
+      eventsIndex
+    };
+  }
+
   componentDidMount() {
     const { fetchUserInfo } = this.props.appActions;
     fetchUserInfo();
@@ -39,14 +54,17 @@ export default class Wrapper extends Component {
   }
 
   renderContent() {
-    const { currentQuery, currentUser } = this.props;
+    const { currentQuery, currentUser, timeLineActions, timeLine } = this.props;
     return (
       <div className={styles.content}>
         <Header {...currentQuery} />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
+            ...timeLine,
+            ...timeLineActions,
             currentQuery,
-            currentUser
+            currentUser,
+            eventsIndex: this.state.eventsIndex
           })}
         </div>
       </div>

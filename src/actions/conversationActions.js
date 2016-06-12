@@ -6,12 +6,21 @@ import {
   RECEIVE_CONVERSATION,
   CHANGE_COMPOSER_MESSAGE,
   SUBMIT_COMPOSER_MESSAGE,
+  SEND_COMPOSER_MESSAGE,
+  RECEIVE_COMPOSER_MESSAGE,
 } from '../constants/ActionTypes';
+import {
+  EVENTS_API,
+} from '../constants/Endpoints';
+import {
+  DEFAULT_USER,
+} from '../constants/Application';
 import {
   verifyFetchLayerUser,
   receiveLayerUser
 } from './layerUsersActions';
 import { userFactoryInstance } from '../models/User';
+import { messageFactoryInstance } from '../models/Message';
 
 function requestParticipants(participantIds) {
   return {
@@ -91,6 +100,62 @@ export function submitComposerMessage() {
   return {
     type: SUBMIT_COMPOSER_MESSAGE
   };
+}
+
+export function sendComposerMessage() {
+  return {
+    type: SEND_COMPOSER_MESSAGE
+  };
+}
+
+export function receiveComposerMessage() {
+  return {
+    type: RECEIVE_COMPOSER_MESSAGE
+  };
+}
+
+function buildAlgoliaRequest(layerUsers, currentUserLayerId, consumerUserLayerId,
+                             conversationId, message) {
+  const conversationUsers = layerUsers[conversationId];
+  const currentUser = conversationUsers[currentUserLayerId].layerUser;
+  const consumerUser = conversationUsers[consumerUserLayerId].layerUser;
+  const userKeys = Object.keys(conversationUsers)
+                         .filter( k => k != consumerUserLayerId && k != DEFAULT_USER );
+
+  return {
+    user: userFactoryInstance.serializeToAlgolia(consumerUser),
+    type: "MESSAGE",
+    message: messageFactoryInstance.serializeToAlgolia(message),
+    users: userKeys.map((k) =>
+      userFactoryInstance.serializeToAlgolia(conversationUsers[k].layerUser)),
+    backend_user: userFactoryInstance.serializeToAlgolia(currentUser),
+    logged_at: Date.now()
+  };
+}
+
+export function publishComposerMessage(currentUserLayerId, consumerUserLayerId,
+                                       conversationId, message) {
+  return (dispatch, getState) => {
+    const { layerUsers } = getState();
+    dispatch(sendComposerMessage());
+    return new Promise((resolve) => {
+      message.once('messages:sent', () => {
+        const payload = buildAlgoliaRequest(layerUsers, currentUserLayerId,
+          consumerUserLayerId, conversationId, message);
+        fetch(EVENTS_API, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        }).then(() => {
+          dispatch(receiveComposerMessage());
+          resolve();
+        });
+      });
+    });
+  }
 }
 
 export function onReceiveConversation(conversation) {

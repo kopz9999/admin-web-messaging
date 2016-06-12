@@ -14,6 +14,14 @@ export class MessageFactory {
       conversationId: opts.conversation_id,
     });
   }
+
+  serializeToAlgolia(message){
+    return {
+      id: message.id,
+      body: message.parts[0].body,
+      conversation_id: message.conversationId
+    };
+  }
 }
 
 export const messageFactoryInstance = new MessageFactory();

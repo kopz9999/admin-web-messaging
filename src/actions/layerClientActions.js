@@ -19,6 +19,7 @@ import {
   loadParticipants,
   changeComposerMessage,
   submitComposerMessage,
+  publishComposerMessage,
 } from '../actions/conversationActions';
 
 const {
@@ -146,13 +147,17 @@ export function fetchUserLayerClient(client, userId) {
 }
 
 export function submitLayerMessage(layerClient, typingPublisher,
+                                   currentUserLayerId, consumerUserLayerId,
                                    conversationId) {
   return (dispatch, getState) => {
     const state = getState();
-    layerClient
-      .getConversation(conversationId, true)
-      .createMessage(state.activeConversation.composerMessage).send();
+    const message =
+      layerClient
+        .getConversation(conversationId, true)
+        .createMessage(state.activeConversation.composerMessage).send();
     dispatch(submitComposerMessage());
+    dispatch(publishComposerMessage(currentUserLayerId, consumerUserLayerId,
+      conversationId, message));
 
     typingPublisher.setState(FINISHED);
 

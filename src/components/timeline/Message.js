@@ -2,53 +2,76 @@ import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
 import { Link } from 'react-router';
 // App
-import { cutString, trimUserName } from '../../utils/Helper';
-import { MAX_TEXT_SIZE, MAX_USER_SIZE } from '../../utils/constants';
+import { trimUserName, toUUID } from '../../utils/Helper';
+import { MAX_USER_SIZE } from '../../utils/constants';
 import styles from './Message.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
 import TimeLineItem from './TimeLineItem';
 
 export default class Message extends TimeLineItem {
-  get user() {
-    return this.props.user;
+  renderConversationUser(user) {
+    const { currentUser } = this.props;
+    const displayNameText = currentUser.layerId == user.layerId ?
+      'You' : trimUserName(user.displayName, MAX_USER_SIZE, '...');
+    return (
+      <span className={styles.linkLabel}>{ displayNameText }</span>
+    )
   }
 
-  get page() {
-    return this.props.page;
-  }
-
-  get message() {
-    return this.props.message;
+  renderConversationUsers() {
+    const { users, backendUser, user } = this.props;
+    let visibleUsers = users;
+    if (backendUser) {
+      visibleUsers = [user];
+      users.forEach((u) => {
+        if (u.layerId != backendUser.layerId) visibleUsers.push(u);
+      });
+    }
+    if (visibleUsers.length == 0) {
+      return null;
+    } else {
+      return (
+        <div className={styles.metadataExtra}>
+          <div className={styles.metaDataLabel}> with </div>
+          { this.renderConversationUser(visibleUsers[0]) }
+        </div>
+      )
+    }
   }
 
   render() {
-    const { displayName } = this.user;
-    const { title } = this.page;
-    const { body } = this.message;
-    const { receivedAt, isRead, conversationURL } = this.props;
-    const bodyText = cutString(body, MAX_TEXT_SIZE, '...');
-    const displayNameText = trimUserName(displayName, MAX_USER_SIZE, '...');
-    const extraStyle = isRead ? '' : styles.unread;
-    const avatarStyle = isRead ? '' : 'unread';
+    const { user, receivedAt, backendUser } = this.props;
+    const { conversationId } = this.props.message;
+    const { layerId } = user;
+    const layerUUID = toUUID(conversationId);
+    const conversationURL = `/users/${layerId}/conversations/${layerUUID}`;
+    const displayUser = backendUser ? backendUser : user;
 
     return (
-      <div className={`${styles.message} ${extraStyle}`}
+      <Link to={conversationURL} className={styles.message}
            style={this.inlineStyles}>
         <div className={styles.leftElement}>
-          <Avatar user={this.user} customStyle={avatarStyle} />
+          <Avatar user={displayUser} />
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
-            <div className={styles.displayName}> {displayNameText} </div>
             <EventTimestamp eventAt={receivedAt} />
           </div>
-          <div className={styles.messageBody}>
-            { bodyText }
+          <div className={styles.metaData}>
+            { this.renderConversationUser(displayUser) }
+            <div className={styles.metaDataLabel}> replied to a </div>
+            <span className={styles.linkLabel}>
+              conversation
+            </span>
+            { this.renderConversationUsers() }
           </div>
-          <Link to={conversationURL} className={styles.replyBtn}> Reply </Link>
+          <div className={styles.actionBtn}>
+            <i className={styles.reply}>&nbsp;</i>
+            <span className={styles.linkLabel}>Reply</span>
+          </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }

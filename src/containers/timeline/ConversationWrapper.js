@@ -10,6 +10,7 @@ import Conversation from './Conversation';
 import { getLayerConversationId } from '../../utils/Helper';
 // Actions
 import * as LayerClientActions from '../../actions/layerClientActions';
+import * as ConversationActions from '../../actions/conversationActions';
 
 function mapStateToProps({ layerClient, settings }) {
   return {
@@ -21,6 +22,7 @@ function mapStateToProps({ layerClient, settings }) {
 function mapDispatchToProps(dispatch) {
   return {
     layerClientActions: bindActionCreators(LayerClientActions, dispatch),
+    conversationActions: bindActionCreators(ConversationActions, dispatch),
   };
 }
 
@@ -86,10 +88,11 @@ export default class ConversationWrapper extends Component {
   }
 
   onSubmitComposerMessage() {
-    const { currentQuery } = this.props;
+    const { currentUser, currentQuery } = this.props;
     const { submitLayerMessage } = this.props.layerClientActions;
 
     submitLayerMessage(this.state.client, this.state.typingPublisher,
+      currentUser.layerId, currentQuery.layerId,
       getLayerConversationId(currentQuery.conversationId));
   }
 

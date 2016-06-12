@@ -1,14 +1,26 @@
 export class User {
-  constructor({id, layerId, displayName, color, avatarURL}) {
+  constructor({id, layerId, displayName, color, iconIdentity, avatarURL}) {
     this.id = id;
     this.layerId = layerId;
     this.displayName = displayName;
     this.color = color;
+    this.iconIdentity = iconIdentity;
     this.avatarURL = avatarURL;
   }
 }
 
 export class UserFactory {
+  serializeToAlgolia(user) {
+    return {
+      id: user.id,
+      avatar_url: user.avatarURL,
+      layer_id: user.layerId,
+      display_name: user.displayName,
+      icon_identity: user.iconIdentity,
+      color: user.color,
+    };
+  }
+
   buildFromAPI(opts) {
     return new User({
       id: opts.id,
@@ -25,7 +37,8 @@ export class UserFactory {
       layerId: opts.layer_id,
       displayName: opts.display_name,
       color: opts.color,
-      avatarURL: opts.avatar_url
+      avatarURL: opts.avatar_url,
+      iconIdentity: opts.icon_identity || '0',
     });
   }
 
@@ -36,7 +49,8 @@ export class UserFactory {
       layerId: opts.layerId,
       displayName: opts.displayName,
       color: '#a5b0bb',
-      // avatarURL: opts.avatarURL
+      iconIdentity: opts.iconIdentity || '0',
+      avatarURL: opts.avatarURL
     });
   }
 

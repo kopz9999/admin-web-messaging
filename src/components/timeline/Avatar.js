@@ -11,40 +11,32 @@ export default class Avatar extends Component {
     upperCase: true,
   };
 
-  get user() {
-    return this.props.user;
-  }
-
   renderAvatarURL() {
-    const { avatarURL } = this.user;
+    const { avatarURL } = this.props.user;
     return (
-      <img className={styles.image} src={avatarURL} />
+      <img className={styles.image}  src={avatarURL} />
     );
   }
 
-  renderInitials() {
-    const { upperCase } = this.props;
-    const { displayName, color } = this.user;
-    const inlineStyles = { backgroundColor: color };
-    const caseStyle = upperCase ? styles.upperCase : '';
+  renderIconIdentity() {
+    const { iconIdentity } = this.props.user;
+    const avatarURL = require(`./avatar-images/${iconIdentity}.png`);
 
     return (
-      <div className={`${styles.letter} ${caseStyle}`} style={inlineStyles}>
-        { (upperCase ? displayName[0].toUpperCase() :
-            displayName[0].toLowerCase()) }
-      </div>
+      <img className={styles.iconIdentity} src={avatarURL} />
     );
   }
 
   render() {
-    const { avatarURL } = this.user;
+    const { avatarURL } = this.props.user;
     const { customStyle } = this.props;
     const extraStyle = customStyle ? styles[customStyle] : '';
     const avatar = avatarURL ?
-      this.renderAvatarURL() : this.renderInitials();
+      this.renderAvatarURL() : this.renderIconIdentity();
+    const wrapperStyle = avatarURL ? '' : styles.default;
 
     return (
-      <div className={`${styles.avatar} ${extraStyle}`}>
+      <div className={`${styles.avatar} ${wrapperStyle} ${extraStyle}`}>
         { avatar }
       </div>
     );

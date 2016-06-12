@@ -9,6 +9,7 @@ import layerUsersReducer from './layerUsersReducer';
 import conversationListReducer from './conversationListReducer';
 import settingsReducer from './settingsReducer';
 import layerClientReducer from './layerClientReducer';
+import timeLineReducer from './timeLineReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   conversationList: conversationListReducer,
   settings: settingsReducer,
   layerClient: layerClientReducer,
+  timeLine: timeLineReducer,
 });
 
 export default rootReducer;

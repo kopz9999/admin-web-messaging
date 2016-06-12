@@ -1,17 +1,20 @@
 .avatar {
     margin-top: 10px;
-    margin-left: 34px;
+    margin-left: 37px;
     display: inline-block;
     vertical-align: top;
 }
 
-.avatar .image, .avatar .letter {
-    border: 5px solid white;
+.avatar .image, .avatar.default {
     border-radius: 50%;
     height: 45px;
     width: 45px;
     position: relative;
     z-index: 2;
+}
+
+.avatar .image {
+    border: 2px solid #61d079;
 }
 
 .avatar.unread .image, .avatar.unread .letter {
@@ -65,4 +68,19 @@
 
 .avatar.header .letter.upperCase {
     padding-top: 24%;
+}
+
+.avatar.default {
+    background-color: white;
+}
+
+.avatar.default .iconIdentity {
+    width: 29px;
+    background-color: white;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }

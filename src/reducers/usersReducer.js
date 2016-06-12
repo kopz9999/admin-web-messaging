@@ -1,3 +1,4 @@
+// TODO: Consider removing
 import {
   REQUEST_USER,
   RECEIVE_USER,
@@ -40,23 +41,6 @@ export default function users(state = {}, action) {
         ...state,
         [payload.layerId]: user(state[payload.layerId], action)
       };
-    case RECEIVE_EVENTS: // TODO: Remove this part, is not necessary in Site, Page
-      let nextState = {};
-      payload.events.forEach((event) => {
-        let eventUser = event.user;
-        let stateKey = eventUser.layerId;
-        let userState = state[stateKey];
-        if (userState) {
-          if (!userState.user && !userState.isFetching) {
-            nextState[stateKey] = user(state[stateKey],
-              { type, payload: { user: eventUser } });
-          }
-        } else {
-          nextState[stateKey] = user(state[stateKey],
-            { type, payload: { user: eventUser } });
-        }
-      });
-      return Object.assign({}, state, nextState);
     default:
       return state
   }

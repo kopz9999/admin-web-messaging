@@ -7,7 +7,7 @@ import { LayerProvider } from 'layer-react';
 import { Client } from 'layer-sdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
-import ConversationListWrapper from './timeline/ConversationListWrapper';
+import Global from './timeline/Global';
 import SignIn from './login/SignIn';
 import ConversationWrapper from './timeline/ConversationWrapper';
 import Logout from '../components/Logout';
@@ -26,7 +26,7 @@ export default class App extends Component {
             <IndexRoute component={SignIn}/>
           </Route>
           <Route path='/home' component={Wrapper}>
-            <IndexRoute component={ConversationListWrapper}/>
+            <IndexRoute component={Global}/>
             <Route path='/users/:layerId/conversations/:conversationId'
                    component={ConversationWrapper}/>
             <Route path='/logout' component={Logout} />

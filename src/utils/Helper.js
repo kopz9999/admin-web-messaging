@@ -50,23 +50,23 @@ export function timeSince(date, suffix) {
   var seconds = Math.floor((new Date() - date) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 1) {
-    return interval + ` years ${suffix}`;
+    return interval + ` Years ${suffix}`;
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 1) {
-    return interval + ` months ${suffix}`;
+    return interval + ` Months ${suffix}`;
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 1) {
-    return interval + `d ${suffix}`;
+    return interval + ` Days ${suffix}`;
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 1) {
-    return interval + `h ${suffix}`;
+    return interval + ` Hours ${suffix}`;
   }
   interval = Math.floor(seconds / 60);
   if (interval > 1) {
-    return interval + `m ${suffix}`;
+    return interval + ` Minutes ${suffix}`;
   }
   if (seconds < 0) return 'Just now';
   else return Math.floor(seconds) + `s ${suffix}`;

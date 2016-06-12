@@ -26,7 +26,7 @@
 
 .rightElement {
     composes: rightElement from "./TimeLineItem.css";
-    max-width: 600px;
+    width: 600px;
 }
 
 .displayName {
@@ -35,7 +35,6 @@
 
 .linkLabel {
     composes: linkLabel from "./TimeLineItem.css";
-    text-decoration: none;
 }
 
 .metaDataLabel {
@@ -43,8 +42,17 @@
 }
 
 .title {
-    margin-top: 20px;
+    composes: inlineContent from "./TimeLineItem.css";
+    margin-top: 15px;
     margin-bottom: 3px;
+}
+
+.metaData {
+    padding-left: 5px;
+}
+
+.metaData, .metadataExtra {
+    composes: inlineContent from "./TimeLineItem.css";
 }
 
 .metaData, .title {
@@ -56,11 +64,6 @@
     height: 9px;
     background-image: url('/src/components/timeline/images/view-icon.png');
     margin-right: 5px;
-}
-
-.title > div, .metaData > div {
-    display: inline-block;
-    vertical-align: middle;
 }
 
 @media screen and (max-width: 400px) {
@@ -76,22 +79,6 @@
     font-family: "Proxima Nova W01 Medium", serif;
 }
 
-.replyBtn:before {
-    content: '';
-    display: inline-block;
-    width: 14px;
-    height: 10px;
-    margin-right: 5px;
-    background-image: url('/src/components/timeline/images/reply-icon.png');
-}
-
-.replyBtn {
-    composes: metaDataLabel from "./TimeLineItem.css";
-    text-decoration: none;
-    margin-bottom: 15px;
-    display: block;
-}
-
 .conversation .displayName {
     margin-right: 10px;
 }
@@ -105,4 +92,32 @@
     font-family: "Proxima N W01 Smbd", serif;
     font-size: 13px;
     color: #b7c3cf
+}
+
+.actionBtn {
+    position: absolute;
+    right: 0;
+    top: 15px;
+    width: 170px;
+}
+
+.actionBtn > * {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.reply {
+    width: 32px;
+    height: 32px;
+    background-image: url('/src/components/timeline/images/reply-icon.png');
+    content: ' ';
+}
+
+.message:hover .leftElement > div {
+    background-color: #f2f6f9 !important;
+}
+
+.message:hover .leftElement > div > img {
+    background-color: #f2f6f9 !important;;
 }
