@@ -48,7 +48,6 @@
 
 .leftElement {
     width: 95px;
-    max-width: 95px;
 }
 
 .nameLabel {
@@ -73,4 +72,10 @@
     display: inline-block;
     vertical-align: middle;
     margin-right: 5px;
+}
+
+@media screen and (max-width: 400px) {
+    .container:before {
+        left: 37px;
+    }
 }

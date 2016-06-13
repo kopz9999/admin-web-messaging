@@ -66,3 +66,9 @@
 .header .newConversation .label {
     margin-left: 7px;
 }
+
+@media screen and (max-width: 400px) {
+    .header .logo {
+        padding-left: 28px;
+    }
+}

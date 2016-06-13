@@ -84,3 +84,9 @@
     top: 0;
     bottom: 0;
 }
+
+@media screen and (max-width: 400px) {
+    .avatar {
+        margin-left: 15px;
+    }
+}
