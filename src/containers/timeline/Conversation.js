@@ -10,6 +10,7 @@ import { connectQuery } from 'layer-react';
 import TimeLine from '../../components/timeline/TimeLine';
 import Message from '../../components/timeline/conversation/Message';
 import MessageComposer from '../../components/timeline/conversation/MessageComposer';
+import TypingIndicatorManager from '../../components/timeline/conversation/typing-indicator-manager/TypingIndicatorManager';
 import styles from './Conversation.css';
 import throttledEventListener from '../../utils/throttledEventListener';
 import { getLayerConversationId } from '../../utils/Helper';
@@ -68,10 +69,14 @@ export default class Conversation extends Component {
     this.addDocumentListeners();
   }
 
-  componentDidUpdate() {
+  requestScrollDown() {
     if (this.state.stickBottom) {
       this.scrollBottom();
     }
+  }
+
+  componentDidUpdate() {
+    this.requestScrollDown();
   }
 
   scrollBottom() {
@@ -137,12 +142,17 @@ export default class Conversation extends Component {
   render() {
     const { composerMessage, onSubmitComposerMessage,
       onChangeComposerMessage } = this.props;
+    const { conversationId } = this.props.currentQuery;
 
     return (
       <div className={styles.conversation}>
         <TimeLine hasFeedButton={false}>
           { this.renderMessages() }
         </TimeLine>
+        <TypingIndicatorManager
+          conversationId={getLayerConversationId(conversationId)}
+          requestScrollDown={this.requestScrollDown.bind(this)}
+        />
         <MessageComposer
           value={composerMessage}
           onChange={onChangeComposerMessage}
