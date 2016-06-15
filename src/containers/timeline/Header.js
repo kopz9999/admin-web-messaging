@@ -8,6 +8,7 @@ import styles from './Header.css';
 import logo from './images/logo.png';
 // App Components
 import User from '../../components/timeline/header/User';
+import Search from '../../components/timeline/header/Search';
 
 function mapStateToProps({ layerUsers }) {
   return {
@@ -43,6 +44,24 @@ export default class Header extends Component {
     }
   }
 
+  renderSearch() {
+    const { layerId, conversationId, timeLineActions, timeLine,
+      eventsIndex } = this.props;
+
+    if (!layerId && !conversationId) {
+      return (
+        <Search
+          eventsIndex={eventsIndex}
+          currentSearch={timeLine.currentSearch}
+          eventPagination={timeLine.eventPagination}
+          onSearchChange={timeLineActions.requestSearch}
+        />
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <div className={styles.header}>
@@ -50,6 +69,7 @@ export default class Header extends Component {
           <Link to='/home' className={styles.logo}>
             <img src={logo} />
           </Link>
+          { this.renderSearch() }
           { this.renderUser() }
         </div>
         <div className={styles.rightContent}>

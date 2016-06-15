@@ -159,12 +159,10 @@ export default class Conversation extends Component {
   }
 
   onFocus() {
-    console.log('focused..');
     this.state.showingKeyboard = true;
   }
 
   onBlur() {
-    console.log('blurred..');
     this.state.showingKeyboard = false;
   }
 

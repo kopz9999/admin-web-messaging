@@ -22,6 +22,8 @@ export const REQUEST_EVENTS = 'REQUEST_EVENTS';
 export const QUERY_EVENTS = 'QUERY_EVENTS';
 export const LOAD_MORE_EVENTS = 'LOAD_MORE_EVENTS';
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS';
+// Search
+export const SEARCH_CHANGE = 'SEARCH_CHANGE';
 // Pages
 export const REQUEST_PAGE = 'REQUEST_PAGE';
 export const RECEIVE_PAGE = 'RECEIVE_PAGE';

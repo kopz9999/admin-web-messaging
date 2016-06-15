@@ -57,7 +57,10 @@ export default class Wrapper extends Component {
     const { currentQuery, currentUser, timeLineActions, timeLine } = this.props;
     return (
       <div className={styles.content}>
-        <Header {...currentQuery} />
+        <Header {...currentQuery}
+          timeLine={timeLine}
+          timeLineActions={timeLineActions}
+          eventsIndex={this.state.eventsIndex} />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
             ...timeLine,

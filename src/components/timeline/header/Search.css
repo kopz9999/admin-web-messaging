@@ -5,13 +5,16 @@
     border-left: 1px solid #d8dee5;
 }
 
-@media screen and (max-width: 400px) {
-    .search {
-        display: none;
-    }
+.search .box, .search .closeButton {
+    display: inline-block;
+    vertical-align: bottom;
 }
 
-.search .icon {
+.box {
+    width: 480px;
+}
+
+.box .icon {
     background-image: url('/src/components/timeline/images/search-icon.png');
     height: 16px;
     width: 16px;
@@ -19,8 +22,9 @@
     vertical-align: middle;
 }
 
-.search input.text {
+.box input.text {
     display: inline-block;
+    width: calc(100% - 35px);
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
     border: none;
@@ -30,4 +34,56 @@
     margin-left: 7px;
     padding: 5px;
     color: #4a5a65;
+}
+
+.closeButton {
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    color: #c2cbd2;
+    border: 1px solid #c2cbd2;
+    font-family: 'Proxima Nova W01 Medium', serif;
+    font-size: 12px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 20px;
+    border-radius: 15px;
+}
+
+.closeButton .icon {
+    display: inline-block;
+    cursor: pointer;
+    content: ' ';
+    background-image: url('/src/components/timeline/images/close-icon.png');
+    background-size: 16px 8px;
+    background-repeat: no-repeat;
+    width: 8px;
+    height: 8px;
+    background-position: 0 0;
+    margin-right: 7px;
+}
+
+.closeButton:hover {
+    border: 1px solid #1b83db;
+    color: #1b83db;
+}
+
+.closeButton:hover .icon  {
+    background-position: -8px 0;
+}
+
+@media screen and (max-width: 400px) {
+    .search {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 740px) {
+    .box {
+        width: auto;
+    }
+    .search .closeButton {
+        display: none;
+    }
 }

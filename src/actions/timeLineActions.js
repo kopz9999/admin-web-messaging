@@ -5,7 +5,8 @@ import { urlWithParams } from '../utils/Helper';
 import {
   REQUEST_EVENTS,
   QUERY_EVENTS,
-  RECEIVE_EVENTS
+  RECEIVE_EVENTS,
+  SEARCH_CHANGE,
 } from '../constants/ActionTypes';
 import {
   EVENTS_API,
@@ -46,6 +47,22 @@ function queryEvents(fromTimestamp, query={}) {
       fromTimestamp,
       query
     }
+  }
+}
+
+function searchChange(currentSearch) {
+  return {
+    type: SEARCH_CHANGE,
+    payload: {
+      currentSearch
+    }
+  }
+}
+
+export function requestSearch(index, currentSearch, fromTimestamp, limit){
+  return function (dispatch) {
+    dispatch(searchChange(currentSearch));
+    return dispatch(fetchEvents(index, fromTimestamp, limit, true));
   }
 }
 
@@ -131,12 +148,13 @@ function processEvents(rawEvents) {
   }
 }
 
-export function fetchEvents(index, fromTimestamp, limit) {
+export function fetchEvents(index, fromTimestamp, limit, useCache=false) {
   return function (dispatch, getState) {
-    eventFactoryInstance.settings = getState().settings;
-    index.clearCache();
+    const state = getState();
+    eventFactoryInstance.settings = state.settings;
+    if (!useCache) index.clearCache();
     dispatch(requestEvents(fromTimestamp));
-    return index.search('', { hitsPerPage: limit })
+    return index.search(state.timeLine.currentSearch, { hitsPerPage: limit })
       .then(content =>
         dispatch(processEvents(content.hits))
       );

@@ -2,14 +2,16 @@ import {
   REQUEST_EVENTS,
   QUERY_EVENTS,
   LOAD_MORE_EVENTS,
-  RECEIVE_EVENTS
+  RECEIVE_EVENTS,
+  SEARCH_CHANGE,
 } from '../constants/ActionTypes';
 
 const initialState = {
   isFetching: false,
   eventPagination: 50,
   fromTimestamp: null,
-  events: []
+  currentSearch: '',
+  events: [],
 };
 
 export default function timeLineReducer(state = initialState, action) {
@@ -32,6 +34,11 @@ export default function timeLineReducer(state = initialState, action) {
       return {
         ...state,
         eventPagination: state.eventPagination + 50
+      };
+    case SEARCH_CHANGE:
+      return {
+        ...state,
+        currentSearch: payload.currentSearch
       };
     default:
       return state;
