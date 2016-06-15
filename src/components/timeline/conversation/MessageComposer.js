@@ -29,10 +29,14 @@ export default class MessageComposer extends Component {
     }
   }
 
+
+
   render() {
     return (
       <div className={styles.messageComposer}>
         <textarea
+          onClick={this.props.onFocus}
+          onBlur={this.props.onBlur}
           autoFocus={true}
           className={styles.textArea}
           placeholder='Enter a message...'

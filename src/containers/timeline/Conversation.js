@@ -49,7 +49,8 @@ export default class Conversation extends Component {
     super(props);
 
     this.state = {
-      stickBottom: true
+      stickBottom: true,
+      showingKeyboard: false,
     };
   }
 
@@ -157,17 +158,33 @@ export default class Conversation extends Component {
     }
   }
 
+  onFocus() {
+    console.log('focused..');
+    this.state.showingKeyboard = true;
+  }
+
+  onBlur() {
+    console.log('blurred..');
+    this.state.showingKeyboard = false;
+  }
+
   render() {
     const { composerMessage, onSubmitComposerMessage,
       onChangeComposerMessage } = this.props;
+    const contentStyle = this.state.showingKeyboard ?
+      styles.contentWrapper : '';
 
     return (
       <div className={styles.conversation}>
-        <TimeLine hasFeedButton={false}>
-          { this.renderMessages() }
-        </TimeLine>
-        { this.renderTypingIndicatorManager() }
+        <div className={contentStyle}>
+          <TimeLine hasFeedButton={false}>
+            { this.renderMessages() }
+          </TimeLine>
+          { this.renderTypingIndicatorManager() }
+        </div>
         <MessageComposer
+          onFocus={this.onFocus.bind(this)}
+          onBlur={this.onBlur.bind(this)}
           value={composerMessage}
           onChange={onChangeComposerMessage}
           onSubmit={onSubmitComposerMessage}/>
