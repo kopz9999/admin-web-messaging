@@ -40,7 +40,7 @@ function receiveParticipants(participants) {
   }
 }
 
-export function loadParticipants(conversation) {
+function readParticipants(conversation) {
   return (dispatch) => {
     let participantUser = null;
     const { appParticipants } = conversation.metadata;
@@ -52,8 +52,17 @@ export function loadParticipants(conversation) {
           participantUser));
       });
     }
-    return dispatch(fetchParticipants(conversation.id,
-      conversation.participants))
+    return Promise.resolve();
+  }
+}
+
+export function loadParticipants(conversation) {
+  return (dispatch) => {
+    return dispatch(readParticipants(conversation)).then(()=>
+      dispatch(
+        fetchParticipants(conversation.id, conversation.participants)
+      )
+    );
   }
 }
 
@@ -165,12 +174,29 @@ export function onReceiveConversation(conversation) {
   }
 }
 
+function handleConversationChange(e, conversation) {
+  return (dispatch) => {
+    if (e.changes) {
+      e.changes.forEach((change)=> {
+        switch (change.property) {
+          case "metadata":
+            dispatch(readParticipants(conversation));
+            break;
+        }
+      });
+    }
+    return Promise.resolve();
+  }
+}
+
 export function doConversationRequest(conversationId) {
   return (dispatch, getState) => {
     const { client } = getState().layerClient;
     const searchedConversation = client.getConversation(conversationId,
       true);
     dispatch(requestConversation(conversationId));
+    searchedConversation.on('conversations:change',
+      (e)=> dispatch(handleConversationChange(e, searchedConversation)));
     return new Promise((resolve)=> {
       searchedConversation.on('conversations:loaded', () => {
         dispatch(receiveConversation());
