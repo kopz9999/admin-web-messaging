@@ -128,12 +128,30 @@ export default class Conversation extends Component {
     )
   }
 
-  renderMessages() {
+  usersReady() {
     const { loadedUsers, conversationLoaded } = this.props;
+    return loadedUsers && conversationLoaded;
+  }
+
+  renderMessages() {
     let reversedMessages = null;
-    if (loadedUsers && conversationLoaded) {
+    if (this.usersReady()) {
       reversedMessages = this.props.messages.filter((m)=> m.isSaved).reverse();
       return reversedMessages.map(this.renderMessageItem.bind(this));
+    } else {
+      return null;
+    }
+  }
+
+  renderTypingIndicatorManager() {
+    const { conversationId } = this.props.currentQuery;
+    if (this.usersReady()) {
+      return (
+        <TypingIndicatorManager
+          conversationId={getLayerConversationId(conversationId)}
+          requestScrollDown={this.requestScrollDown.bind(this)}
+        />
+      );
     } else {
       return null;
     }
@@ -142,17 +160,13 @@ export default class Conversation extends Component {
   render() {
     const { composerMessage, onSubmitComposerMessage,
       onChangeComposerMessage } = this.props;
-    const { conversationId } = this.props.currentQuery;
 
     return (
       <div className={styles.conversation}>
         <TimeLine hasFeedButton={false}>
           { this.renderMessages() }
         </TimeLine>
-        <TypingIndicatorManager
-          conversationId={getLayerConversationId(conversationId)}
-          requestScrollDown={this.requestScrollDown.bind(this)}
-        />
+        { this.renderTypingIndicatorManager() }
         <MessageComposer
           value={composerMessage}
           onChange={onChangeComposerMessage}

@@ -164,3 +164,20 @@ export function onReceiveConversation(conversation) {
     return dispatch(loadParticipants(conversation));
   }
 }
+
+export function doConversationRequest(conversationId) {
+  return (dispatch, getState) => {
+    const { client } = getState().layerClient;
+    const searchedConversation = client.getConversation(conversationId,
+      true);
+    dispatch(requestConversation(conversationId));
+    return new Promise((resolve)=> {
+      searchedConversation.on('conversations:loaded', () => {
+        dispatch(receiveConversation());
+        dispatch(
+          loadParticipants(searchedConversation)
+        ).then(() => { resolve() });
+      });
+    });
+  };
+}

@@ -31,35 +31,40 @@ export default class ConversationWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      client: null,
       typingPublisher: null,
     };
   }
 
-  componentDidMount() {
-    let client = null;
-    const { appId } = this.props.settings;
+  processConversation() {
     const { currentUser, currentQuery } = this.props;
-    const { processConversationForUser, fetchUserLayerClient } =
-      this.props.layerClientActions;
-    processConversationForUser(currentUser,
-      getLayerConversationId(currentQuery.conversationId)
-    ).then(()=> {
-      client = new Client({appId: appId });
-      this.state.typingPublisher = client.createTypingPublisher();
-      fetchUserLayerClient(client, currentUser.id.toString());
-      this.state.client = client;
+    const { joinConversation } = this.props.layerClientActions;
+    joinConversation(currentUser, currentQuery.conversationId).then(()=> {
+      this.state.typingPublisher = this.props.client.createTypingPublisher();
     });
   }
 
+  verifyProcessConversation() {
+    const { joiningConversation, joinedConversation, clientReady } = this.props;
+    if (!joiningConversation && !joinedConversation && clientReady) {
+      this.processConversation();
+    }
+  }
+
+  componentDidMount() {
+    this.verifyProcessConversation();
+  }
+
+  componentDidUpdate() {
+    this.verifyProcessConversation();
+  }
+
   componentWillUnmount() {
-    const { clientReset } = this.props.layerClientActions;
-    clientReset();
+    const { resetConversationJoin } = this.props.layerClientActions;
+    resetConversationJoin();
   }
 
   renderConversationList() {
-    const { client } = this.state;
-    const { currentQuery, currentUser } = this.props;
+    const { currentQuery, currentUser, client } = this.props;
 
     return (
       <LayerProvider client={client}>
@@ -76,7 +81,7 @@ export default class ConversationWrapper extends Component {
 
   onMarkMessageRead(messageId) {
     const { markMessageRead } = this.props.layerClientActions;
-    markMessageRead( this.state.client, messageId);
+    markMessageRead( this.props.client, messageId);
   }
 
   onChangeComposerMessage(value) {
@@ -91,13 +96,14 @@ export default class ConversationWrapper extends Component {
     const { currentUser, currentQuery } = this.props;
     const { submitLayerMessage } = this.props.layerClientActions;
 
-    submitLayerMessage(this.state.client, this.state.typingPublisher,
+    submitLayerMessage(this.props.client, this.state.typingPublisher,
       currentUser.layerId, currentQuery.layerId,
       getLayerConversationId(currentQuery.conversationId));
   }
 
   render() {
-    const { clientReady } = this.props;
-    return clientReady ? this.renderConversationList() : null;
+    const { joiningConversation, joinedConversation, clientReady } = this.props;
+    return (!joiningConversation && joinedConversation && clientReady) ?
+      this.renderConversationList() : null;
   }
 }

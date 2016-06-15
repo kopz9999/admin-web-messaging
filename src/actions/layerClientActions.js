@@ -5,22 +5,29 @@ import { xhr, Client } from 'layer-sdk';
 import {
   CLIENT_READY,
   CLIENT_RESET,
+  CREATE_USER_CLIENT,
+  REQUEST_CONVERSATION_JOIN,
+  RECEIVE_CONVERSATION_JOIN,
+  RESET_CONVERSATION_JOIN,
 } from '../constants/ActionTypes';
 import {
   userFactoryInstance
 } from '../models/User';
+import {
+  getLayerConversationId
+} from '../utils/Helper';
 // Other Actions
 import {
   receiveLayerUser
 } from '../actions/layerUsersActions';
 import {
-  requestConversation,
-  receiveConversation,
-  loadParticipants,
+  doConversationRequest,
   changeComposerMessage,
   submitComposerMessage,
   publishComposerMessage,
 } from '../actions/conversationActions';
+// Endpoints
+import { CONVERSATIONS_API } from '../constants/Endpoints';
 
 const {
   STARTED,
@@ -36,6 +43,15 @@ export function clientReset() {
 function clientReady() {
   return {
     type: CLIENT_READY
+  };
+}
+
+function createUserClient(client) {
+  return {
+    type: CREATE_USER_CLIENT,
+    payload: {
+      client
+    }
   };
 }
 
@@ -102,42 +118,56 @@ function addParticipantToConversation(conversation, currentUser) {
     }
   };
 }
+function requestConversationJoin() {
+  return {
+    type: REQUEST_CONVERSATION_JOIN,
+  }
+}
 
-export function processConversationForUser(currentUser, conversationId) {
-  return (dispatch, getState) => {
-    const state = getState();
-    const { appId, defaultLayerId } = state.settings;
-    const client = new Client({appId: appId });
-    return new Promise((resolve)=> {
-      client.once('challenge', e => {
-        getIdentityToken(defaultLayerId, state, e.nonce, e.callback);
-      });
-      client.on('ready', () => {
-        const searchedConversation = client.getConversation(conversationId,
-          true);
-        dispatch(requestConversation(conversationId));
-        searchedConversation.on('conversations:loaded', () => {
-          dispatch(receiveConversation());
-          return dispatch(
-            addParticipantToConversation(searchedConversation, currentUser)
-          ).then(() => {
-            return dispatch(
-              loadParticipants(searchedConversation)
-            ).then( () => { resolve() });
-          });
-        });
-      });
-    });
+function receiveConversationJoin() {
+  return {
+    type: RECEIVE_CONVERSATION_JOIN,
+  }
+}
+
+export function resetConversationJoin() {
+  return {
+    type: RESET_CONVERSATION_JOIN,
+  }
+}
+
+export function joinConversation(currentUser, conversationId) {
+  return (dispatch) => {
+    dispatch(requestConversationJoin());
+    return fetch(`${CONVERSATIONS_API}/${conversationId}/participants`,
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userFactoryInstance.serializeToJSON(currentUser))
+      })
+      .then(() => dispatch(receiveConversationJoin()) )
+      .then(() =>
+        dispatch(
+          doConversationRequest(getLayerConversationId(conversationId))
+        )
+      );
   };
 }
 
-export function fetchUserLayerClient(client, userId) {
+export function initUserLayerClient() {
   return (dispatch, getState) => {
     const state = getState();
+    const { appId } = state.settings;
+    const { layerId } = state.app.currentUser;
+    let client = new Client({appId: appId });
+    dispatch(createUserClient(client));
+    client.once('challenge', e => {
+      getIdentityToken(layerId, state, e.nonce, e.callback);
+    });
     return new Promise((resolve)=> {
-      client.once('challenge', e => {
-         getIdentityToken(userId, state, e.nonce, e.callback);
-      });
       client.on('ready', () => {
         dispatch(clientReady());
         resolve();

@@ -76,7 +76,10 @@ export function fetchLayerUser(conversationId, layerId) {
 export function verifyFetchLayerUser(conversationId, layerId) {
   return (dispatch, getState) => {
     if (shouldFetchLayerUser(getState(), conversationId, layerId)) {
-      return dispatch(fetchLayerUser(conversationId, layerId));
+      return dispatch(
+        receiveLayerUser(conversationId, layerId,
+          userFactoryInstance.buildUnknownUser({ layerId }))
+      );
     } else {
       return Promise.resolve()
     }

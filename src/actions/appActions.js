@@ -5,6 +5,7 @@ import {
 } from '../constants/ActionTypes';
 import { USER_INFO_ENDPOINT } from '../constants/Endpoints';
 import { urlWithParams, getCookie } from '../utils/Helper';
+import { initUserLayerClient } from './layerClientActions';
 
 import {
   userFactoryInstance
@@ -47,7 +48,11 @@ export function fetchUserInfo() {
               userFactoryInstance.buildFromBaseAPI(json, getState().settings)
             )
           );
-        }).catch(() => dispatch(logout()) );
+        })
+        .catch(() => dispatch(logout()) )
+        .then(()=> {
+          dispatch(initUserLayerClient());
+        });
     }
   }
 }

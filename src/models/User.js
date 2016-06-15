@@ -42,6 +42,17 @@ export class UserFactory {
     });
   }
 
+  buildUnknownUser(opts) {
+    return new User({
+      id: opts.layerId,
+      layerId: opts.layerId,
+      displayName: 'Unknown',
+      color: '#a5b0bb',
+      iconIdentity: '0',
+      avatarURL: null
+    });
+  }
+
   // TODO: Update when needed
   buildFromMetadata(opts) {
     return new User({
