@@ -33,12 +33,6 @@
     margin-right: 0;
 }
 
-/*
-.messageComposer .textArea::-webkit-input-placeholder {
-    padding-left: 10px;
-}
-*/
-
 .messageComposer .submitButton {
     cursor: pointer;
     position: relative;
@@ -46,4 +40,19 @@
     display: inline-block;
     vertical-align: top;
     height: 42px;
+}
+
+@media screen and (max-width: 768px)  {
+    .messageComposer{
+        box-shadow: -1px 20px 40px 0px rgba(0,0,0,0.75);
+    }
+    .messageComposer .textArea {
+        border: none;
+    }
+    .messageComposer .submitButton {
+        height: 39px;
+    }
+    .messageComposer .textArea::-webkit-input-placeholder {
+        padding-left: 10px;
+    }
 }

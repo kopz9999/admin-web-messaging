@@ -54,7 +54,7 @@ export default class Conversation extends Component {
   }
 
   get scrollNode() {
-    return document.body;
+    return findDOMNode(this);
   }
 
   addDocumentListeners() {

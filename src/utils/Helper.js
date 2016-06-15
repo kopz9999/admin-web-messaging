@@ -1,4 +1,5 @@
 import * as Constants from './constants';
+import URLSearchParams from 'url-search-params';
 
 export function hashCode(str) { // java String#hashCode
   var hash = 0;

@@ -26,7 +26,7 @@ export default class TypingIndicator extends Component {
   doEntrance() {
     const { requestScrollDown } = this.props;
     this.state.isEntering = true;
-    Velocity(this.currentNode, 'transition.slideUpBigIn', { duration: 500 }).then(()=> {
+    Velocity(this.currentNode, 'transition.slideDownBigIn', { duration: 500 }).then(()=> {
       this.state.isEntering = false;
       this.state.isVisible = true;
       this.delayHide();
@@ -44,7 +44,7 @@ export default class TypingIndicator extends Component {
   doHide() {
     this.state.isHiding = true;
     clearInterval(this.state.currentVisibleInterval);
-    Velocity(this.currentNode, 'transition.slideDownBigOut', { duration: 500 }).then(()=> {
+    Velocity(this.currentNode, 'transition.slideUpBigOut', { duration: 500 }).then(()=> {
       this.state.isHiding = false;
       this.state.isVisible = false;
     });
