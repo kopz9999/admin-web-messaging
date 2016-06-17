@@ -98,7 +98,7 @@
 .actionBtn {
     position: absolute;
     top: 15px;
-    width: 170px;
+    width: 180px;
     left: 455px;
 }
 
@@ -108,10 +108,17 @@
     margin-right: 10px;
 }
 
-.reply {
+.replyIcon {
     width: 32px;
     height: 32px;
     background-image: url('/src/components/timeline/images/reply-icon.png');
+    content: ' ';
+}
+
+.conversationIcon {
+    width: 32px;
+    height: 32px;
+    background-image: url('/src/components/timeline/images/conversation-icon.png');
     content: ' ';
 }
 

@@ -67,7 +67,7 @@ export default class Message extends TimeLineItem {
             { this.renderConversationUsers() }
           </div>
           <div className={styles.actionBtn}>
-            <i className={styles.reply}>&nbsp;</i>
+            <i className={styles.replyIcon}>&nbsp;</i>
             <span className={styles.linkLabel}>Reply</span>
           </div>
         </div>
