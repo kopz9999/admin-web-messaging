@@ -1,11 +1,14 @@
+// React
+import { pushState } from 'redux-router';
+// App
 import {
   REQUEST_USER_INFO,
   RECEIVE_USER_INFO,
-  LOGOUT,
 } from '../constants/ActionTypes';
 import { USER_INFO_ENDPOINT } from '../constants/Endpoints';
-import { urlWithParams, getCookie } from '../utils/Helper';
+import { urlWithParams } from '../utils/Helper';
 import { initUserLayerClient } from './layerClientActions';
+import { loginFail } from './authActions';
 
 import {
   userFactoryInstance
@@ -14,12 +17,6 @@ import {
 export function requestUserInfo() {
   return {
     type: REQUEST_USER_INFO,
-  };
-}
-
-export function logout() {
-  return {
-    type: LOGOUT,
   };
 }
 
@@ -32,27 +29,28 @@ export function receiveUserInfo(currentUser) {
   };
 }
 
-export function fetchUserInfo() {
+export function fetchUserInfo(token) {
   return (dispatch, getState) => {
-    const result = getCookie('jwt');
     dispatch(requestUserInfo());
-    if (result.trim() == '') {
-      dispatch(logout());
-      return Promise.resolve();
-    } else {
-      return fetch(urlWithParams(USER_INFO_ENDPOINT, { token: result }))
-        .then(response => response.json())
-        .then(json => {
-          dispatch(
-            receiveUserInfo(
-              userFactoryInstance.buildFromBaseAPI(json, getState().settings)
-            )
-          );
-        })
-        .catch(() => dispatch(logout()) )
-        .then(()=> {
-          dispatch(initUserLayerClient());
-        });
-    }
+    return fetch(urlWithParams(USER_INFO_ENDPOINT, { token }))
+      .then(response => response.json())
+      .then(json => {
+        dispatch(
+          receiveUserInfo(
+            userFactoryInstance.buildFromBaseAPI(json, getState().settings)
+          )
+        );
+        dispatch(initUserLayerClient());
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(loginFail({
+          response: {
+            statusText: 'Identification failed'
+          }
+        }));
+        dispatch(pushState(null, '/'));
+      });
+
   }
 }

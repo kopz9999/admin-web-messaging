@@ -11,13 +11,11 @@ import Global from './timeline/Global';
 import SignIn from './login/SignIn';
 import ConversationWrapper from './timeline/ConversationWrapper';
 import Logout from '../components/Logout';
-
-// App Store
-import configureStore from '../store/configureStore';
+import {requireAuthentication} from '../utils/AuthenticatedComponent';
 
 export default class App extends Component {
   render() {
-    const store = configureStore();
+    const { store } = this.props;
 
     return (
       <Provider store={store}>
@@ -25,7 +23,7 @@ export default class App extends Component {
           <Route path='/'>
             <IndexRoute component={SignIn}/>
           </Route>
-          <Route path='/home' component={Wrapper}>
+          <Route path='/home' component={requireAuthentication(Wrapper)}>
             <IndexRoute component={Global}/>
             <Route path='/users/:layerId/conversations/:conversationId'
                    component={ConversationWrapper}/>
