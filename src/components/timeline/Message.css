@@ -75,6 +75,7 @@
 .messageBody {
     margin-top: 15px;
     margin-bottom: 15px;
+    padding-right: 37px;
     font-size: 13px;
     font-family: "Proxima Nova W01 Medium", serif;
 }
