@@ -12,7 +12,7 @@ export default class Visit extends TimeLineItem {
   render() {
     const { user, page, receivedAt } = this.props;
     const displayNameText = trimUserName(user.displayName, MAX_USER_SIZE, '...');
-    const pageName = page.name;
+    const pageName = page.title;
 
     return (
       <Link to='/home' className={styles.message}
