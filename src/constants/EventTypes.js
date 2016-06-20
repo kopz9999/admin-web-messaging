@@ -1,2 +1,2 @@
 export const MESSAGE = 'MESSAGE';
-export const PAGE = 'PAGE';
+export const VISIT = 'VISIT';

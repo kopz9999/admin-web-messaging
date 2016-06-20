@@ -41,16 +41,10 @@ export default class Wrapper extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
+    const { token } = this.props;
     const { fetchUserInfo } = this.props.appActions;
-    fetchUserInfo();
-  }
-
-  componentDidUpdate() {
-    const { loggedOut } = this.props;
-    if (loggedOut) {
-      this.props.history.push('/');
-    }
+    fetchUserInfo(token);
   }
 
   renderContent() {

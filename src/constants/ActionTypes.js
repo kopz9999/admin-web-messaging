@@ -5,6 +5,7 @@ export const DATA_FAILED = 'DATA_FAILED';
 export const REQUEST_ACCESS = 'REQUEST_ACCESS';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT_USER = 'LOGOUT_USER';
 // Layer Client
 export const CREATE_USER_CLIENT = 'CREATE_USER_CLIENT';
 export const CLIENT_READY = 'CLIENT_READY';

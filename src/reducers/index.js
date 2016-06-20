@@ -3,7 +3,7 @@ import { routerStateReducer } from 'redux-router';
 import appReducer from './appReducer';
 import activeConversationReducer from './activeConversationReducer';
 import newConversationReducer from './newConversationReducer';
-import loginReducer from './loginReducer';
+import authReducer from './authReducer';
 import usersReducer from './usersReducer';
 import layerUsersReducer from './layerUsersReducer';
 import conversationListReducer from './conversationListReducer';
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   router: routerStateReducer,
   activeConversation: activeConversationReducer,
   newConversation: newConversationReducer,
-  login: loginReducer,
+  auth: authReducer,
   users: usersReducer,
   layerUsers: layerUsersReducer,
   conversationList: conversationListReducer,

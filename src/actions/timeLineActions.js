@@ -25,7 +25,7 @@ import {
   pageFactoryInstance
 } from '../models/Page';
 
-import { MESSAGE, PAGE } from '../constants/EventTypes';
+import { MESSAGE, VISIT } from '../constants/EventTypes';
 // Actions
 import {
   receiveLayerUser
@@ -119,17 +119,16 @@ function processEvents(rawEvents) {
     const { layerUsers } = getState();
     rawEvents.forEach((evt) => {
       eventObject = eventFactoryInstance.buildFromAlgolia(evt);
+      if (evt.site) {
+        eventObject.site = siteFactoryInstance.buildFromEvent(evt.site);
+      }
+      if (evt.page) {
+        eventObject.page = pageFactoryInstance.buildFromEvent(evt.page);
+      }
       switch (eventObject.type) {
         case MESSAGE:
           eventObject.user = registerLayerUser(dispatch, layerUsers,
             eventObject.message.conversationId, evt.user);
-          if (evt.site) {
-            eventObject.site = siteFactoryInstance.buildFromEvent(evt.site);
-          }
-          if (evt.page) {
-            eventObject.page = pageFactoryInstance.buildFromEvent(evt.page);
-          }
-
           if (evt.backend_user) {
             eventObject.backendUser = registerLayerUser(dispatch, layerUsers,
               eventObject.message.conversationId, evt.backend_user);
@@ -140,6 +139,9 @@ function processEvents(rawEvents) {
                 eventObject.message.conversationId, usr)
             );
           });
+          break;
+        case VISIT:
+          eventObject.user = userFactoryInstance.buildFromEvent(evt.user);
           break;
       }
       events.push(eventObject);

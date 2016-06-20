@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Visit from '../../components/timeline/Visit';
 import Message from '../../components/timeline/Message';
 // Constants
-import { MESSAGE, PAGE } from '../../constants/EventTypes';
+import { MESSAGE, VISIT } from '../../constants/EventTypes';
 
 export default class EventComponent extends Component {
   renderEventsFeed(opts = {}) {
@@ -15,9 +15,10 @@ export default class EventComponent extends Component {
       switch (event.type) {
         case MESSAGE:
           eventComponents.push(<Message { ...{ ...event, currentUser} } />);
-        break;
-        // case PAGE:
-        //   eventComponents.push(<Visit { ...event } />);
+          break;
+        case VISIT:
+          eventComponents.push(<Visit { ...event } />);
+          break;
       }
     });
     return eventComponents;

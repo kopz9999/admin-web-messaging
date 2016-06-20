@@ -7,6 +7,8 @@ import styles from '../Message.css';
 import EventTimestamp from '../EventTimestamp';
 import Avatar from '../Avatar';
 import TimeLineItem from '../TimeLineItem';
+import textPartStyles from './TextMessagePart.css';
+import TextMessagePart from './TextMessagePart';
 
 export default class Message extends TimeLineItem {
   get user() {
@@ -57,7 +59,9 @@ export default class Message extends TimeLineItem {
             <EventTimestamp eventAt={sentAt} />
           </div>
           <div className={styles.messageBody}>
-            { bodyText }
+            <TextMessagePart
+              styles={textPartStyles}
+              text={bodyText}/>
           </div>
           <div className={styles.readLabel}>
             { this.readLabel }

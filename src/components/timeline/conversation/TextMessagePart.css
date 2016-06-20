@@ -1,0 +1,17 @@
+.textPart .link {
+    color: #1b83db;
+    text-decoration: none;
+}
+
+.textPart .link:visited {
+    color: #1b83db;
+}
+
+.textPart .link:hover {
+    color: #2459db;
+    text-decoration: underline;
+}
+
+.textLine {
+    display: block;
+}

@@ -5,56 +5,45 @@ import linkState from 'react-link-state';
 // import { push } from 'react-router-redux';
 
 // App Actions
-import * as LoginActions from '../../actions/loginActions';
+import * as AuthActions from '../../actions/authActions';
 // App Assets
 import styles from './SignIn.css';
 import logo from './images/logo.png';
 
-function mapStateToProps({ login }) {
-  return { login };
+function mapStateToProps({ auth }) {
+  return { ...auth };
 }
 
 function mapDispatchToProps(dispatch) {
-  return { actions: bindActionCreators(LoginActions, dispatch) };
+  return { actions: bindActionCreators(AuthActions, dispatch) };
 }
 
 @connectRedux(mapStateToProps, mapDispatchToProps)
 export default class SignIn extends Component {
-  get loginState() {
-    return this.props.login;
-  }
-
-  get actions() {
-    return this.props.actions;
-  }
-
   constructor(props) {
     super(props);
+    const redirectTo = this.props.location.query.next || '/home';
     this.state = {
       username: '',
       password: '',
+      redirectTo
     };
   }
 
-  // TODO: Handle with AJAX request
   handleSubmit(e) {
-
-    const { doLogin } = this.actions;
-    e.preventDefault();
-    doLogin(this.state.username, this.state.password);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { loggedIn } = this.loginState;
-    if (loggedIn) this.props.history.push('/home');
+    const { doLogin } = this.props.actions;
+    if (!this.props.isAuthenticating) {
+      e.preventDefault();
+      doLogin(this.state.username, this.state.password, this.state.redirectTo);
+    }
   }
 
   renderLoginFailure() {
-    const { loginFailed } = this.loginState;
-    if (loginFailed) {
+    const { statusText } = this.props;
+    if (statusText) {
       return (
         <div className={styles.errorNotification}>
-          Login Failed
+          { statusText }
         </div>
       );
     } else {

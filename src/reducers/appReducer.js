@@ -5,12 +5,12 @@ import {
 import {
   REQUEST_USER_INFO,
   RECEIVE_USER_INFO,
-  LOGOUT,
 } from '../constants/ActionTypes';
 
 const initialState = {
   ready: false,
   usersLoaded: false,
+  isFetchingCurrentUser: false,
   currentUser: null,
   userLoaded: false,
   loggedOut: false,
@@ -32,16 +32,17 @@ export default function appReducer(state = initialState, action) {
         usersLoaded: true,
         users: payload.users
       };
+    case REQUEST_USER_INFO:
+      return {
+        ...state,
+        isFetchingCurrentUser: true,
+      };
     case RECEIVE_USER_INFO:
       return {
         ...state,
+        isFetchingCurrentUser: false,
         currentUser: payload.currentUser,
         userLoaded: true,
-      };
-    case LOGOUT:
-      return {
-        ...state,
-        loggedOut: true,
       };
     default:
       return state;

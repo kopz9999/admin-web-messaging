@@ -1,41 +1,42 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-import styles from './Visit.css';
+import { trimUserName } from '../../utils/Helper';
+import { MAX_USER_SIZE } from '../../utils/constants';
+import styles from './Message.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
+import TimeLineItem from './TimeLineItem';
 
-export default class Visit extends Component {
-  get user() {
-    return this.props.user;
-  }
-
-  get page() {
-    return this.props.page;
-  }
-
+export default class Visit extends TimeLineItem {
   render() {
-    const { displayName } = this.user;
-    const { title } = this.page;
-    const { receivedAt } = this.props;
+    const { user, page, receivedAt } = this.props;
+    const displayNameText = trimUserName(user.displayName, MAX_USER_SIZE, '...');
+    const pageName = page.name;
 
     return (
-      <div className={styles.visit}>
+      <Link to='/home' className={styles.message}
+            style={this.inlineStyles}>
         <div className={styles.leftElement}>
-          <Avatar user={this.user} />
+          <Avatar user={user} />
         </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
-            <div className={styles.displayName}> {displayName} </div>
             <EventTimestamp eventAt={receivedAt} />
           </div>
           <div className={styles.metaData}>
-            <div className={styles.icon}></div>
-            <div className={styles.metaDataLabel}> Viewed: </div>
-            <Link to='/home' className={styles.linkLabel}> {title} </Link>
+            <span className={styles.linkLabel}>{ displayNameText }</span>
+            <div className={styles.metaDataLabel}> visited </div>
+            <span className={styles.linkLabel}>
+              { pageName }
+            </span>
+          </div>
+          <div className={styles.actionBtn}>
+            <i className={styles.conversationIcon}>&nbsp;</i>
+            <span className={styles.linkLabel}>Start Conversation</span>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }
 }
