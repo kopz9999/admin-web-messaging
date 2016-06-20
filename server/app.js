@@ -18,7 +18,7 @@ app.all('*', function(req, res, next) {
   next();
 });
 app.resource('api/events', require('./resources/events'), { format: 'json' });
-app.resource('api/logged_events', require('./resources/logged_events'), { format: 'json' });
+app.resource('api/logged_events', require('./resources/loggedEvents'), { format: 'json' });
 
 var participantsController = new ParticipantsController(
   router.route('/conversations/:conversationId/participants')
