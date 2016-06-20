@@ -2,12 +2,14 @@ var LayerAPI = require('layer-api');
 var API_TOKEN = 'PQ4e10cZFRhpU2RQl7HKEbheV39unhkYWQNbVVPb8DTEZhOr';
 var APP_ID = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
 
-var ParticipantsController = function(route) {
+var ParticipantsController = function() {
   this.layerClient = new LayerAPI({
     token: API_TOKEN,
     appId: APP_ID
   });
+};
 
+ParticipantsController.prototype.setupResource = function(route) {
   route.post((req, res) => {
     var user = req.body;
     var conversationId = req.params.conversationId;

@@ -40,8 +40,8 @@ UserFactory.prototype.buildFromRequest = function(opts) {
     id: opts.id,
     layerId: opts.layerId,
     displayName: opts.displayName,
-    color: randomColor({hue: 'orange' }),
-    iconIdentity: getRandomInt(0, 12).toString(),
+    color: (opts.color || randomColor({hue: 'orange' })),
+    iconIdentity: (opts.iconIdentity || getRandomInt(0, 12).toString()),
   });
 };
 

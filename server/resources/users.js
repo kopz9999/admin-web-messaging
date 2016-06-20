@@ -1,14 +1,20 @@
-var UsersController = function(route) {
+var userFactoryInstance =
+  require('../models/User').userFactoryInstance;
+
+var UsersController = function() {
+};
+
+UsersController.prototype.setupResource = function(route) {
   route.post((req, res) => {
-    var user = req.body;
-    var conversationId = req.params.conversationId;
-    this.layerClient.conversations
-      .getAsync(conversationId)
-      .then((layerRes)=> this.verifyParticipants(user, layerRes.body))
-      .then((status) => {
-        res.status(status);
-        res.json(user);
-      }).catch((err) => this.errorHandler(err, res));
+    var user = userFactoryInstance.buildFromRequest(req.body);
+    userFactoryInstance.findOrCreate(user).then((storedUser)=> {
+      res.status(200);
+      res.json(storedUser);
+    }).catch(()=> {
+      res.status(422);
+      res.send({ message: 'Unknown content'});
+    });
   });
 };
 
+module.exports = UsersController;
