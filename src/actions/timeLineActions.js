@@ -31,6 +31,8 @@ import {
   receiveLayerUser
 } from './layerUsersActions';
 
+const DEFAULT_DOMAIN = 'curaytor.com';
+
 function requestEvents(fromTimestamp) {
   return {
     type: REQUEST_EVENTS,
@@ -150,13 +152,14 @@ function processEvents(rawEvents) {
   }
 }
 
-export function fetchEvents(index, fromTimestamp, limit, useCache=false) {
+export function fetchEvents(index, fromTimestamp, limit, useCache=false, domain=DEFAULT_DOMAIN) {
   return function (dispatch, getState) {
     const state = getState();
+    const query = { hitsPerPage: limit, facetFilters: "site.domain:" + domain };
     eventFactoryInstance.settings = state.settings;
     if (!useCache) index.clearCache();
     dispatch(requestEvents(fromTimestamp));
-    return index.search(state.timeLine.currentSearch, { hitsPerPage: limit })
+    return index.search(state.timeLine.currentSearch, query)
       .then(content =>
         dispatch(processEvents(content.hits))
       );
