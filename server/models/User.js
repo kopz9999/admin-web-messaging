@@ -12,6 +12,7 @@ var algoliaManagerInstance =
 
 function User(opts) {
   this.id = opts.id;
+  this.objectId = opts.objectId;
   this.layerId = opts.layerId;
   this.displayName = opts.displayName;
   this.color = opts.color;
@@ -29,8 +30,10 @@ UserFactory.prototype.findOrCreate = function(user) {
     if (content.nbHits > 0) {
       return this.buildFromAlgolia(content.hits[0]);
     } else {
-      usersIndex.addObject(this.serializeToAlgolia(user));
-      return user;
+      usersIndex.addObject(this.serializeToAlgolia(user)).then((content)=> {
+        user.objectId = content.objectID;
+        return user;
+      });
     }
   });
 };
@@ -48,6 +51,7 @@ UserFactory.prototype.buildFromRequest = function(opts) {
 UserFactory.prototype.buildFromAlgolia = function(opts) {
   return new User({
     id: opts.id,
+    objectId: opts.objectID,
     layerId: opts.layer_id,
     displayName: opts.display_name,
     color: opts.color,
