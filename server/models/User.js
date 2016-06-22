@@ -30,7 +30,7 @@ UserFactory.prototype.findOrCreate = function(user) {
     if (content.nbHits > 0) {
       return this.buildFromAlgolia(content.hits[0]);
     } else {
-      usersIndex.addObject(this.serializeToAlgolia(user)).then((content)=> {
+      return usersIndex.addObject(this.serializeToAlgolia(user)).then((content)=> {
         user.objectId = content.objectID;
         return user;
       });
