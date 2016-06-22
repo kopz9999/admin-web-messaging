@@ -41,12 +41,10 @@ export default class Message extends TimeLineItem {
   }
 
   render() {
-    const { user, receivedAt, backendUser } = this.props;
-    const { conversationId } = this.props.message;
-    const { layerId } = user;
-    const layerUUID = toUUID(conversationId);
-    const conversationURL = `/users/${layerId}/conversations/${layerUUID}`;
-    const displayUser = backendUser ? backendUser : user;
+    const { receivedAt, backendUser } = this.props;
+    const { layerId } = this.props.user;
+    const conversationURL = `/users/${layerId}`;
+    const displayUser = backendUser ? backendUser : this.props.user;
 
     return (
       <Link to={conversationURL} className={styles.message}

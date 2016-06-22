@@ -27,7 +27,7 @@ import {
   publishComposerMessage,
 } from '../actions/conversationActions';
 // Endpoints
-import { CONVERSATIONS_API } from '../constants/Endpoints';
+import { LAYER_USERS_API } from '../constants/Endpoints';
 
 const {
   STARTED,
@@ -136,24 +136,26 @@ export function resetConversationJoin() {
   }
 }
 
-export function joinConversation(currentUser, conversationId) {
-  return (dispatch) => {
+// TODO: Use token to join
+export function joinConversation(layerId) {
+  return (dispatch, getState) => {
+    const token = getState().auth.token;
     dispatch(requestConversationJoin());
-    return fetch(`${CONVERSATIONS_API}/${conversationId}/participants`,
+    return fetch(`${LAYER_USERS_API}/${layerId}/join_conversation`,
       {
-        method: 'POST',
+        method: 'GET',
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(userFactoryInstance.serializeToJSON(currentUser))
+          'Content-Type': 'application/json',
+          'X-Auth-Token': token
+        }
       })
-      .then(() => dispatch(receiveConversationJoin()) )
-      .then(() =>
+      .then(response => response.json())
+      .then(json => {
+        dispatch(receiveConversationJoin());
         dispatch(
-          doConversationRequest(getLayerConversationId(conversationId))
+          doConversationRequest(getLayerConversationId(json.conversationId))
         )
-      );
+      });
   };
 }
 

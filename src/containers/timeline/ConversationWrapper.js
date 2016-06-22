@@ -38,7 +38,7 @@ export default class ConversationWrapper extends Component {
   processConversation() {
     const { currentUser, currentQuery } = this.props;
     const { joinConversation } = this.props.layerClientActions;
-    joinConversation(currentUser, currentQuery.conversationId).then(()=> {
+    joinConversation(currentQuery.layerId).then(()=> {
       this.state.typingPublisher = this.props.client.createTypingPublisher();
     });
   }

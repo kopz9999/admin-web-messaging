@@ -27,7 +27,7 @@ export default class App extends Component {
             <IndexRoute component={Global}/>
             <Route path='/sites/:siteId/pages/:pageId'
                    component={Global}/>
-            <Route path='/users/:layerId/conversations/:conversationId'
+            <Route path='/users/:layerId'
                    component={ConversationWrapper}/>
             <Route path='/logout' component={Logout} />
           </Route>
