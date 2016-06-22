@@ -25,6 +25,8 @@ export default class App extends Component {
           </Route>
           <Route path='/home' component={requireAuthentication(Wrapper)}>
             <IndexRoute component={Global}/>
+            <Route path='/sites/:siteId/pages/:pageId'
+                   component={Global}/>
             <Route path='/users/:layerId/conversations/:conversationId'
                    component={ConversationWrapper}/>
             <Route path='/logout' component={Logout} />

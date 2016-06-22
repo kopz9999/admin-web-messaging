@@ -1,6 +1,7 @@
 export class Page {
-  constructor({id, title, thumbnailURL}) {
+  constructor({id, siteId, title, thumbnailURL}) {
     this.id = id;
+    this.siteId = siteId;
     this.title = title;
     this.thumbnailURL = thumbnailURL;
   }
@@ -9,7 +10,8 @@ export class Page {
 export class PageFactory {
   buildFromAPI(opts) {
     return new Page({
-      id: opts.id,
+      id: opts.object_id,
+      siteId: opts.site_id,
       title: opts.name,
       thumbnailURL: opts.thumbnail_url,
     });

@@ -152,10 +152,22 @@ function processEvents(rawEvents) {
   }
 }
 
-export function fetchEvents(index, fromTimestamp, limit, useCache=false, domain=DEFAULT_DOMAIN) {
+function getFacetFilters(state) {
+  let filters = [];
+  const { params } = state.router;
+  if (params && Object.keys(params).length > 0) {
+    if (params.siteId) filters.push("site.object_id:" + params.siteId);
+    if (params.pageId) filters.push("page.object_id:" + params.pageId);
+  } else {
+    filters.push("site.domain:" + DEFAULT_DOMAIN);
+  }
+  return filters;
+}
+
+export function fetchEvents(index, fromTimestamp, limit, useCache=false) {
   return function (dispatch, getState) {
     const state = getState();
-    const query = { hitsPerPage: limit, facetFilters: "site.domain:" + domain };
+    const query = { hitsPerPage: limit, facetFilters: getFacetFilters(state) };
     eventFactoryInstance.settings = state.settings;
     if (!useCache) index.clearCache();
     dispatch(requestEvents(fromTimestamp));

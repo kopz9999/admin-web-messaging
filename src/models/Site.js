@@ -9,7 +9,7 @@ export class Site {
 export class SiteFactory {
   buildFromAPI(opts) {
     return new Site({
-      id: opts.id,
+      id: opts.object_id,
       title: opts.name,
       thumbnailURL: opts.thumbnail_url,
     });
