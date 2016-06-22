@@ -1,9 +1,10 @@
 export class Page {
-  constructor({id, siteId, title, thumbnailURL}) {
+  constructor({id, siteId, title, thumbnailURL, fullURL}) {
     this.id = id;
     this.siteId = siteId;
     this.title = title;
     this.thumbnailURL = thumbnailURL;
+    this.fullURL = fullURL;
   }
 }
 
