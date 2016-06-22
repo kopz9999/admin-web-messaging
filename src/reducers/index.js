@@ -10,6 +10,7 @@ import conversationListReducer from './conversationListReducer';
 import settingsReducer from './settingsReducer';
 import layerClientReducer from './layerClientReducer';
 import timeLineReducer from './timeLineReducer';
+import pagesReducer from './pagesReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   users: usersReducer,
   layerUsers: layerUsersReducer,
+  pages: pagesReducer,
   conversationList: conversationListReducer,
   settings: settingsReducer,
   layerClient: layerClientReducer,

@@ -16,6 +16,8 @@ function mapStateToProps({ timeLine, app, router }) {
     ...app,
     timeLine,
     currentQuery: {
+      siteId: router.params.siteId,
+      pageId: router.params.pageId,
       layerId: router.params.layerId,
       conversationId: router.params.conversationId,
     },
@@ -36,8 +38,10 @@ export default class Wrapper extends Component {
     const algoliaClient = algoliasearch('V0L0EPPR59',
       '363cd668faa7d392287982a6cb352d26');
     const eventsIndex = algoliaClient.initIndex('events_log');
+    const pagesIndex = algoliaClient.initIndex('pages');
     this.state = {
-      eventsIndex
+      eventsIndex,
+      pagesIndex
     };
   }
 
@@ -54,7 +58,9 @@ export default class Wrapper extends Component {
         <Header {...currentQuery}
           timeLine={timeLine}
           timeLineActions={timeLineActions}
-          eventsIndex={this.state.eventsIndex} />
+          eventsIndex={this.state.eventsIndex}
+          pagesIndex={this.state.pagesIndex}
+        />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
             ...timeLine,

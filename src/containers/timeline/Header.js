@@ -1,4 +1,6 @@
+// Redux
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 // App
@@ -9,15 +11,41 @@ import logo from './images/logo.png';
 // App Components
 import User from '../../components/timeline/header/User';
 import Search from '../../components/timeline/header/Search';
+import Page from '../../components/timeline/header/Page';
+// Actions
+import * as PagesActions from '../../actions/pagesActions';
 
-function mapStateToProps({ layerUsers }) {
+function mapStateToProps({ pages, layerUsers }) {
   return {
+    pages,
     layerUsers,
   };
 }
 
-@connect(mapStateToProps)
+function mapDispatchToProps(dispatch) {
+  return {
+    pagesActions: bindActionCreators(PagesActions, dispatch),
+  };
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends Component {
+  retrievePage(pageId) {
+    const { pagesIndex } = this.props;
+    const { verifyFetchPage } = this.props.pagesActions;
+    verifyFetchPage(pagesIndex, pageId);
+  }
+
+  componentDidMount() {
+    if (this.props.pageId) this.retrievePage(this.props.pageId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.pageId != this.props.pageId && nextProps.pageId) {
+      this.retrievePage(nextProps.pageId);
+    }
+  }
+
   renderNewConversation() {
     return (
       <Link to='/home' className={styles.newConversation}>
@@ -44,11 +72,21 @@ export default class Header extends Component {
     }
   }
 
+  renderPage() {
+    const { pageId, siteId, pages } = this.props;
+    const pageState = pages[pageId];
+    if (pageState && pageState.page) {
+      return (<Page siteId={siteId} page={pageState.page} />);
+    } else {
+      return null;
+    }
+  }
+
   renderSearch() {
     const { layerId, conversationId, timeLineActions, timeLine,
-      eventsIndex } = this.props;
+      eventsIndex, pageId } = this.props;
 
-    if (!layerId && !conversationId) {
+    if (!layerId && !conversationId && !pageId) {
       return (
         <Search
           eventsIndex={eventsIndex}
@@ -70,6 +108,7 @@ export default class Header extends Component {
             <img src={logo} />
           </Link>
           { this.renderSearch() }
+          { this.renderPage() }
           { this.renderUser() }
         </div>
         <div className={styles.rightContent}>
