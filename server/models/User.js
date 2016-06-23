@@ -1,5 +1,5 @@
 var getRandomInt =
-  require('../utils/Helper').getRandomInt;
+  require('../../shared/Helper').getRandomInt;
 var randomColor = require('randomcolor');
 var underscored = require("underscore.string/underscored");
 var algoliaManagerInstance =
@@ -45,6 +45,15 @@ UserFactory.prototype.buildFromRequest = function(opts) {
     displayName: opts.displayName,
     color: (opts.color || randomColor({hue: 'orange' })),
     iconIdentity: (opts.iconIdentity || getRandomInt(0, 12).toString()),
+  });
+};
+
+UserFactory.prototype.buildFromBaseAPI = function(opts) {
+  return new User({
+    id: opts.id,
+    layerId: opts.id.toString(),
+    displayName: opts.name,
+    color: '#a5b0bb',
   });
 };
 
