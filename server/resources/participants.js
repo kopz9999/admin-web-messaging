@@ -7,6 +7,7 @@ var getUserByToken = require('../utils/auth').getUserByToken;
 var HttpStatus = require('http-status-codes');
 var CREATED = HttpStatus.CREATED;
 var OK = HttpStatus.OK;
+var userFactoryInstance = require('../models/User').userFactoryInstance;
 
 var ParticipantsController = function() {
   this.layerClient = new LayerAPI({
@@ -59,7 +60,8 @@ ParticipantsController.prototype.updateMetadata = function(conversation, user) {
     metaData[`appParticipants.${i}`] = appParticipants[i];
   });
   maxIndex = parseInt(idx) + 1;
-  metaData[`appParticipants.${maxIndex}`] = user;
+  metaData[`appParticipants.${maxIndex}`] =
+    userFactoryInstance.serializeToMetadata(user);
   return this.layerClient.conversations
     .setMetadataPropertiesAsync(conversation.id, metaData);
 };

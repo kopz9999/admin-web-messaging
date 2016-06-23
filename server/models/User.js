@@ -4,6 +4,7 @@ var randomColor = require('randomcolor');
 var underscored = require("underscore.string/underscored");
 var algoliaManagerInstance =
   require('../utils/AlgoliaManager').algoliaManagerInstance;
+var headShotBaseURL = '//res.cloudinary.com/curaytor/image/upload/c_thumb,h_108,w_108';
 
 /*
 * TODO: Separate in shared library for isomorphic usage
@@ -49,11 +50,16 @@ UserFactory.prototype.buildFromRequest = function(opts) {
 };
 
 UserFactory.prototype.buildFromBaseAPI = function(opts) {
+  const headShotId = opts.headshot;
+  const avatarURL = headShotId ?
+    (headShotBaseURL + '/' + headShotId) : null;
+
   return new User({
     id: opts.id,
     layerId: opts.id.toString(),
     displayName: opts.name,
     color: '#a5b0bb',
+    avatarURL: avatarURL,
   });
 };
 
@@ -82,6 +88,15 @@ UserFactory.prototype.serializeToAlgolia = function(user) {
   var result = {};
   Object.keys(user).forEach((k)=> {
     result[ underscored(k) ] = user[k];
+  });
+  return result;
+};
+
+UserFactory.prototype.serializeToMetadata = function(user) {
+  var result = {}, prop;
+  Object.keys(user).forEach((k)=> {
+    prop = user[k];
+    if (prop !== undefined) result[k] = user[k].toString();
   });
   return result;
 };
