@@ -29,7 +29,8 @@ ParticipantsController.prototype.setupResource = function(route) {
       })
       .then((layerResponse) => {
         conversations = layerResponse.body;
-        return this.verifyParticipants(currentUser, conversations[0]);
+        return conversations.length > 0?
+          this.verifyParticipants(currentUser, conversations[0]) : OK;
       })
       .then((status) => {
         res.status(status);
