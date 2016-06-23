@@ -6,6 +6,8 @@ export const REQUEST_ACCESS = 'REQUEST_ACCESS';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT_USER = 'LOGOUT_USER';
+// Algolia
+export const SETUP_ALGOLIA_CLIENT = 'SETUP_ALGOLIA_CLIENT';
 // Layer Client
 export const CREATE_USER_CLIENT = 'CREATE_USER_CLIENT';
 export const CLIENT_READY = 'CLIENT_READY';

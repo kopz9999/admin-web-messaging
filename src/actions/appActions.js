@@ -8,6 +8,7 @@ import {
 import { USER_INFO_ENDPOINT } from '../constants/Endpoints';
 import { urlWithParams } from '../utils/Helper';
 import { initUserLayerClient } from './layerClientActions';
+import { setupAlgoliaClient } from './algoliaActions';
 import { loginFail } from './authActions';
 
 import {
@@ -41,6 +42,8 @@ export function fetchUserInfo(token) {
           )
         );
         dispatch(initUserLayerClient());
+        dispatch(setupAlgoliaClient('V0L0EPPR59',
+          '363cd668faa7d392287982a6cb352d26'))
       })
       .catch(error => {
         console.log(error);

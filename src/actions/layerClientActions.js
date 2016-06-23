@@ -21,6 +21,7 @@ import {
   receiveLayerUser
 } from '../actions/layerUsersActions';
 import {
+  doConversationCreate,
   doConversationRequest,
   changeComposerMessage,
   submitComposerMessage,
@@ -136,7 +137,6 @@ export function resetConversationJoin() {
   }
 }
 
-// TODO: Use token to join
 export function joinConversation(layerId) {
   return (dispatch, getState) => {
     const token = getState().auth.token;
@@ -152,8 +152,12 @@ export function joinConversation(layerId) {
       .then(response => response.json())
       .then(conversations => {
         if (conversations.length > 0) {
-          dispatch(
+          return dispatch(
             doConversationRequest(conversations[0].id)
+          ).then(()=> dispatch(receiveConversationJoin()));
+        } else {
+          return dispatch(
+            doConversationCreate(layerId)
           ).then(()=> dispatch(receiveConversationJoin()));
         }
       });

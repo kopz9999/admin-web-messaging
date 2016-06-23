@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// Libs
-import algoliasearch from 'algoliasearch';
 // App
 import Header from './Header';
 import styles from './Wrapper.css';
@@ -11,10 +9,11 @@ import styles from './Wrapper.css';
 import * as AppActions from '../../actions/appActions';
 import * as TimeLineActions from '../../actions/timeLineActions';
 
-function mapStateToProps({ timeLine, app, router }) {
+function mapStateToProps({ timeLine, app, algolia, router }) {
   return {
     ...app,
     timeLine,
+    algolia,
     currentQuery: {
       siteId: router.params.siteId,
       pageId: router.params.pageId,
@@ -31,20 +30,9 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+/* TODO: Move indexes to actions. Avoid pass them down trough props */
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Wrapper extends Component {
-  constructor(props) {
-    super(props);
-    const algoliaClient = algoliasearch('V0L0EPPR59',
-      '363cd668faa7d392287982a6cb352d26');
-    const eventsIndex = algoliaClient.initIndex('events_log');
-    const pagesIndex = algoliaClient.initIndex('pages');
-    this.state = {
-      eventsIndex,
-      pagesIndex
-    };
-  }
-
   componentWillMount() {
     const { token } = this.props;
     const { fetchUserInfo } = this.props.appActions;
@@ -52,22 +40,23 @@ export default class Wrapper extends Component {
   }
 
   renderContent() {
-    const { currentQuery, currentUser, timeLineActions, timeLine } = this.props;
+    const { currentQuery, currentUser, timeLineActions,
+      timeLine, algolia } = this.props;
     return (
       <div className={styles.content}>
-        <Header {...currentQuery}
+        <Header
+          {...currentQuery}
+          {...algolia}
           timeLine={timeLine}
           timeLineActions={timeLineActions}
-          eventsIndex={this.state.eventsIndex}
-          pagesIndex={this.state.pagesIndex}
         />
         <div className={styles.container}>
           {this.props.children && React.cloneElement(this.props.children, {
             ...timeLine,
             ...timeLineActions,
+            ...algolia,
             currentQuery,
             currentUser,
-            eventsIndex: this.state.eventsIndex
           })}
         </div>
       </div>
@@ -75,7 +64,7 @@ export default class Wrapper extends Component {
   }
 
   render() {
-    const { userLoaded } = this.props;
-    return userLoaded ? this.renderContent() : null;
+    const { userLoaded, algolia } = this.props;
+    return userLoaded && algolia.ready ? this.renderContent() : null;
   }
 }

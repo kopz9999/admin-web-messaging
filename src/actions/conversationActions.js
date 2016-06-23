@@ -189,6 +189,14 @@ function handleConversationChange(e, conversation) {
   }
 }
 
+/*
+* TODO: Implement functionality
+* */
+export function doConversationCreate(layerId) {
+  return (dispatch, getState) => {
+  }
+}
+
 export function doConversationRequest(conversationId) {
   return (dispatch, getState) => {
     const { client } = getState().layerClient;

@@ -9,6 +9,7 @@ import layerUsersReducer from './layerUsersReducer';
 import conversationListReducer from './conversationListReducer';
 import settingsReducer from './settingsReducer';
 import layerClientReducer from './layerClientReducer';
+import algoliaReducer from './algoliaReducer';
 import timeLineReducer from './timeLineReducer';
 import pagesReducer from './pagesReducer';
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   conversationList: conversationListReducer,
   settings: settingsReducer,
   layerClient: layerClientReducer,
+  algolia: algoliaReducer,
   timeLine: timeLineReducer,
 });
 

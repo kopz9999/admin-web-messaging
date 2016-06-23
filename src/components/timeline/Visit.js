@@ -14,7 +14,7 @@ export default class Visit extends TimeLineItem {
     const displayNameText = trimUserName(user.displayName, MAX_USER_SIZE, '...');
     const pageName = page.title;
     const pageScopeURL = `/sites/${site.id}/pages/${page.id}`;
-    const conversationURL = `/home`;
+    const conversationURL = `/users/${user.layerId}`;
 
     return (
       <div className={styles.message}
