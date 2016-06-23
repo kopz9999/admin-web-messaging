@@ -85,6 +85,26 @@
     bottom: 0;
 }
 
+/* Begin custom avatars */
+
+.avatar.default .iconIdentity.avatar5 {
+    width: 26px;
+}
+
+.avatar.default .iconIdentity.avatar3 {
+    width: 34px;
+}
+
+.avatar.default .iconIdentity.avatar2 {
+    width: 32px;
+}
+
+.avatar.default .iconIdentity.avatar7 {
+    width: 32px
+}
+
+/* End custom avatars */
+
 @media screen and (max-width: 400px) {
     .avatar {
         margin-left: 15px;

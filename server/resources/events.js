@@ -11,7 +11,7 @@ function onError(err, res) {
 exports.create = function(req, res){
   var index = algoliaManagerInstance.getEventsIndex();
   var rawEvent = req.body;
-  if (rawEvent.user && rawEvent.page && rawEvent.site) {
+  if (rawEvent.user) {
     rawEvent.user.id = rawEvent.user.id || rawEvent.user.layer_id; // TODO: Remove this validation
     eventFactoryInstance.buildFromAlgolia(rawEvent).then(event => {
       return index.addObject(eventFactoryInstance.serializeToAlgolia(event)).then((content)=> {

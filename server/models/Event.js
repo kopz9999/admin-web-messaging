@@ -10,6 +10,7 @@ function TimeLineEvent(opts) {
   this.loggedAt = opts.loggedAt;
   this.site = opts.site;
   this.user = opts.user;
+  this.backendUser = opts.backendUser;
   this.page = opts.page;
   this.type = opts.type;
   this.message = opts.message;
@@ -38,12 +39,20 @@ EventFactory.prototype.buildFromAlgolia = function(opts) {
     loggedAt: opts.logged_at,
     type: opts.type,
     user: userFactoryInstance.buildFromAlgolia(opts.user),
-    site: siteFactoryInstance.buildFromAlgolia(opts.site),
-    page: pageFactoryInstance.buildFromAlgolia(opts.page),
+    site: (opts.site ? siteFactoryInstance.buildFromAlgolia(opts.site) : null),
+    page: (opts.page ? pageFactoryInstance.buildFromAlgolia(opts.page) : null),
+    backendUser: opts.backend_user,
     message: opts.message,
     users: opts.users,
   });
-  return this.retrieveProperties(event);
+  if (event.site) {
+    return this.retrieveProperties(event);
+  } else {
+    return userFactoryInstance.findOrCreate(event.user).then((user)=> {
+      event.user = user;
+      return event;
+    });
+  }
 };
 
 EventFactory.prototype.buildFromLoggedEvent = function(opts) {
@@ -60,9 +69,9 @@ EventFactory.prototype.buildFromLoggedEvent = function(opts) {
 EventFactory.prototype.serializeToAlgolia = function(event) {
   return {
     logged_at: event.loggedAt,
-    site: siteFactoryInstance.serializeToAlgolia(event.site),
     user: userFactoryInstance.serializeToAlgolia(event.user),
-    page: pageFactoryInstance.serializeToAlgolia(event.page),
+    site: (event.site ? siteFactoryInstance.serializeToAlgolia(event.site) : null),
+    page: (event.page ? pageFactoryInstance.serializeToAlgolia(event.page) : null),
     type: event.type,
     message: event.message,
     users: event.users,
