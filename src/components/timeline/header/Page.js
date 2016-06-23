@@ -11,7 +11,9 @@ export default class Page extends Component {
         <div className={styles.icon}>
           <img src={thumbnailURL} />
         </div>
-        <div className={styles.title}> { title } </div>
+        <div className={styles.title}
+             dangerouslySetInnerHTML={{__html: title }}>
+        </div>
       </a>
     );
   }
