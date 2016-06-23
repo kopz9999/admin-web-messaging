@@ -141,7 +141,7 @@ export function joinConversation(layerId) {
   return (dispatch, getState) => {
     const token = getState().auth.token;
     dispatch(requestConversationJoin());
-    return fetch(`${LAYER_USERS_API}/${layerId}/join_conversation`,
+    return fetch(`${LAYER_USERS_API}/${layerId}/conversations`,
       {
         method: 'GET',
         headers: {
@@ -150,11 +150,12 @@ export function joinConversation(layerId) {
         }
       })
       .then(response => response.json())
-      .then(json => {
-        dispatch(receiveConversationJoin());
-        dispatch(
-          doConversationRequest(getLayerConversationId(json.conversationId))
-        )
+      .then(conversations => {
+        if (conversations.length > 0) {
+          dispatch(
+            doConversationRequest(conversations[0].id)
+          ).then(()=> dispatch(receiveConversationJoin()));
+        }
       });
   };
 }

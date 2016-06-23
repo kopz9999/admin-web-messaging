@@ -4,7 +4,7 @@ export const EVENTS_API =
 export const CONVERSATIONS_API =
   'https://m.curaytor.com/api/conversations';
 export const LAYER_USERS_API =
-  'https://m.curaytor.com/api/layer_users';
+  '/api/layer_users';
 export const EVENTS_QUERY_API =
   'https://private-9b421-events59.apiary-mock.com/events/query';
 export const EVENTS_QUERY_COUNT_API =

@@ -7,7 +7,6 @@ import { LayerProvider } from 'layer-react';
 import { Client } from 'layer-sdk';
 // App
 import Conversation from './Conversation';
-import { getLayerConversationId } from '../../utils/Helper';
 // Actions
 import * as LayerClientActions from '../../actions/layerClientActions';
 import * as ConversationActions from '../../actions/conversationActions';
@@ -32,6 +31,7 @@ export default class ConversationWrapper extends Component {
     super(props);
     this.state = {
       typingPublisher: null,
+      conversationId: null,
     };
   }
 
@@ -71,6 +71,7 @@ export default class ConversationWrapper extends Component {
         <Conversation
           currentUser={currentUser}
           currentQuery={currentQuery}
+          transferScopeData={this.receiveConversationData.bind(this)}
           onMarkMessageRead={this.onMarkMessageRead.bind(this)}
           onSubmitComposerMessage={this.onSubmitComposerMessage.bind(this)}
           onChangeComposerMessage={this.onChangeComposerMessage.bind(this)}
@@ -79,17 +80,20 @@ export default class ConversationWrapper extends Component {
     );
   }
 
+  receiveConversationData({ conversationId }) {
+    this.state.conversationId = conversationId;
+  }
+
   onMarkMessageRead(messageId) {
     const { markMessageRead } = this.props.layerClientActions;
     markMessageRead( this.props.client, messageId);
   }
 
   onChangeComposerMessage(value) {
-    const { currentQuery } = this.props;
     const { changeLayerMessage } = this.props.layerClientActions;
 
     changeLayerMessage(value, this.state.typingPublisher,
-      getLayerConversationId(currentQuery.conversationId));
+      this.state.conversationId);
   }
 
   onSubmitComposerMessage() {
@@ -97,8 +101,7 @@ export default class ConversationWrapper extends Component {
     const { submitLayerMessage } = this.props.layerClientActions;
 
     submitLayerMessage(this.props.client, this.state.typingPublisher,
-      currentUser.layerId, currentQuery.layerId,
-      getLayerConversationId(currentQuery.conversationId));
+      currentUser.layerId, currentQuery.layerId, this.state.conversationId);
   }
 
   render() {

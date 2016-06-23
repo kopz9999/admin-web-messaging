@@ -33,11 +33,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function getQueries({ messagePagination, currentQuery }) {
+function getQueries({ messagePagination, conversationId }) {
   return {
     messages: QueryBuilder
       .messages()
-      .forConversation(getLayerConversationId(currentQuery.conversationId))
+      .forConversation(conversationId)
       .paginationWindow(messagePagination)
   };
 }
@@ -56,6 +56,11 @@ export default class Conversation extends Component {
 
   get scrollNode() {
     return document.body;
+  }
+
+  doTransferScopeData(props) {
+    const { transferScopeData, conversationId } = props;
+    transferScopeData({ conversationId });
   }
 
   addDocumentListeners() {
@@ -78,6 +83,16 @@ export default class Conversation extends Component {
 
   componentDidUpdate() {
     this.requestScrollDown();
+  }
+
+  componentWillMount() {
+    this.doTransferScopeData(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.conversationId != nextProps.conversationId) {
+      this.doTransferScopeData(nextProps);
+    }
   }
 
   scrollBottom() {
@@ -111,9 +126,9 @@ export default class Conversation extends Component {
 
   renderMessageItem(message) {
     const { layerUsers, currentQuery, onMarkMessageRead,
-      currentUser } = this.props;
+      currentUser, conversationId } = this.props;
     const conversationUsers =
-      layerUsers[getLayerConversationId(currentQuery.conversationId)];
+      layerUsers[conversationId];
     const user = conversationUsers[message.sender.userId].layerUser;
     const consumerUser = conversationUsers[currentQuery.layerId].layerUser;
 
@@ -145,11 +160,11 @@ export default class Conversation extends Component {
   }
 
   renderTypingIndicatorManager() {
-    const { conversationId } = this.props.currentQuery;
+    const { conversationId } = this.props;
     if (this.usersReady()) {
       return (
         <TypingIndicatorManager
-          conversationId={getLayerConversationId(conversationId)}
+          conversationId={conversationId}
           requestScrollDown={this.requestScrollDown.bind(this)}
         />
       );
