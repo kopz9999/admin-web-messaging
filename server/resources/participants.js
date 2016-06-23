@@ -20,19 +20,19 @@ ParticipantsController.prototype.setupResource = function(route) {
     var headers = req.headers;
     var authToken = headers['x-auth-token'];
     var layerId = req.params.layerId;
-    var currentUser = null, currentConversation;
+    var currentUser = null, conversations;
     getUserByToken(authToken)
       .then((user) => {
         currentUser = user;
         return this.layerClient.conversations.getAllFromUserAsync(layerId)
       })
       .then((layerResponse) => {
-        currentConversation = layerResponse.body[0];
-        this.verifyParticipants(currentUser, currentConversation);
+        conversations = layerResponse.body;
+        return this.verifyParticipants(currentUser, conversations[0]);
       })
       .then((status) => {
         res.status(status);
-        res.json(currentConversation);
+        res.json(conversations);
       })
       .catch((err) => this.errorHandler(err, res));
   });
