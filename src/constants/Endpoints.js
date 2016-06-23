@@ -1,3 +1,4 @@
+export { USER_INFO_ENDPOINT } from '../../shared/Endpoints';
 export const EVENTS_API =
   'https://m.curaytor.com/api/events';
 export const CONVERSATIONS_API =
@@ -18,5 +19,3 @@ export const SITES_API =
 
 export const LOGIN_ENDPOINT =
   'https://api.curaytor.com/auth/user_token';
-export const USER_INFO_ENDPOINT =
-  'https://api.curaytor.com/users/me';

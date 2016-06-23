@@ -1,5 +1,5 @@
 import * as Constants from './constants';
-import URLSearchParams from 'url-search-params';
+export { urlWithParams } from '../../shared/Helper';
 
 export function hashCode(str) { // java String#hashCode
   var hash = 0;
@@ -84,16 +84,6 @@ export function cutString(originalString, maxSize, suffix) {
     finalString = finalString.substring(0, maxSize) + suffix;
   }
   return finalString;
-}
-
-export function urlWithParams(urlString, params={}) {
-  var url = new URL(urlString);
-  var searchParams = new URLSearchParams();
-  Object.keys(params).forEach((key) => {
-    searchParams.append(key, params[key]);
-  });
-  url.search = searchParams.toString();
-  return url.toString();
 }
 
 export function toUUID(layerIdentifier) {

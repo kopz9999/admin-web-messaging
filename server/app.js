@@ -25,7 +25,7 @@ var participantsController = new ParticipantsController();
 var usersController = new UsersController();
 
 participantsController.setupResource(
-  router.route('/conversations/:conversationId/participants')
+  router.route('/layer_users/:layerId/join_conversation')
 );
 
 usersController.setupResource(
