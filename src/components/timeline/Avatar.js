@@ -20,10 +20,13 @@ export default class Avatar extends Component {
 
   renderIconIdentity() {
     const { iconIdentity } = this.props.user;
+    const customIconStyle = styles[`avatar${iconIdentity}`];
+    const iconStyle = styles.iconIdentity + ' ' +
+      (customIconStyle ? customIconStyle : '');
     const avatarURL = require(`./avatar-images/${iconIdentity}.png`);
 
     return (
-      <img className={styles.iconIdentity} src={avatarURL} />
+      <img className={iconStyle} src={avatarURL} />
     );
   }
 
