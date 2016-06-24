@@ -28,6 +28,7 @@ import {
 import { MESSAGE, VISIT } from '../constants/EventTypes';
 // Actions
 import {
+  getLayerUser,
   receiveLayerUser
 } from './layerUsersActions';
 
@@ -98,19 +99,12 @@ export function fetchQueryEvents(fromTimestamp, limit, query={}) {
   }
 }
 
-function registerLayerUser(dispatch, layerUsers, conversationId, rawUser) {
-  let user = null, layerUserState;
+function registerLayerUser(dispatch, state, rawUser) {
   const { layer_id: layerId } = rawUser;
-  if (layerUsers[conversationId]) {
-    if (layerUserState = layerUsers[conversationId][layerId]) {
-      if (!layerUserState.isFetching) {
-        user = layerUserState.layerUser;
-      }
-    }
-  }
+  let user = getLayerUser(state, layerId);
   if (user == null) {
     user = userFactoryInstance.buildFromEvent(rawUser);
-    dispatch(receiveLayerUser( conversationId, layerId, user));
+    dispatch(receiveLayerUser(layerId, user));
   }
   return user;
 }
@@ -118,7 +112,7 @@ function registerLayerUser(dispatch, layerUsers, conversationId, rawUser) {
 function processEvents(rawEvents) {
   return function(dispatch, getState) {
     let events = [], eventObject;
-    const { layerUsers } = getState();
+    const state = getState();
     rawEvents.forEach((evt) => {
       eventObject = eventFactoryInstance.buildFromAlgolia(evt);
       if (evt.site) {
@@ -129,16 +123,14 @@ function processEvents(rawEvents) {
       }
       switch (eventObject.type) {
         case MESSAGE:
-          eventObject.user = registerLayerUser(dispatch, layerUsers,
-            eventObject.message.conversationId, evt.user);
+          eventObject.user = registerLayerUser(dispatch, state, evt.user);
           if (evt.backend_user) {
-            eventObject.backendUser = registerLayerUser(dispatch, layerUsers,
-              eventObject.message.conversationId, evt.backend_user);
+            eventObject.backendUser = registerLayerUser(dispatch, state,
+              evt.backend_user);
           }
           evt.users.forEach((usr) => {
             eventObject.users.push(
-              registerLayerUser(dispatch, layerUsers,
-                eventObject.message.conversationId, usr)
+              registerLayerUser(dispatch, state, usr)
             );
           });
           break;

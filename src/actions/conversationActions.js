@@ -16,6 +16,7 @@ import {
   DEFAULT_USER,
 } from '../constants/Application';
 import {
+  getLayerUser,
   verifyFetchLayerUser,
   receiveLayerUser
 } from './layerUsersActions';
@@ -40,16 +41,23 @@ function receiveParticipants(participants) {
   }
 }
 
+function registerLayerUser(dispatch, state, rawUser) {
+  const { layerId } = rawUser;
+  let user = getLayerUser(state, layerId);
+  if (user == null) {
+    user = userFactoryInstance.buildFromMetadata(rawUser);
+    dispatch(receiveLayerUser( layerId, user));
+  }
+  return user;
+}
+
 function readParticipants(conversation) {
-  return (dispatch) => {
-    let participantUser = null;
+  return (dispatch, getState) => {
     const { appParticipants } = conversation.metadata;
+    const state = getState();
     if (appParticipants) {
       Object.keys(appParticipants).forEach((k) => {
-        participantUser =
-          userFactoryInstance.buildFromMetadata(appParticipants[k]);
-        dispatch(receiveLayerUser(conversation.id, participantUser.layerId,
-          participantUser));
+        registerLayerUser(dispatch, state, appParticipants[k]);
       });
     }
     return Promise.resolve();
@@ -72,7 +80,7 @@ export function fetchParticipants(conversationId, participantIds) {
     dispatch( requestParticipants(participantIds) );
     promises =
       participantIds.map((layerId) =>
-        dispatch(verifyFetchLayerUser(conversationId, layerId)));
+        dispatch(verifyFetchLayerUser(layerId)));
     return Promise.all(promises).then(()=> {
       state = getState();
       participants = participantIds.map((layerId) => state.users[layerId]);
@@ -123,34 +131,39 @@ export function receiveComposerMessage() {
   };
 }
 
-function buildAlgoliaRequest(layerUsers, currentUserLayerId, consumerUserLayerId,
-                             conversationId, message) {
-  const conversationUsers = layerUsers[conversationId];
-  const currentUser = conversationUsers[currentUserLayerId].layerUser;
-  const consumerUser = conversationUsers[consumerUserLayerId].layerUser;
-  const userKeys = Object.keys(conversationUsers)
+/*
+ * TODO: Get site and page from event
+ * */
+function buildAlgoliaRequest(layerUsers, currentUserLayerId,
+                             consumerUserLayerId, message) {
+  const currentUser = layerUsers[currentUserLayerId].layerUser;
+  const consumerUser = layerUsers[consumerUserLayerId].layerUser;
+  const userKeys = Object.keys(layerUsers)
                          .filter( k => k != consumerUserLayerId && k != DEFAULT_USER );
 
   return {
     user: userFactoryInstance.serializeToAlgolia(consumerUser),
     type: "MESSAGE",
+    site: {
+      domain: "curaytor.com",
+    },
     message: messageFactoryInstance.serializeToAlgolia(message),
     users: userKeys.map((k) =>
-      userFactoryInstance.serializeToAlgolia(conversationUsers[k].layerUser)),
+      userFactoryInstance.serializeToAlgolia(layerUsers[k].layerUser)),
     backend_user: userFactoryInstance.serializeToAlgolia(currentUser),
     logged_at: Date.now()
   };
 }
 
 export function publishComposerMessage(currentUserLayerId, consumerUserLayerId,
-                                       conversationId, message) {
+                                       message) {
   return (dispatch, getState) => {
     const { layerUsers } = getState();
     dispatch(sendComposerMessage());
     return new Promise((resolve) => {
       message.once('messages:sent', () => {
         const payload = buildAlgoliaRequest(layerUsers, currentUserLayerId,
-          consumerUserLayerId, conversationId, message);
+          consumerUserLayerId, message);
         fetch(EVENTS_API, {
           method: 'POST',
           headers: {

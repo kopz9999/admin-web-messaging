@@ -7,6 +7,15 @@ import Message from '../../components/timeline/Message';
 import { MESSAGE, VISIT } from '../../constants/EventTypes';
 
 export default class EventComponent extends Component {
+  get scrollNode() {
+    return document.body;
+  }
+
+  scrollToTop() {
+    const el = this.scrollNode;
+    el.scrollTop = 0;
+  }
+
   renderEventsFeed(opts = {}) {
     const { events, currentUser } = this.props;
     let eventComponents = [];

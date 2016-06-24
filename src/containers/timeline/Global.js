@@ -19,8 +19,9 @@ export default class Global extends EventComponent {
     });
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.doFetchEvents();
+    this.scrollToTop();
   }
 
   componentWillUnmount() {

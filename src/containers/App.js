@@ -8,6 +8,7 @@ import { Client } from 'layer-sdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
 import Global from './timeline/Global';
+import PageScope from './timeline/PageScope';
 import SignIn from './login/SignIn';
 import ConversationWrapper from './timeline/ConversationWrapper';
 import Logout from '../components/Logout';
@@ -26,7 +27,7 @@ export default class App extends Component {
           <Route path='/home' component={requireAuthentication(Wrapper)}>
             <IndexRoute component={Global}/>
             <Route path='/sites/:siteId/pages/:pageId'
-                   component={Global}/>
+                   component={PageScope}/>
             <Route path='/users/:layerId'
                    component={ConversationWrapper}/>
             <Route path='/logout' component={Logout} />

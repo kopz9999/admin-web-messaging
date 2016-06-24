@@ -196,8 +196,7 @@ export function submitLayerMessage(layerClient, typingPublisher,
         .getConversation(conversationId, true)
         .createMessage(state.activeConversation.composerMessage).send();
     dispatch(submitComposerMessage());
-    dispatch(publishComposerMessage(currentUserLayerId, consumerUserLayerId,
-      conversationId, message));
+    dispatch(publishComposerMessage(currentUserLayerId, consumerUserLayerId, message));
 
     typingPublisher.setState(FINISHED);
 
