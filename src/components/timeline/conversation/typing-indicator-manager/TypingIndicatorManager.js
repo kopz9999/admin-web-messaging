@@ -9,19 +9,13 @@ import TypingIndicator from './TypingIndicator';
 /*
  TODO: Remove !important and get multiple files in TypingIndicatorManager
  */
-function mapStateToProps({ layerUsers }) {
-  return {
-    layerUsers
-  };
-}
-
-class TypingIndicatorManager extends Component {
+@connectTypingIndicator()
+export default class TypingIndicatorManager extends Component {
   renderTypingIndicators() {
-    const { layerUsers, typing, requestScrollDown, conversationId } = this.props;
-    let layerUser, key, isVisible, layerConversationUsers;
-    layerConversationUsers = layerUsers[conversationId];
-    return Object.keys(layerConversationUsers).map((k)=> {
-      layerUser = layerConversationUsers[k].layerUser;
+    const { layerUsers, typing, requestScrollDown } = this.props;
+    let layerUser, key, isVisible;
+    return Object.keys(layerUsers).map((k)=> {
+      layerUser = layerUsers[k].layerUser;
       key = layerUser.layerId;
       isVisible = typing.includes(key);
       return (
@@ -43,7 +37,3 @@ class TypingIndicatorManager extends Component {
     );
   };
 }
-
-export default connect(mapStateToProps, null)(
-  connectTypingIndicator()(TypingIndicatorManager)
-);

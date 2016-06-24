@@ -28,7 +28,7 @@ function layerUser(state = initialState, action) {
   }
 }
 
-function layerUsers(state = {}, action) {
+export default function layerUsers(state = {}, action) {
   const { payload, type } = action;
 
   switch (type) {
@@ -40,20 +40,5 @@ function layerUsers(state = {}, action) {
       };
     default:
       return state;
-  }
-}
-
-export default function layerUsersByConversation(state = {}, action) {
-  const { payload, type } = action;
-
-  switch (type) {
-    case REQUEST_LAYER_USER:
-    case RECEIVE_LAYER_USER:
-      return {
-        ...state,
-        [payload.conversationId]: layerUsers(state[payload.conversationId], action)
-      };
-    default:
-      return state
   }
 }

@@ -14,40 +14,36 @@ import {
   userFactoryInstance,
 } from '../models/User';
 
-function requestLayerUser(conversationId, layerId) {
+function requestLayerUser(layerId) {
   return {
     type: REQUEST_LAYER_USER,
     payload: {
-      conversationId,
       layerId,
     }
   }
 }
 
-export function receiveLayerUser(conversationId, layerId, layerUser) {
+export function receiveLayerUser(layerId, layerUser) {
   return {
     type: RECEIVE_LAYER_USER,
     payload: {
-      conversationId,
       layerId,
       layerUser,
     }
   }
 }
 
-function notFoundLayerUser(conversationId, layerId) {
+function notFoundLayerUser(layerId) {
   return {
     type: NOT_FOUND_LAYER_USER,
     payload: {
-      conversationId,
       layerId,
     }
   }
 }
 
-function shouldFetchLayerUser(state, conversationId, layerId) {
-  const userState = state.layerUsers[conversationId] ?
-    state.layerUsers[conversationId][layerId] : null;
+export function shouldFetchLayerUser(state, layerId) {
+  const userState = state.layerUsers[layerId];
   if (!userState) {
     return true
   } else {
@@ -55,31 +51,35 @@ function shouldFetchLayerUser(state, conversationId, layerId) {
   }
 }
 
-/*
-* TODO: Search in users store before
-* */
-export function fetchLayerUser(conversationId, layerId) {
+export function getLayerUser(state, layerId) {
+  const userState = state.layerUsers[layerId];
+  if (!userState) {
+    return null;
+  } else {
+    return (!userState.isFetching && userState.layerUser) ?
+      userState.layerUser : null;
+  }
+}
+
+export function fetchLayerUser(layerId) {
   return function (dispatch) {
-    dispatch(requestLayerUser(conversationId, layerId));
+    dispatch(requestLayerUser(layerId));
     var usersAPI = urlWithParams(USERS_API, { layerId: layerId });
     return fetch(usersAPI)
       .then(response => response.json())
       .then(json => (
         (json.length > 0) ?
-          dispatch(receiveLayerUser(conversationId, layerId,
+          dispatch(receiveLayerUser(layerId,
             userFactoryInstance.buildFromAPI(json[0]))) :
-          dispatch(notFoundLayerUser(conversationId, layerId))
+          dispatch(notFoundLayerUser(layerId))
       ));
   }
 }
 
-export function verifyFetchLayerUser(conversationId, layerId) {
+export function verifyFetchLayerUser(layerId) {
   return (dispatch, getState) => {
-    if (shouldFetchLayerUser(getState(), conversationId, layerId)) {
-      return dispatch(
-        receiveLayerUser(conversationId, layerId,
-          userFactoryInstance.buildUnknownUser({ layerId }))
-      );
+    if (shouldFetchLayerUser(getState(), layerId)) {
+      return dispatch(fetchLayerUser(layerId));
     } else {
       return Promise.resolve()
     }

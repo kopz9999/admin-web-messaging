@@ -112,10 +112,8 @@ export default class Conversation extends Component {
   renderMessageItem(message) {
     const { layerUsers, currentQuery, onMarkMessageRead,
       currentUser } = this.props;
-    const conversationUsers =
-      layerUsers[getLayerConversationId(currentQuery.conversationId)];
-    const user = conversationUsers[message.sender.userId].layerUser;
-    const consumerUser = conversationUsers[currentQuery.layerId].layerUser;
+    const user = layerUsers[message.sender.userId].layerUser;
+    const consumerUser = layerUsers[currentQuery.layerId].layerUser;
 
     return (
       <Message
@@ -145,10 +143,12 @@ export default class Conversation extends Component {
   }
 
   renderTypingIndicatorManager() {
+    const { layerUsers } = this.props;
     const { conversationId } = this.props.currentQuery;
     if (this.usersReady()) {
       return (
         <TypingIndicatorManager
+          layerUsers={layerUsers}
           conversationId={getLayerConversationId(conversationId)}
           requestScrollDown={this.requestScrollDown.bind(this)}
         />
