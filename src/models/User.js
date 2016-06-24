@@ -42,6 +42,17 @@ export class UserFactory {
     });
   }
 
+  buildFromAlgolia(opts) {
+    return new User({
+      id: opts.id,
+      objectId: opts.objectID,
+      layerId: opts.layer_id,
+      displayName: opts.display_name,
+      color: opts.color,
+      iconIdentity: opts.icon_identity,
+    });
+  }
+
   buildUnknownUser(opts) {
     return new User({
       id: opts.layerId,

@@ -59,17 +59,17 @@ function shouldFetchLayerUser(state, conversationId, layerId) {
 * TODO: Search in users store before
 * */
 export function fetchLayerUser(conversationId, layerId) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
+    const { usersIndex } = getState().algolia;
+    const query = { facetFilters: `layer_id:${layerId}` };
     dispatch(requestLayerUser(conversationId, layerId));
-    var usersAPI = urlWithParams(USERS_API, { layerId: layerId });
-    return fetch(usersAPI)
-      .then(response => response.json())
-      .then(json => (
-        (json.length > 0) ?
+    return usersIndex.search('', query)
+      .then(content => {
+        (content.nbHits > 0) ?
           dispatch(receiveLayerUser(conversationId, layerId,
-            userFactoryInstance.buildFromAPI(json[0]))) :
+            userFactoryInstance.buildFromAlgolia(content.hits[0]))) :
           dispatch(notFoundLayerUser(conversationId, layerId))
-      ));
+      });
   }
 }
 

@@ -40,8 +40,9 @@ function shouldFetchPage(state, pageId) {
   }
 }
 
-export function fetchPage(pagesIndex, pageId) {
-  return function (dispatch) {
+export function fetchPage(pageId) {
+  return function (dispatch, getState) {
+    const { pagesIndex } = getState().algolia;
     dispatch(requestPage(pageId));
     return pagesIndex.getObject(pageId)
       .then(json =>
@@ -54,9 +55,8 @@ export function fetchPage(pagesIndex, pageId) {
 export function verifyFetchPage(pageId) {
   return (dispatch, getState) => {
     const state = getState();
-    const { pagesIndex } = state.algolia;
     if (shouldFetchPage(state, pageId)) {
-      return dispatch(fetchPage(pagesIndex, pageId));
+      return dispatch(fetchPage(pageId));
     } else {
       return Promise.resolve()
     }

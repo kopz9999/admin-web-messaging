@@ -137,6 +137,9 @@ export function resetConversationJoin() {
   }
 }
 
+/*
+* TODO: Keep listening if the user started a conversation
+* */
 export function joinConversation(layerId) {
   return (dispatch, getState) => {
     const token = getState().auth.token;
