@@ -10,7 +10,7 @@ Vagrant.configure(2) do |config|
   # config.vm.provision :shell, path: "install-nvm.sh", privileged: false
   # config.vm.provision :shell, path: "install-node.sh", args: "5.10.1", privileged: false
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
+    v.memory = 2048
     v.cpus = 2
   end
   config.vm.provider "virtualbox" do |v|
