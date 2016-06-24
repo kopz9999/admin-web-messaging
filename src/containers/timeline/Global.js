@@ -13,8 +13,8 @@ export default class Global extends EventComponent {
   }
 
   doFetchEvents() {
-    const { eventPagination, eventsIndex, fetchEvents } = this.props;
-    fetchEvents(eventsIndex, Date.now(), eventPagination).then(()=> {
+    const { eventPagination, fetchEvents } = this.props;
+    fetchEvents(Date.now(), eventPagination).then(()=> {
       this.state.timeoutId = setTimeout(()=> this.doFetchEvents(), 1000);
     });
   }

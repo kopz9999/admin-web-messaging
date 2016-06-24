@@ -11,8 +11,7 @@ export default class Search extends Component {
 
   handleChange(event) {
     const { value } = event.target;
-    this.props.onSearchChange(this.props.eventsIndex, value, Date.now(),
-      this.props.eventPagination);
+    this.props.onSearchChange(value, Date.now(), this.props.eventPagination);
     if (value.length > 0) {
       this.setState({searching: true});
     } else {
@@ -21,8 +20,7 @@ export default class Search extends Component {
   }
 
   clearBox() {
-    this.props.onSearchChange(this.props.eventsIndex, '', Date.now(),
-      this.props.eventPagination);
+    this.props.onSearchChange('', Date.now(), this.props.eventPagination);
     this.setState({searching: false});
   }
 

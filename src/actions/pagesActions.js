@@ -51,9 +51,11 @@ export function fetchPage(pagesIndex, pageId) {
   }
 }
 
-export function verifyFetchPage(pagesIndex, pageId) {
+export function verifyFetchPage(pageId) {
   return (dispatch, getState) => {
-    if (shouldFetchPage(getState(), pageId)) {
+    const state = getState();
+    const { pagesIndex } = state.algolia;
+    if (shouldFetchPage(state, pageId)) {
       return dispatch(fetchPage(pagesIndex, pageId));
     } else {
       return Promise.resolve()

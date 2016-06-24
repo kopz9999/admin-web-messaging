@@ -61,10 +61,10 @@ function searchChange(currentSearch) {
   }
 }
 
-export function requestSearch(index, currentSearch, fromTimestamp, limit){
+export function requestSearch(currentSearch, fromTimestamp, limit){
   return function (dispatch) {
     dispatch(searchChange(currentSearch));
-    return dispatch(fetchEvents(index, fromTimestamp, limit, true));
+    return dispatch(fetchEvents(fromTimestamp, limit, true));
   }
 }
 
@@ -164,14 +164,15 @@ function getFacetFilters(state) {
   return filters;
 }
 
-export function fetchEvents(index, fromTimestamp, limit, useCache=false) {
+export function fetchEvents(fromTimestamp, limit, useCache=false) {
   return function (dispatch, getState) {
     const state = getState();
+    const { eventsIndex } = state.algolia;
     const query = { hitsPerPage: limit, facetFilters: getFacetFilters(state) };
     eventFactoryInstance.settings = state.settings;
-    if (!useCache) index.clearCache();
+    if (!useCache) eventsIndex.clearCache();
     dispatch(requestEvents(fromTimestamp));
-    return index.search(state.timeLine.currentSearch, query)
+    return eventsIndex.search(state.timeLine.currentSearch, query)
       .then(content =>
         dispatch(processEvents(content.hits))
       );

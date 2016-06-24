@@ -31,9 +31,8 @@ function mapDispatchToProps(dispatch) {
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Header extends Component {
   retrievePage(pageId) {
-    const { pagesIndex } = this.props;
     const { verifyFetchPage } = this.props.pagesActions;
-    verifyFetchPage(pagesIndex, pageId);
+    verifyFetchPage(pageId);
   }
 
   componentDidMount() {
@@ -84,12 +83,11 @@ export default class Header extends Component {
 
   renderSearch() {
     const { layerId, conversationId, timeLineActions, timeLine,
-      eventsIndex, pageId } = this.props;
+      pageId } = this.props;
 
     if (!layerId && !conversationId && !pageId) {
       return (
         <Search
-          eventsIndex={eventsIndex}
           currentSearch={timeLine.currentSearch}
           eventPagination={timeLine.eventPagination}
           onSearchChange={timeLineActions.requestSearch}
