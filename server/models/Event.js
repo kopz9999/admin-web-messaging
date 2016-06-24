@@ -26,11 +26,15 @@ EventFactory.prototype.retrieveProperties = function (event) {
   return Promise.all(promises).then(values => {
     event.user = values[0];
     event.site = values[1];
-    event.page.siteId = event.site.objectId;
-    return pageFactoryInstance.findOrCreate(event.page).then((storedPage)=> {
-      event.page = storedPage;
+    if (event.page) {
+      event.page.siteId = event.site.objectId;
+      return pageFactoryInstance.findOrCreate(event.page).then((storedPage)=> {
+        event.page = storedPage;
+        return event;
+      });
+    } else {
       return event;
-    });
+    }
   });
 };
 
@@ -75,6 +79,7 @@ EventFactory.prototype.serializeToAlgolia = function(event) {
     type: event.type,
     message: event.message,
     users: event.users,
+    backend_user: event.backendUser,
   };
 };
 

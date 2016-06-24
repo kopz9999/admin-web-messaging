@@ -123,6 +123,9 @@ export function receiveComposerMessage() {
   };
 }
 
+/*
+* TODO: Get site and page from event
+ * */
 function buildAlgoliaRequest(layerUsers, currentUserLayerId, consumerUserLayerId,
                              conversationId, message) {
   const conversationUsers = layerUsers[conversationId];
@@ -134,6 +137,9 @@ function buildAlgoliaRequest(layerUsers, currentUserLayerId, consumerUserLayerId
   return {
     user: userFactoryInstance.serializeToAlgolia(consumerUser),
     type: "MESSAGE",
+    site: {
+      domain: "curaytor.com",
+    },
     message: messageFactoryInstance.serializeToAlgolia(message),
     users: userKeys.map((k) =>
       userFactoryInstance.serializeToAlgolia(conversationUsers[k].layerUser)),
