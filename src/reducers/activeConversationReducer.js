@@ -14,6 +14,7 @@ import {
   RECEIVE_PARTICIPANTS,
   REQUEST_CONVERSATION,
   RECEIVE_CONVERSATION,
+  SET_CONVERSATION,
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -89,6 +90,13 @@ export default function activeConversationReducer(state = initialState, action) 
         conversationId: payload.conversationId,
         loadingConversation: true,
         conversationLoaded: false,
+      };
+    case SET_CONVERSATION:
+      return {
+        ...state,
+        conversationId: payload.conversationId,
+        loadingConversation: false,
+        conversationLoaded: true,
       };
     case RECEIVE_CONVERSATION:
       return {

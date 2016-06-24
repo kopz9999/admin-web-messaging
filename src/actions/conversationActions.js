@@ -3,6 +3,7 @@ import {
   REQUEST_PARTICIPANTS,
   RECEIVE_PARTICIPANTS,
   REQUEST_CONVERSATION,
+  SET_CONVERSATION,
   RECEIVE_CONVERSATION,
   CHANGE_COMPOSER_MESSAGE,
   SUBMIT_COMPOSER_MESSAGE,
@@ -98,6 +99,15 @@ export function requestConversation(conversationId) {
   }
 }
 
+export function setConversation(conversationId) {
+  return {
+    type: SET_CONVERSATION,
+    payload: {
+      conversationId
+    }
+  }
+}
+
 export function receiveConversation() {
   return {
     type: RECEIVE_CONVERSATION,
@@ -187,6 +197,9 @@ export function onReceiveConversation(conversation) {
   }
 }
 
+/*
+* TODO: Handle first message
+* */
 function handleConversationChange(e, conversation) {
   return (dispatch) => {
     if (e.changes) {
@@ -195,6 +208,9 @@ function handleConversationChange(e, conversation) {
           case "metadata":
             dispatch(readParticipants(conversation));
             break;
+          case "id":
+            dispatch(setConversation(change.newValue));
+            break;
         }
       });
     }
@@ -202,12 +218,37 @@ function handleConversationChange(e, conversation) {
   }
 }
 
+function createMetadata(participants) {
+  let metaData = {};
+  participants.forEach((p, i)=> {
+    metaData[`appParticipants.${i}`] = userFactoryInstance.serializeToJSON(p);
+  });
+  return metaData;
+}
+
 /*
 * TODO: Implement functionality
 * */
 export function doConversationCreate(layerId) {
-  return (dispatch, getState) => {
-  }
+  return (dispatch, getState) => (
+    dispatch(verifyFetchLayerUser(layerId)).then(()=> {
+      const state = getState();
+      const { client } = state.layerClient;
+      const { defaultLayerId } = state.settings;
+      const consumerUser = state.layerUsers[layerId].layerUser;
+      const currentUser = state.app.currentUser;
+      const expectedConversation = client.createConversation({
+        true,
+        participants: [ layerId, defaultLayerId ]
+      });
+      expectedConversation.setMetadataProperties(createMetadata([currentUser,
+        consumerUser]));
+      expectedConversation.on('conversations:change',
+        (e)=> dispatch(handleConversationChange(e, expectedConversation)));
+      dispatch(setConversation(expectedConversation.id));
+      return dispatch(loadParticipants(expectedConversation));
+    })
+  )
 }
 
 export function doConversationRequest(conversationId) {

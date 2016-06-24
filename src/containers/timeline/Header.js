@@ -56,9 +56,7 @@ export default class Header extends Component {
 
   renderUser() {
     const { layerId, conversationId, layerUsers } = this.props;
-    const conversationUsers =
-      layerUsers[getLayerConversationId(conversationId)];
-    const userState = conversationUsers ? conversationUsers[layerId] : null;
+    const userState = layerUsers ? layerUsers[layerId] : null;
     if (userState && userState.layerUser) {
       return (
         <User

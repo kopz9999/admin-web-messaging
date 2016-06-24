@@ -29,6 +29,7 @@ import {
 } from '../actions/conversationActions';
 // Endpoints
 import { LAYER_USERS_API } from '../constants/Endpoints';
+import { OK, NOT_FOUND } from 'http-status-codes';
 
 const {
   STARTED,
@@ -85,40 +86,6 @@ function getIdentityToken(userId, state, nonce, callback){
   });
 }
 
-// Update conversation
-function addParticipantToConversation(conversation, currentUser) {
-  return (dispatch, getState) => {
-    const userId = currentUser.id.toString();
-    const results = conversation.participants
-      .filter((uid)=> uid.toString() == userId);
-    if (results.length > 0) {
-      return Promise.resolve();
-    } else {
-      const { appParticipants } = conversation.metadata;
-      let metaData = {}, maxIndex, idx = 0;
-      Object.keys(appParticipants).forEach((i) => {
-        idx = i;
-        metaData[`appParticipants.${i}`] = appParticipants[i];
-      });
-      maxIndex = parseInt(idx) + 1;
-      metaData[`appParticipants.${maxIndex}`] =
-        userFactoryInstance.serializeToJSON(currentUser);
-      conversation.setMetadataProperties(metaData);
-      conversation.addParticipants([userId]);
-      dispatch(receiveLayerUser(conversation.id, userId, currentUser));
-      return new Promise((resolve) => {
-        conversation.on('conversations:change', (e) => {
-          const changes = e.changes.filter((c) => c.property == 'participants');
-          if (changes.length > 0) {
-            // TODO: REMOVE and find why!!
-            setTimeout(() => { resolve() }, 2000);
-            conversation.off('conversations:change');
-          }
-        });
-      });
-    }
-  };
-}
 function requestConversationJoin() {
   return {
     type: REQUEST_CONVERSATION_JOIN,
@@ -152,18 +119,23 @@ export function joinConversation(layerId) {
           'X-Auth-Token': token
         }
       })
-      .then(response => response.json())
-      .then(conversations => {
-        if (conversations.length > 0) {
-          return dispatch(
-            doConversationRequest(conversations[0].id)
-          ).then(()=> dispatch(receiveConversationJoin()));
+      .then(response => {
+        if (response.status === OK) {
+          return response.json()
+            .then((conversations)=>
+              dispatch(
+                (conversations.length > 0) ?
+                  doConversationRequest(conversations[0].id) :
+                  doConversationCreate(layerId)
+              )
+            )
+        } else if (response.status === NOT_FOUND) {
+          return dispatch(doConversationCreate(layerId))
         } else {
-          return dispatch(
-            doConversationCreate(layerId)
-          ).then(()=> dispatch(receiveConversationJoin()));
+          return Promise.reject(response.status);
         }
-      });
+      })
+      .then(()=> dispatch(receiveConversationJoin()))
   };
 }
 
