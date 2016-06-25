@@ -69,9 +69,8 @@
 }
 
 .inlineContent > * {
-    display: inline-block;
+    display: inline;
     vertical-align: middle;
-    margin-right: 5px;
 }
 
 @media screen and (max-width: 400px) {

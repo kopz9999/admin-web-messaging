@@ -57,7 +57,11 @@
     margin-bottom: 15px;
 }
 
-.metaData, .metadataExtra {
+.metaData .metaDataLink {
+    text-decoration: none;
+}
+
+.metaData, .metadataExtra, .metaDataLink {
     composes: inlineContent from "./TimeLineItem.css";
 }
 

@@ -26,13 +26,17 @@ export default class Visit extends TimeLineItem {
           <div className={styles.title}>
             <EventTimestamp eventAt={receivedAt} />
           </div>
-          <Link to={pageScopeURL} className={styles.metaData}>
-            <span className={styles.linkLabel}>{ displayNameText }</span>
-            <div className={styles.metaDataLabel}> visited </div>
-            <span className={styles.linkLabel}>
-              { pageName }
-            </span>
-          </Link>
+          <div className={styles.metaData}>
+            <Link to={conversationURL} className={styles.metaDataLink}>
+              <span className={styles.linkLabel}> { displayNameText } </span>
+            </Link>
+            <Link to={pageScopeURL} className={styles.metaDataLink}>
+              <div className={styles.metaDataLabel}> visited </div>
+              <span className={styles.linkLabel}>
+                { pageName }
+              </span>
+            </Link>
+          </div>
           <Link to={conversationURL} className={styles.actionBtn}>
             <i className={styles.conversationIcon}>&nbsp;</i>
             <span className={styles.linkLabel}>Start Conversation</span>
