@@ -29,7 +29,7 @@ import {
 } from '../actions/conversationActions';
 // Endpoints
 import { LAYER_USERS_API } from '../constants/Endpoints';
-import { OK, NOT_FOUND } from 'http-status-codes';
+import { OK, NOT_FOUND, MULTIPLE_CHOICES } from 'http-status-codes';
 
 const {
   STARTED,
@@ -120,7 +120,7 @@ export function joinConversation(layerId) {
         }
       })
       .then(response => {
-        if (response.status === OK) {
+        if (response.status >= OK && response.status < MULTIPLE_CHOICES) {
           return response.json()
             .then((conversations)=>
               dispatch(
