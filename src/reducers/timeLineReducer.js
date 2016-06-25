@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   isFetching: false,
-  eventPagination: 50,
+  eventPagination: 250,
   fromTimestamp: null,
   currentSearch: '',
   events: [],
