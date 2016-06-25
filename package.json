@@ -5,6 +5,7 @@
   "scripts": {
     "postinstall": "webpack --config ./webpack.production.js --progress --colors",
     "start": "node devServer.js",
+    "debug": "DEBUG=true node debug devServer.js",
     "build": "webpack --config webpack.production.js"
   },
   "dependencies": {
