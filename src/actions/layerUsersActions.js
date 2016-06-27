@@ -72,13 +72,16 @@ export function fetchLayerUser(layerId) {
           return dispatch(receiveLayerUser(layerId,
             userFactoryInstance.buildFromAlgolia(content.hits[0])));
         } else {
-          dispatch(notFoundLayerUser(layerId));
-          return dispatch(
-            receiveLayerUser(
-              layerId,
-              userFactoryInstance.buildUnknownUser({ layerId })
-            )
-          );
+          // Workaround for knowing when a user was already there
+          if (!getState().layerUsers[layerId].layerUser) {
+            dispatch(notFoundLayerUser(layerId));
+            return dispatch(
+              receiveLayerUser(
+                layerId,
+                userFactoryInstance.buildUnknownUser({ layerId })
+              )
+            );
+          }
         }
       });
   }
