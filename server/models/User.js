@@ -24,9 +24,9 @@ function User(opts) {
 function UserFactory() {
 }
 
-UserFactory.prototype.findOrCreate = function(user) {
+UserFactory.prototype.findOrCreate = function (user, facetFilters) {
   var usersIndex = algoliaManagerInstance.getUsersIndex();
-  var query = { facetFilters: "id:" + user.id };
+  var query = { facetFilters: facetFilters };
   return usersIndex.search('', query).then((content)=> {
     if (content.nbHits > 0) {
       return this.buildFromAlgolia(content.hits[0]);
@@ -36,6 +36,25 @@ UserFactory.prototype.findOrCreate = function(user) {
         return user;
       });
     }
+  });
+};
+
+UserFactory.prototype.findOrCreateById = function(user) {
+  return this.findOrCreate(user, "id:" + user.id);
+};
+
+UserFactory.prototype.findOrCreateByLayerId = function(user) {
+  return this.findOrCreate(user, "layer_id:" + user.layerId);
+};
+
+UserFactory.prototype.buildUnknownUser = function(opts) {
+  return new User({
+    id: opts.layerId,
+    layerId: opts.layerId,
+    displayName: 'Unknown',
+    color: '#a5b0bb',
+    iconIdentity: '0',
+    avatarURL: null
   });
 };
 
@@ -96,7 +115,7 @@ UserFactory.prototype.serializeToMetadata = function(user) {
   var result = {}, prop;
   Object.keys(user).forEach((k)=> {
     prop = user[k];
-    if (prop !== undefined) result[k] = user[k].toString();
+    if (prop !== undefined && prop !== null) result[k] = user[k].toString();
   });
   return result;
 };

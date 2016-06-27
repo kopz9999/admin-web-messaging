@@ -37,39 +37,52 @@ ParticipantsController.prototype.setupResource = function(route) {
     var headers = req.headers;
     var authToken = headers['x-auth-token'];
     var layerId = req.params.layerId;
-    var currentUser = null, conversations;
-    getUserByToken(authToken)
-      .then((user) => {
-        currentUser = user;
-        return this.layerClient.conversations.getAllFromUserAsync(layerId)
+    var currentUser = null, conversation = null;
+    var consumerUser = userFactoryInstance.buildUnknownUser({layerId: layerId});
+    var promises = [
+      getUserByToken(authToken),
+      userFactoryInstance.findOrCreateByLayerId(consumerUser)
+    ];
+
+    return Promise.all(promises)
+      .then((values) => {
+        currentUser = values[0];
+        consumerUser = values[1];
+        return this.findOrCreateConversation(consumerUser)
       })
-      .then((layerResponse) => {
-        conversations = layerResponse.body;
-        return conversations.length > 0?
-          this.verifyParticipants(currentUser, conversations[0]) : OK;
+      .then((c) => {
+        conversation = c;
+        return this.verifyParticipants(currentUser, conversation);
       })
       .then((status) => {
         res.status(status);
-        res.json(conversations);
+        res.json([conversation]);
       })
       .catch((err) => this.errorHandler(err, res));
   });
 };
 
+ParticipantsController.prototype.createConversation = function(user) {
+  return this.layerClient.conversations
+    .createAsync({
+      participants: [user.layerId, DEFAULT_USER],
+      metadata: {
+        "appParticipants.0" :
+          userFactoryInstance.serializeToMetadata(user)
+      }
+    }).then(layerResponse => layerResponse.body);
+};
+
 ParticipantsController.prototype.findOrCreateConversation = function(user) {
   return this.layerClient.conversations
     .getAllFromUserAsync(user.layerId)
-    .then(layerResponse => layerResponse.body[0])
+    .then(layerResponse => {
+      return layerResponse.body.length > 0 ?
+        layerResponse.body[0] : this.createConversation(user);
+    })
     .catch((err)=> {
       if (err.status === NOT_FOUND) {
-        return this.layerClient.conversations
-          .createAsync({
-            participants: [user.layerId, DEFAULT_USER],
-            metadata: {
-              "appParticipants.0" :
-                userFactoryInstance.serializeToMetadata(user)
-            }
-          }).then(layerResponse => layerResponse.body);
+        return this.createConversation(user);
       } else {
         return Promise.reject(err);
       }
@@ -104,6 +117,7 @@ ParticipantsController.prototype.updateMetadata = function(conversation, user) {
 };
 
 ParticipantsController.prototype.errorHandler = function(err, res) {
+  debugger;
   if (err.status) res.status(err.status);
   else res.status(500);
   if (err.body) res.json(err.body);
