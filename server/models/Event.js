@@ -21,7 +21,7 @@ function EventFactory() {
 }
 
 EventFactory.prototype.retrieveProperties = function (event) {
-  var promises = [userFactoryInstance.findOrCreate(event.user),
+  var promises = [userFactoryInstance.findOrCreateById(event.user),
     siteFactoryInstance.findOrCreate(event.site)];
   return Promise.all(promises).then(values => {
     event.user = values[0];
@@ -52,7 +52,7 @@ EventFactory.prototype.buildFromAlgolia = function(opts) {
   if (event.site) {
     return this.retrieveProperties(event);
   } else {
-    return userFactoryInstance.findOrCreate(event.user).then((user)=> {
+    return userFactoryInstance.findOrCreateById(event.user).then((user)=> {
       event.user = user;
       return event;
     });
