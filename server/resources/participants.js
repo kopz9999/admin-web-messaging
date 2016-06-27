@@ -1,13 +1,16 @@
-// App
-var USER_INFO_ENDPOINT = require('../../shared/Endpoints').USER_INFO_ENDPOINT;
+// Libs
 var LayerAPI = require('layer-api');
-var API_TOKEN = 'PQ4e10cZFRhpU2RQl7HKEbheV39unhkYWQNbVVPb8DTEZhOr';
-var APP_ID = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
-var getUserByToken = require('../utils/auth').getUserByToken;
 var HttpStatus = require('http-status-codes');
+// App
+var getUserByToken = require('../utils/auth').getUserByToken;
+var userFactoryInstance = require('../models/User').userFactoryInstance;
+var DEFAULT_USER = require('../../shared/App').DEFAULT_USER;
+// Locals
 var CREATED = HttpStatus.CREATED;
 var OK = HttpStatus.OK;
-var userFactoryInstance = require('../models/User').userFactoryInstance;
+var NOT_FOUND = HttpStatus.NOT_FOUND;
+var API_TOKEN = 'PQ4e10cZFRhpU2RQl7HKEbheV39unhkYWQNbVVPb8DTEZhOr';
+var APP_ID = 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8';
 
 var ParticipantsController = function() {
   this.layerClient = new LayerAPI({
@@ -17,6 +20,19 @@ var ParticipantsController = function() {
 };
 
 ParticipantsController.prototype.setupResource = function(route) {
+  route.post((req, res)=> {
+    var layerId = req.params.layerId;
+    var user = userFactoryInstance.buildFromRequest(req.body);
+    // You can create a conversation for yourself but not for someone else
+    user.layerId = layerId;
+    return this.findOrCreateConversation(user)
+      .then((conversation) => {
+        res.status(OK);
+        res.json(conversation);
+      })
+      .catch((err) => this.errorHandler(err, res));
+  });
+
   route.get((req, res)=> {
     var headers = req.headers;
     var authToken = headers['x-auth-token'];
@@ -38,6 +54,26 @@ ParticipantsController.prototype.setupResource = function(route) {
       })
       .catch((err) => this.errorHandler(err, res));
   });
+};
+
+ParticipantsController.prototype.findOrCreateConversation = function(user) {
+  return this.layerClient.conversations
+    .getAllFromUserAsync(user.layerId)
+    .then(layerResponse => layerResponse.body[0])
+    .catch((err)=> {
+      if (err.status === NOT_FOUND) {
+        return this.layerClient.conversations
+          .createAsync({
+            participants: [user.layerId, DEFAULT_USER],
+            metadata: {
+              "appParticipants.0" :
+                userFactoryInstance.serializeToMetadata(user)
+            }
+          }).then(layerResponse => layerResponse.body);
+      } else {
+        return Promise.reject(err);
+      }
+    });
 };
 
 ParticipantsController.prototype.verifyParticipants = function(user, conversation) {
