@@ -9,6 +9,7 @@ import { connectQuery } from 'layer-react';
 // App
 import TimeLine from '../../components/timeline/TimeLine';
 import Message from '../../components/timeline/conversation/Message';
+import Visit from '../../components/timeline/conversation/Visit';
 import MessageComposer from '../../components/timeline/conversation/MessageComposer';
 import TypingIndicatorManager from '../../components/timeline/conversation/typing-indicator-manager/TypingIndicatorManager';
 import styles from './Conversation.css';
@@ -17,6 +18,8 @@ import { getLayerConversationId } from '../../utils/Helper';
 // Actions
 import * as MessengerActions from '../../actions/messenger';
 import * as ConversationActions from '../../actions/conversationActions';
+// Constants
+import { MESSAGE, VISIT } from '../../constants/EventTypes';
 
 function mapStateToProps({ app, activeConversation, layerUsers }) {
   return {
@@ -51,6 +54,7 @@ export default class Conversation extends Component {
     this.state = {
       stickBottom: true,
       showingKeyboard: false,
+      timeoutId: null,
     };
   }
 
@@ -147,29 +151,15 @@ export default class Conversation extends Component {
     return loadedUsers && conversationLoaded;
   }
 
-  renderMessages() {
-    let reversedMessages = null;
-    if (this.usersReady()) {
-      reversedMessages = this.props.messages.filter((m)=> m.isSaved).reverse();
-      return reversedMessages.map(this.renderMessageItem.bind(this));
-    } else {
-      return null;
-    }
-  }
-
   renderTypingIndicatorManager() {
     const { conversationId, layerUsers } = this.props;
-    if (this.usersReady()) {
-      return (
-        <TypingIndicatorManager
-          conversationId={conversationId}
-          layerUsers={layerUsers}
-          requestScrollDown={this.requestScrollDown.bind(this)}
-        />
-      );
-    } else {
-      return null;
-    }
+    return (
+      <TypingIndicatorManager
+        conversationId={conversationId}
+        layerUsers={layerUsers}
+        requestScrollDown={this.requestScrollDown.bind(this)}
+      />
+    );
   }
 
   onFocus() {
@@ -180,20 +170,47 @@ export default class Conversation extends Component {
     this.state.showingKeyboard = false;
   }
 
-  render() {
-    const { composerMessage, onSubmitComposerMessage,
-      onChangeComposerMessage } = this.props;
+  renderEventsFeed() {
+    const { events } = this.props;
+    let eventComponents = [];
+    events.forEach((event)=> {
+      switch (event.type) {
+        case MESSAGE:
+          eventComponents.unshift(this.renderMessageItem(event.layerMessage));
+          break;
+        case VISIT:
+          eventComponents.unshift(<Visit { ...event } />);
+          break;
+      }
+    });
+    return eventComponents;
+  }
+
+  renderConversationData() {
     const contentStyle = this.state.showingKeyboard ?
       styles.contentWrapper : '';
 
-    return (
-      <div className={styles.conversation}>
+    if (this.usersReady()) {
+      return (
         <div className={contentStyle}>
           <TimeLine hasFeedButton={false}>
-            { this.renderMessages() }
+            { this.renderEventsFeed() }
           </TimeLine>
           { this.renderTypingIndicatorManager() }
         </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  render() {
+    const { composerMessage, onSubmitComposerMessage,
+      onChangeComposerMessage } = this.props;
+
+    return (
+      <div className={styles.conversation}>
+        { this.renderConversationData() }
         <MessageComposer
           onFocus={this.onFocus.bind(this)}
           onBlur={this.onBlur.bind(this)}

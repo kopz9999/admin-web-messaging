@@ -25,6 +25,9 @@ export const REQUEST_EVENTS = 'REQUEST_EVENTS';
 export const QUERY_EVENTS = 'QUERY_EVENTS';
 export const LOAD_MORE_EVENTS = 'LOAD_MORE_EVENTS';
 export const RECEIVE_EVENTS = 'RECEIVE_EVENTS';
+// Timeout actions
+export const SET_EVENTS_TIMEOUT = 'SET_EVENTS_TIMEOUT';
+export const CLEAR_EVENTS_TIMEOUT = 'CLEAR_EVENTS_TIMEOUT';
 // Search
 export const SEARCH_CHANGE = 'SEARCH_CHANGE';
 // Pages

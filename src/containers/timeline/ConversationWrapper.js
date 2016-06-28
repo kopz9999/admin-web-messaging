@@ -58,17 +58,23 @@ export default class ConversationWrapper extends Component {
     this.verifyProcessConversation();
   }
 
+  componentWillMount() {
+    this.props.liveFetchEvents(100);
+  }
+
   componentWillUnmount() {
     const { resetConversationJoin } = this.props.layerClientActions;
     resetConversationJoin();
+    this.props.doClearEventsTimeout();
   }
 
   renderConversationList() {
-    const { currentQuery, currentUser, client } = this.props;
+    const { currentQuery, currentUser, client, events } = this.props;
 
     return (
       <LayerProvider client={client}>
         <Conversation
+          events={events}
           currentUser={currentUser}
           currentQuery={currentQuery}
           transferScopeData={this.receiveConversationData.bind(this)}

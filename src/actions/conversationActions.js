@@ -1,3 +1,5 @@
+// Lib
+import { QueryBuilder } from 'layer-sdk';
 // App
 import {
   REQUEST_PARTICIPANTS,
@@ -197,9 +199,6 @@ export function onReceiveConversation(conversation) {
   }
 }
 
-/*
-* TODO: Handle first message
-* */
 function handleConversationChange(e, conversation) {
   return (dispatch) => {
     if (e.changes) {
@@ -226,9 +225,6 @@ function createMetadata(participants) {
   return metaData;
 }
 
-/*
-* TODO: Implement functionality
-* */
 export function doConversationCreate(layerId) {
   return (dispatch, getState) => (
     dispatch(verifyFetchLayerUser(layerId)).then(()=> {
@@ -266,6 +262,20 @@ export function doConversationRequest(conversationId) {
           loadParticipants(searchedConversation)
         ).then(() => { resolve() });
       });
+    });
+  };
+}
+
+/* TODO: Implement query for conversation messages */
+export function setConversationQuery(conversationId) {
+  return (dispatch, getState) => {
+    const { client } = getState().layerClient;
+    const qBuilder = QueryBuilder
+      .messages()
+      .forConversation(conversationId);
+    let query = client.createQuery(qBuilder);
+    query.on('change', function(evt) {
+
     });
   };
 }

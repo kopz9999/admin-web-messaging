@@ -7,6 +7,8 @@ import {
   QUERY_EVENTS,
   RECEIVE_EVENTS,
   SEARCH_CHANGE,
+  SET_EVENTS_TIMEOUT,
+  CLEAR_EVENTS_TIMEOUT,
 } from '../constants/ActionTypes';
 import {
   EVENTS_API,
@@ -59,6 +61,31 @@ function searchChange(currentSearch) {
     payload: {
       currentSearch
     }
+  }
+}
+
+export function setEventsTimeout(currentTimeout) {
+  return {
+    type: SET_EVENTS_TIMEOUT,
+    payload: {
+      currentTimeout
+    }
+  }
+}
+
+export function clearEventsTimeout() {
+  return {
+    type: CLEAR_EVENTS_TIMEOUT,
+  }
+}
+
+export function doClearEventsTimeout() {
+  return (dispatch, getState) => {
+    const { currentTimeout } = getState().timeLine;
+    if (!isNaN(currentTimeout)) {
+      clearTimeout(currentTimeout);
+    }
+    return dispatch(clearEventsTimeout());
   }
 }
 
@@ -128,6 +155,9 @@ function processEvents(rawEvents) {
             eventObject.backendUser = registerLayerUser(dispatch, state,
               evt.backend_user);
           }
+          if (evt.message) {
+            eventObject.generateLayerMessage();
+          }
           evt.users.forEach((usr) => {
             eventObject.users.push(
               registerLayerUser(dispatch, state, usr)
@@ -150,6 +180,7 @@ function getFacetFilters(state) {
   if (params && Object.keys(params).length > 0) {
     if (params.siteId) filters.push("site.object_id:" + params.siteId);
     if (params.pageId) filters.push("page.object_id:" + params.pageId);
+    if (params.layerId) filters.push("user.layer_id:" + params.layerId);
   } else {
     filters.push("site.domain:" + DEFAULT_DOMAIN);
   }
@@ -169,4 +200,20 @@ export function fetchEvents(fromTimestamp, limit, useCache=false) {
         dispatch(processEvents(content.hits))
       );
   }
+}
+
+export function doFetchEvents(interval) {
+  return (dispatch, getState) => {
+    const state = getState();
+    return dispatch(fetchEvents(Date.now(), state.timeLine.eventPagination)).then(()=> {
+      dispatch(setEventsTimeout(setTimeout(()=> dispatch(doFetchEvents(interval)), interval)));
+    });
+  }
+}
+
+export function liveFetchEvents(interval = 1000) {
+  return function (dispatch, getState) {
+    dispatch(doClearEventsTimeout());
+    return dispatch(doFetchEvents(interval));
+  };
 }

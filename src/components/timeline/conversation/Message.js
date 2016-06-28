@@ -64,7 +64,6 @@ export default class Message extends TimeLineItem {
               text={bodyText}/>
           </div>
           <div className={styles.readLabel}>
-            { this.readLabel }
           </div>
         </div>
       </div>

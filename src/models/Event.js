@@ -5,7 +5,7 @@ import { messageFactoryInstance } from './Message';
 
 export class Event {
   constructor({key, id, type, isRead, site, user, users, backendUser, page, message,
-      receivedAt}) {
+      receivedAt, layerMessage}) {
     this.key = key;
     this.id = id;
     this.type = type;
@@ -16,7 +16,19 @@ export class Event {
     this.users = users || [];
     this.page = page;
     this.message = message;
+    this.layerMessage = layerMessage;
     this.receivedAt = receivedAt;
+  }
+
+  generateLayerMessage() {
+    this.layerMessage = {
+      id: this.message.id,
+      parts: [ { body: this.message.body } ],
+      sentAt: new Date(this.receivedAt),
+      sender: {
+        userId: this.backendUser ? this.backendUser.layerId : this.user.layerId
+      }
+    };
   }
 
   addExtraProperties(extraProps = {}) {
