@@ -75,6 +75,14 @@ export class EventFactory {
     });
   }
 
+  buildFromLayerMessage(opts) {
+    return new Event({
+      type: 'MESSAGE',
+      layerMessage: opts,
+      receivedAt: opts.sentAt
+    });
+  }
+
   buildFromAlgolia(opts) {
     const message = opts.message ?
       messageFactoryInstance.buildFromEvent(opts.message) : null;

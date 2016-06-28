@@ -6,7 +6,13 @@ import {
   SEARCH_CHANGE,
   SET_EVENTS_TIMEOUT,
   CLEAR_EVENTS_TIMEOUT,
+  LOAD_EVENT_MESSAGE,
 } from '../constants/ActionTypes';
+import {
+  eventFactoryInstance,
+} from '../models/Event';
+// Constants
+import { MESSAGE, VISIT } from '../constants/EventTypes';
 
 const initialState = {
   isFetching: false,
@@ -15,6 +21,10 @@ const initialState = {
   currentTimeout: null,
   currentSearch: '',
   events: [],
+  orderedEvents: [],
+  messageEvents: {},
+  pendingEvents: {},
+  layerMessages: {},
 };
 
 export default function timeLineReducer(state = initialState, action) {
@@ -38,11 +48,48 @@ export default function timeLineReducer(state = initialState, action) {
         fromTimestamp: payload.fromTimestamp
       };
     case RECEIVE_EVENTS:
-      return {
+      let resultEvents = {
         ...state,
         isFetching: false,
         events: payload.events,
+      }, noPendingKeys = [],
+        mixedArray, pendingEvents = { ...resultEvents.pendingEvents };
+      // Check if events are still pending, and map messages
+      resultEvents.events.forEach((e)=> {
+        if (e.type == MESSAGE && e.message) {
+          resultEvents.messageEvents[e.message.id] = e;
+          if (resultEvents.pendingEvents[e.message.id]) {
+            noPendingKeys.push(e.message.id);
+          }
+        }
+      });
+      // Get rid of non pending events
+      noPendingKeys.forEach((k)=> {
+        delete pendingEvents[k];
+      });
+      resultEvents.pendingEvents = pendingEvents;
+      // Order events
+      // TODO: Optimize sorting
+      mixedArray = resultEvents.events.map(e => e);
+      Object.keys(pendingEvents).forEach((k)=>
+        mixedArray.push(pendingEvents[k])
+      );
+      resultEvents.orderedEvents = mixedArray
+        .sort((a,b)=> new Date(b.receivedAt) - new Date(a.receivedAt));
+      return resultEvents;
+    case LOAD_EVENT_MESSAGE:
+      let layerMessage = payload.layerMessage, matchingEvent;
+      let resultMessage = {
+        ...state
       };
+      resultMessage.layerMessages[layerMessage.id] = layerMessage;
+      if (matchingEvent = resultMessage.messageEvents[layerMessage.id]) {
+        matchingEvent.layerMessage = layerMessage;
+      } else {
+        resultMessage.pendingEvents[layerMessage.id] =
+          eventFactoryInstance.buildFromLayerMessage(layerMessage);
+      }
+      return resultMessage;
     case LOAD_MORE_EVENTS:
       return {
         ...state,

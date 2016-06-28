@@ -59,7 +59,7 @@ export default class ConversationWrapper extends Component {
   }
 
   componentWillMount() {
-    this.props.liveFetchEvents(100);
+    this.props.liveFetchEvents();
   }
 
   componentWillUnmount() {
@@ -69,12 +69,12 @@ export default class ConversationWrapper extends Component {
   }
 
   renderConversationList() {
-    const { currentQuery, currentUser, client, events } = this.props;
+    const { currentQuery, currentUser, client, orderedEvents } = this.props;
 
     return (
       <LayerProvider client={client}>
         <Conversation
-          events={events}
+          events={orderedEvents}
           currentUser={currentUser}
           currentQuery={currentQuery}
           transferScopeData={this.receiveConversationData.bind(this)}

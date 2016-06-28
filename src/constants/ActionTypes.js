@@ -28,6 +28,8 @@ export const RECEIVE_EVENTS = 'RECEIVE_EVENTS';
 // Timeout actions
 export const SET_EVENTS_TIMEOUT = 'SET_EVENTS_TIMEOUT';
 export const CLEAR_EVENTS_TIMEOUT = 'CLEAR_EVENTS_TIMEOUT';
+export const LOAD_EVENT_MESSAGE = 'LOAD_EVENT_MESSAGE';
+
 // Search
 export const SEARCH_CHANGE = 'SEARCH_CHANGE';
 // Pages

@@ -138,7 +138,7 @@ function registerLayerUser(dispatch, state, rawUser) {
 
 function processEvents(rawEvents) {
   return function(dispatch, getState) {
-    let events = [], eventObject;
+    let events = [], eventObject, layerMessage;
     const state = getState();
     rawEvents.forEach((evt) => {
       eventObject = eventFactoryInstance.buildFromAlgolia(evt);
@@ -155,8 +155,9 @@ function processEvents(rawEvents) {
             eventObject.backendUser = registerLayerUser(dispatch, state,
               evt.backend_user);
           }
-          if (evt.message) {
-            eventObject.generateLayerMessage();
+          if (eventObject.message &&
+            (layerMessage = state.timeLine.layerMessages[eventObject.message.id])) {
+            eventObject.layerMessage = layerMessage;
           }
           evt.users.forEach((usr) => {
             eventObject.users.push(

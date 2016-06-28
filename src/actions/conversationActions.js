@@ -11,6 +11,7 @@ import {
   SUBMIT_COMPOSER_MESSAGE,
   SEND_COMPOSER_MESSAGE,
   RECEIVE_COMPOSER_MESSAGE,
+  LOAD_EVENT_MESSAGE,
 } from '../constants/ActionTypes';
 import {
   EVENTS_API,
@@ -253,6 +254,7 @@ export function doConversationRequest(conversationId) {
     const searchedConversation = client.getConversation(conversationId,
       true);
     dispatch(requestConversation(conversationId));
+    dispatch(setConversationQuery(conversationId));
     searchedConversation.on('conversations:change',
       (e)=> dispatch(handleConversationChange(e, searchedConversation)));
     return new Promise((resolve)=> {
@@ -266,6 +268,15 @@ export function doConversationRequest(conversationId) {
   };
 }
 
+function loadEventMessage(layerMessage) {
+  return {
+    type: LOAD_EVENT_MESSAGE,
+    payload: {
+      layerMessage
+    }
+  }
+}
+
 /* TODO: Implement query for conversation messages */
 export function setConversationQuery(conversationId) {
   return (dispatch, getState) => {
@@ -274,8 +285,12 @@ export function setConversationQuery(conversationId) {
       .messages()
       .forConversation(conversationId);
     let query = client.createQuery(qBuilder);
-    query.on('change', function(evt) {
-
+    query.on('change', ()=>{
+      query.data.forEach((msg)=> {
+        if (msg.isSaved) {
+          dispatch(loadEventMessage(msg));
+        }
+      });
     });
   };
 }

@@ -25,8 +25,9 @@ export default class Message extends TimeLineItem {
 
   get readLabel() {
     const { consumerUser } = this.props;
-    return (this.message.recipientStatus[consumerUser.layerId] == 'read' &&
-      this.message.sender.userId === this.currentUserId) ? 'Read' : '';
+    return (this.message.recipientStatus &&
+      (this.message.recipientStatus[consumerUser.layerId] == 'read' &&
+      this.message.sender.userId === this.currentUserId)) ? 'Read' : '';
   }
 
   componentDidMount() {
@@ -64,6 +65,7 @@ export default class Message extends TimeLineItem {
               text={bodyText}/>
           </div>
           <div className={styles.readLabel}>
+            { this.readLabel }
           </div>
         </div>
       </div>

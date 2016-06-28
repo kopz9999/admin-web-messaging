@@ -176,7 +176,9 @@ export default class Conversation extends Component {
     events.forEach((event)=> {
       switch (event.type) {
         case MESSAGE:
-          eventComponents.unshift(this.renderMessageItem(event.layerMessage));
+          if (event.layerMessage) {
+            eventComponents.unshift(this.renderMessageItem(event.layerMessage));
+          }
           break;
         case VISIT:
           eventComponents.unshift(<Visit { ...event } />);
