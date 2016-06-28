@@ -9,6 +9,8 @@ import {
   SEARCH_CHANGE,
   SET_EVENTS_TIMEOUT,
   CLEAR_EVENTS_TIMEOUT,
+  CLEAR_EVENTS,
+  LOAD_MORE_EVENTS,
 } from '../constants/ActionTypes';
 import {
   EVENTS_API,
@@ -76,6 +78,18 @@ export function setEventsTimeout(currentTimeout) {
 export function clearEventsTimeout() {
   return {
     type: CLEAR_EVENTS_TIMEOUT,
+  }
+}
+
+export function clearEvents() {
+  return {
+    type: CLEAR_EVENTS,
+  }
+}
+
+export function loadMoreEvents() {
+  return {
+    type: LOAD_MORE_EVENTS
   }
 }
 

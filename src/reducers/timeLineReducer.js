@@ -6,7 +6,8 @@ import {
   SEARCH_CHANGE,
   SET_EVENTS_TIMEOUT,
   CLEAR_EVENTS_TIMEOUT,
-  LOAD_EVENT_MESSAGE,
+  LOAD_EVENT_MESSAGES,
+  CLEAR_EVENTS,
 } from '../constants/ActionTypes';
 import {
   eventFactoryInstance,
@@ -40,6 +41,15 @@ export default function timeLineReducer(state = initialState, action) {
       return {
         ...state,
         currentTimeout: null,
+      };
+    case CLEAR_EVENTS:
+      return {
+        ...state,
+        events: [],
+        orderedEvents: [],
+        messageEvents: {},
+        pendingEvents: {},
+        layerMessages: {},
       };
     case REQUEST_EVENTS:
       return {
@@ -77,18 +87,17 @@ export default function timeLineReducer(state = initialState, action) {
       resultEvents.orderedEvents = mixedArray
         .sort((a,b)=> new Date(b.receivedAt) - new Date(a.receivedAt));
       return resultEvents;
-    case LOAD_EVENT_MESSAGE:
-      let layerMessage = payload.layerMessage, matchingEvent;
-      let resultMessage = {
-        ...state
-      };
-      resultMessage.layerMessages[layerMessage.id] = layerMessage;
-      if (matchingEvent = resultMessage.messageEvents[layerMessage.id]) {
-        matchingEvent.layerMessage = layerMessage;
-      } else {
-        resultMessage.pendingEvents[layerMessage.id] =
-          eventFactoryInstance.buildFromLayerMessage(layerMessage);
-      }
+    case LOAD_EVENT_MESSAGES:
+      let matchingEvent, resultMessage = { ...state };
+      payload.layerMessages.forEach((layerMessage)=>{
+        resultMessage.layerMessages[layerMessage.id] = layerMessage;
+        if (matchingEvent = resultMessage.messageEvents[layerMessage.id]) {
+          matchingEvent.layerMessage = layerMessage;
+        } else {
+          resultMessage.pendingEvents[layerMessage.id] =
+            eventFactoryInstance.buildFromLayerMessage(layerMessage);
+        }
+      });
       return resultMessage;
     case LOAD_MORE_EVENTS:
       return {

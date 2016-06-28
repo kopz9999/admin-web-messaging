@@ -59,6 +59,7 @@ export default class ConversationWrapper extends Component {
   }
 
   componentWillMount() {
+    this.props.clearEvents();
     this.props.liveFetchEvents();
   }
 
@@ -69,11 +70,13 @@ export default class ConversationWrapper extends Component {
   }
 
   renderConversationList() {
-    const { currentQuery, currentUser, client, orderedEvents } = this.props;
+    const { currentQuery, currentUser, client, orderedEvents,
+      loadMoreEvents } = this.props;
 
     return (
       <LayerProvider client={client}>
         <Conversation
+          loadMoreEvents={loadMoreEvents}
           events={orderedEvents}
           currentUser={currentUser}
           currentQuery={currentQuery}

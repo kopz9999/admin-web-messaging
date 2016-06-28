@@ -108,11 +108,10 @@ export default class Conversation extends Component {
 
   handleScroll() {
     const el = this.scrollNode;
-    const { actions } = this.props;
-    const { loadMoreMessages } = actions;
+    const { loadMoreEvents } = this.props;
 
     if (el.scrollTop === 0) {
-      loadMoreMessages();
+      loadMoreEvents();
     }
 
     const stickBottom = el.scrollHeight - 1 <= el.clientHeight + el.scrollTop;

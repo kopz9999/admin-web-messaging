@@ -11,7 +11,7 @@ import {
   SUBMIT_COMPOSER_MESSAGE,
   SEND_COMPOSER_MESSAGE,
   RECEIVE_COMPOSER_MESSAGE,
-  LOAD_EVENT_MESSAGE,
+  LOAD_EVENT_MESSAGES,
 } from '../constants/ActionTypes';
 import {
   EVENTS_API,
@@ -268,11 +268,11 @@ export function doConversationRequest(conversationId) {
   };
 }
 
-function loadEventMessage(layerMessage) {
+function loadEventMessages(layerMessages) {
   return {
-    type: LOAD_EVENT_MESSAGE,
+    type: LOAD_EVENT_MESSAGES,
     payload: {
-      layerMessage
+      layerMessages
     }
   }
 }
@@ -286,11 +286,7 @@ export function setConversationQuery(conversationId) {
       .forConversation(conversationId);
     let query = client.createQuery(qBuilder);
     query.on('change', ()=>{
-      query.data.forEach((msg)=> {
-        if (msg.isSaved) {
-          dispatch(loadEventMessage(msg));
-        }
-      });
+      dispatch(loadEventMessages(query.data.filter(msg => msg.isSaved)));
     });
   };
 }
