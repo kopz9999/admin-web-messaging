@@ -76,6 +76,10 @@ export class UserFactory {
     });
   }
 
+  buildFromServer(opts) {
+    return new User(opts);
+  }
+
   buildFromBaseAPI(opts, settings) {
     const headShotId = opts.headshot;
     const avatarURL = headShotId ?
