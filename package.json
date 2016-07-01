@@ -25,6 +25,7 @@
     "http-status-codes": "^1.0.6",
     "isomorphic-fetch": "^2.2.1",
     "layer-api": "kopz9999/node-layer-api#metadata_objects",
+    "node-env-file": "^0.1.8",
     "randomcolor": "^0.4.4",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
