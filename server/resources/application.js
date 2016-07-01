@@ -17,11 +17,11 @@ ApplicationController.prototype.setupResource = function(route) {
       res.json({
         user: user,
         layer: {
-          appId: 'layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8'
+          appId: process.env.LAYER_APP_ID
         },
         algolia: {
-          appId: 'V0L0EPPR59',
-          appKey: '363cd668faa7d392287982a6cb352d26',
+          appId: process.env.ALGOLIA_APP_ID,
+          appKey: process.env.ALGOLIA_APP_KEY,
         }
       });
     })

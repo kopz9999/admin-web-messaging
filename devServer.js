@@ -2,6 +2,8 @@
 
 var path = require('path');
 var express = require('express');
+var env = require('node-env-file');
+
 var isDevelopment = (process.env.NODE_ENV !== 'production');
 var app = express();
 var port = isDevelopment ? 4000 : (process.env.PORT || 8080);
@@ -13,6 +15,7 @@ var config = null;
 var watcher = null;
 var chokidar = null;
 
+env(__dirname + '/.env');
 app.use(express.static('.'));
 app.use(function(req, res, next) {
   require('./server/app')(req, res, next);
