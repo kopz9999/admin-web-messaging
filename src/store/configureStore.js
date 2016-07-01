@@ -6,11 +6,12 @@ import createHistory from 'history/lib/createHashHistory';
 import reducer from '../reducers';
 
 export default function configureStore(initialState) {
+  const middleware = [
+    thunkMiddleware,
+    __DEV__ && createLogger()
+  ].filter(Boolean);
   const finalCreateStore = compose(
-    applyMiddleware(
-      thunkMiddleware,
-      createLogger(),
-    ),
+    applyMiddleware(...middleware),
     reduxReactRouter({ createHistory })
   )(createStore);
 

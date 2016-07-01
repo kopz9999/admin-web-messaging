@@ -2,6 +2,10 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var devFlagPlugin = new webpack.DefinePlugin({
+  __DEV__: JSON.stringify(JSON.parse(process.env.DEBUG || 'false'))
+});
+
 module.exports = {
   devtool: 'source-map',
   watchOptions: {
@@ -21,7 +25,8 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-    new ExtractTextPlugin('app.css')
+    new ExtractTextPlugin('app.css'),
+    devFlagPlugin
   ],
   module: {
     loaders: [
