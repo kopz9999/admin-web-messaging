@@ -61,8 +61,8 @@ function createUserClient(client) {
  NOTE: Layer clients will work only with tokens from a lightweight backend
  Remove this
  * */
-function getIdentityToken(userId, state, nonce, callback){
-  const { appId, identityProviderURL } = state.settings;
+function getIdentityToken(appId, userId, state, nonce, callback){
+  const { identityProviderURL } = state.settings;
   xhr({
     url: identityProviderURL,
     headers: {
@@ -139,15 +139,14 @@ export function joinConversation(layerId) {
   };
 }
 
-export function initUserLayerClient() {
+export function initUserLayerClient(appId) {
   return (dispatch, getState) => {
     const state = getState();
-    const { appId } = state.settings;
     const { layerId } = state.app.currentUser;
     let client = new Client({appId: appId });
     dispatch(createUserClient(client));
     client.once('challenge', e => {
-      getIdentityToken(layerId, state, e.nonce, e.callback);
+      getIdentityToken(appId, layerId, state, e.nonce, e.callback);
     });
     return new Promise((resolve)=> {
       client.on('ready', () => {

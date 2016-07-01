@@ -41,7 +41,7 @@ export function fetchUserInfo(token) {
             userFactoryInstance.buildFromBaseAPI(json, getState().settings)
           )
         );
-        dispatch(initUserLayerClient());
+        dispatch(initUserLayerClient('layer:///apps/staging/52e7c9b4-e9cb-11e5-a188-7d4ed71366e8'));
         dispatch(setupAlgoliaClient('V0L0EPPR59',
           '363cd668faa7d392287982a6cb352d26'))
       })
