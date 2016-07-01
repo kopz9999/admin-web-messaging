@@ -15,7 +15,7 @@ var config = null;
 var watcher = null;
 var chokidar = null;
 
-env(__dirname + '/.env');
+env(__dirname + '/.env', { raise: false });
 app.use(express.static('.'));
 app.use(function(req, res, next) {
   require('./server/app')(req, res, next);
