@@ -60,3 +60,8 @@ export const RECEIVE_COMPOSER_MESSAGE = 'RECEIVE_COMPOSER_MESSAGE';
 
 export const REQUEST_CONVERSATIONS_USERS = 'REQUEST_CONVERSATIONS_USERS';
 export const RECEIVE_CONVERSATIONS_USERS = 'RECEIVE_CONVERSATIONS_USERS';
+
+// Imported from messenger
+export const ROUTER_DID_CHANGE = '@@reduxReactRouter/routerDidChange';
+export const LOAD_MORE_MESSAGES = 'LOAD_MORE_MESSAGES'; // TODO: Remove
+

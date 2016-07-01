@@ -1,7 +1,6 @@
 // React
 import React, { Component } from 'react';
 import { findDOMNode } from 'react-dom';
-import { bindActionCreators } from 'redux';
 import { connect as connectRedux } from 'react-redux';
 // Lib
 import { QueryBuilder } from 'layer-websdk';
@@ -15,9 +14,6 @@ import TypingIndicatorManager from '../../components/timeline/conversation/typin
 import styles from './Conversation.css';
 import throttledEventListener from '../../utils/throttledEventListener';
 import { getLayerConversationId } from '../../utils/Helper';
-// Actions
-import * as MessengerActions from '../../actions/messenger';
-import * as ConversationActions from '../../actions/conversationActions';
 // Constants
 import { MESSAGE, VISIT } from '../../constants/EventTypes';
 
@@ -26,13 +22,6 @@ function mapStateToProps({ app, activeConversation, layerUsers }) {
     app,
     layerUsers,
     ...activeConversation,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(MessengerActions, dispatch),
-    conversationActions: bindActionCreators(ConversationActions, dispatch),
   };
 }
 
@@ -45,7 +34,7 @@ function getQueries({ messagePagination, conversationId }) {
   };
 }
 
-@connectRedux(mapStateToProps, mapDispatchToProps)
+@connectRedux(mapStateToProps)
 @connectQuery({}, getQueries)
 export default class Conversation extends Component {
   constructor(props) {

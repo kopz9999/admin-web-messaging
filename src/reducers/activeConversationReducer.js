@@ -1,20 +1,14 @@
 // App
 import {
-  ROUTER_DID_CHANGE,
-  CHANGE_COMPOSER_MESSAGE,
-  SUBMIT_COMPOSER_MESSAGE,
-  EDIT_CONVERSATION_TITLE,
-  CHANGE_CONVERSATION_TITLE,
-  SAVE_CONVERSATION_TITLE,
-  CANCEL_EDIT_CONVERSATION_TITLE,
-  LOAD_MORE_MESSAGES
-} from '../actions/messenger';
-import {
   REQUEST_PARTICIPANTS,
   RECEIVE_PARTICIPANTS,
   REQUEST_CONVERSATION,
   RECEIVE_CONVERSATION,
   SET_CONVERSATION,
+  ROUTER_DID_CHANGE,
+  CHANGE_COMPOSER_MESSAGE,
+  SUBMIT_COMPOSER_MESSAGE,
+  LOAD_MORE_MESSAGES
 } from '../constants/ActionTypes';
 
 const initialState = {
@@ -43,28 +37,6 @@ export default function activeConversationReducer(state = initialState, action) 
       return {
         ...state,
         composerMessage: ''
-      };
-    case EDIT_CONVERSATION_TITLE:
-      return {
-        ...state,
-        editingTitle: true
-      };
-    case CHANGE_CONVERSATION_TITLE:
-      return {
-        ...state,
-        title: payload.title
-      };
-    case SAVE_CONVERSATION_TITLE:
-      return {
-        ...state,
-        title: '',
-        editingTitle: false
-      };
-    case CANCEL_EDIT_CONVERSATION_TITLE:
-      return {
-        ...state,
-        editingTitle: false,
-        title: ''
       };
     case LOAD_MORE_MESSAGES:
       return {
