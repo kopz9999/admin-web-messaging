@@ -20,14 +20,6 @@ module.exports = {
     new ExtractTextPlugin('app.css'),
     devFlagPlugin
   ],
-  externals: {
-    'layer-sdk': 'layer'
-  },
-  resolve: {
-    alias: {
-      'layer-react': path.join(__dirname, 'layer-react')
-    }
-  },
   module: {
     loaders: [
       { test: /\.js$/, loaders: ['babel'], exclude: /(?:node_modules)|(?:vendor)/, include: __dirname },

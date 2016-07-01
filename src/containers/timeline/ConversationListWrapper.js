@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // Layer
 import { LayerProvider } from 'layer-react';
-import { Client } from 'layer-sdk';
+import { Client } from 'layer-websdk';
 // App
 import ConversationList from './ConversationList';
 // Actions

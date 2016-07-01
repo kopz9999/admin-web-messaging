@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // Layer
 import { connectQuery } from 'layer-react';
-import { QueryBuilder } from 'layer-sdk';
+import { QueryBuilder } from 'layer-websdk';
 // App
 import TimeLine from '../../components/timeline/TimeLine';
 import Message from '../../components/timeline/Message';

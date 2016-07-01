@@ -4,7 +4,7 @@ import { IndexRoute, Route } from 'react-router';
 import { ReduxRouter } from 'redux-router';
 // Layer
 import { LayerProvider } from 'layer-react';
-import { Client } from 'layer-sdk';
+import { Client } from 'layer-websdk';
 // App Components
 import Wrapper from './timeline/Wrapper';
 import Global from './timeline/Global';

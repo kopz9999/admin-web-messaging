@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { QueryBuilder } from 'layer-sdk';
+import { QueryBuilder } from 'layer-websdk';
 import { connectQuery } from 'layer-react';
 import * as MessengerActions from '../actions/messenger';
 import ConversationList from '../components/ConversationList';

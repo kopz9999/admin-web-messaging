@@ -4,7 +4,7 @@ import { findDOMNode } from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { connect as connectRedux } from 'react-redux';
 // Lib
-import { QueryBuilder } from 'layer-sdk';
+import { QueryBuilder } from 'layer-websdk';
 import { connectQuery } from 'layer-react';
 // App
 import TimeLine from '../../components/timeline/TimeLine';

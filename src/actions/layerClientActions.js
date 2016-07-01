@@ -1,6 +1,6 @@
 // Layer
-import { TypingIndicators } from 'layer-sdk';
-import { xhr, Client } from 'layer-sdk';
+import { TypingIndicators } from 'layer-websdk';
+import { xhr, Client } from 'layer-websdk';
 // App
 import {
   CLIENT_READY,

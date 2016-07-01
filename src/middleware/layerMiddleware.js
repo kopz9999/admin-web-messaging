@@ -1,4 +1,4 @@
-import { TypingIndicators } from 'layer-sdk';
+import { TypingIndicators } from 'layer-websdk';
 import {
   SUBMIT_COMPOSER_MESSAGE,
   SAVE_CONVERSATION_TITLE,

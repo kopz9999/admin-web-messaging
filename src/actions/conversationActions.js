@@ -1,5 +1,5 @@
 // Lib
-import { QueryBuilder } from 'layer-sdk';
+import { QueryBuilder } from 'layer-websdk';
 // App
 import {
   REQUEST_PARTICIPANTS,

@@ -2,7 +2,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 // Layer
-import { Client, xhr } from 'layer-sdk';
+import { Client, xhr } from 'layer-websdk';
 import { LayerProvider } from 'layer-react';
 // App
 import App from './containers/App';
