@@ -11,7 +11,6 @@ import Global from './timeline/Global';
 import PageScope from './timeline/PageScope';
 import SignIn from './login/SignIn';
 import ConversationWrapper from './timeline/ConversationWrapper';
-import Logout from '../components/Logout';
 import {requireAuthentication} from '../utils/AuthenticatedComponent';
 
 export default class App extends Component {
@@ -30,7 +29,6 @@ export default class App extends Component {
                    component={PageScope}/>
             <Route path='/users/:layerId'
                    component={ConversationWrapper}/>
-            <Route path='/logout' component={Logout} />
           </Route>
         </ReduxRouter>
       </Provider>
