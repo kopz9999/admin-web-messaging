@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './MessageComposer.css';
+import icon from './images/button.png';
 
 const ENTER = 13;
 
@@ -46,7 +47,7 @@ export default class MessageComposer extends Component {
           onChange={this.handleChange}/>
         <img onClick={this.verifySendMessage.bind(this)}
              className={styles.submitButton}
-             src={'./assets/button.png'} />
+             src={icon} />
       </div>
     );
   }
