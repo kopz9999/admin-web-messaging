@@ -30,7 +30,12 @@ module.exports = {
   ],
   module: {
     loaders: [
-      { test: /\.js$/, loaders: ['babel'], exclude: /(?:node_modules)|(?:vendor)/, include: __dirname },
+      { 
+        test: /\.js$/, 
+        exclude: /(?:node_modules)|(?:vendor)/, 
+        include: __dirname,
+        loader: 'babel',
+      },
       { test: /\.css$/, loader: ExtractTextPlugin.extract('css-loader?module!cssnext-loader') },
       { test: /\.png$/, loader: 'url-loader?limit=10000&mimetype=image/png' }
     ]
