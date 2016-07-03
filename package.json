@@ -4,8 +4,8 @@
   "description": "React chat UI example using Layer SDK",
   "scripts": {
     "postinstall": "webpack --config ./webpack.production.js --progress --colors",
-    "start": "node devServer.js",
-    "debug": "DEBUG=true node debug devServer.js",
+    "start": "node server.js",
+    "debug": "DEBUG=true node debug server.js",
     "build": "webpack --config webpack.production.js",
     "test": "BABEL_ENV=test mocha -r test/testHelper.js --compilers js:babel-register --recursive",
     "test:watch": "npm test -- --watch"
