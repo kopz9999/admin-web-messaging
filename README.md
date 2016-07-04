@@ -2,9 +2,9 @@
 Application dedicated to manage 
 [instant-web-messaging](https://github.com/Curaytor/instant-web-messaging)
 
-This application is build [React](https://facebook.github.io/react/) 
-following [FLUX](https://facebook.github.io/flux/docs/overview.html) pattern with 
-[Redux](http://redux.js.org/docs/introduction/) implementation.
+This application is built with [React](https://facebook.github.io/react/) 
+following [Flux](https://facebook.github.io/flux/docs/overview.html) 
+pattern with [Redux](http://redux.js.org/docs/introduction/) implementation.
 
 ## Setup
 
