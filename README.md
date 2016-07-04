@@ -1,4 +1,4 @@
-# Admin Web Messaging
+# Curaytor 'M'
 Application dedicated to manage 
 [instant-web-messaging](https://github.com/Curaytor/instant-web-messaging)
 
