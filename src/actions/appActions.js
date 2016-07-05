@@ -32,18 +32,19 @@ export function receiveUserInfo(currentUser) {
 
 export function fetchUserInfo(token) {
   return (dispatch, getState) => {
+    let currentUser;
     dispatch(requestUserInfo());
     return fetch(APP_INFO_API, {
         headers: { 'X-Auth-Token': token }
       })
       .then(response => response.json())
       .then(info => {
-        dispatch(
-          receiveUserInfo(userFactoryInstance.buildFromServer(info.user))
-        );
+        currentUser = userFactoryInstance.buildFromServer(info.user);
+        dispatch(receiveUserInfo(currentUser));
         dispatch(initUserLayerClient(info.layer.appId));
         dispatch(setupAlgoliaClient(info.algolia.appId,
-          info.algolia.appKey))
+          info.algolia.appKey));
+        setupNotificationServiceWorker(currentUser);
       })
       .catch(error => {
         console.log(error);

@@ -58,6 +58,13 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/manifest.json', function(req, res) {
+  res.json({
+    "name": "Curaytor M",
+    "gcm_sender_id": process.env.GCM_PROJECT_ID
+  });
+});
+
 app.listen(port, function(error) {
   if (error) {
     console.error(error);
