@@ -31,7 +31,5 @@ function setupNotificationServiceWorker(currentUser) {
         console.log(err);
       });
     });
-    /*
-     */
   }
 }

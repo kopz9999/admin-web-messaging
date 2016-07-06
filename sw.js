@@ -1,4 +1,4 @@
-// Version 0.13
+// Version 0.14
 
 'use strict';
 importScripts('./notification-manager/database.js');
@@ -13,16 +13,20 @@ function displayNotifications(layerId) {
   return fetch(notificationsAPI).then(function(response) {
     return response.json();
   }).then(function(notifications) {
-    for (var i = 0; i < notifications.length; ++i) {
-      notification = notifications[i];
-      promise = ctx.registration.showNotification(notification.title, {
-        body: notification.content,
-        icon: notification.image_url,
-        tag: notification.id
-      });
-      promises.push(promise)
-    }
-    return Promise.all(promises);
+    return getNotificationsStore().then(function(notificationsStore) {
+      for (var i = 0; i < notifications.length; ++i) {
+        notification = notifications[i];
+        notificationsStore.store.put(notification);
+        promise = ctx.registration.showNotification(notification.title, {
+          body: notification.content,
+          icon: notification.image_url,
+          tag: notification.id
+        });
+        promises.push(promise)
+      }
+      notificationsStore.closeCallback();
+      return Promise.all(promises);
+    });
   });
 };
 
@@ -42,7 +46,43 @@ function retrieveCurrentUser() {
   });
 }
 
-// TODO
+function openNotificationWindow(notificationId) {
+  var promises = [], clientList, notification, getNotification, targetURL;
+  promises.push(
+    clients.matchAll({
+      type: "window"
+    })
+  );
+  promises.push(getNotificationsStore().then(function(notificationsStore){
+    getNotification = notificationsStore.store.get(parseInt(notificationId));
+    return new Promise(function(resolve, reject) {
+      getNotification.onsuccess = function() {
+        if (getNotification.result) {
+          resolve(getNotification.result);
+        } else {
+          reject();
+        }
+        notificationsStore.closeCallback();
+      };
+    });
+  }));
+  return Promise.all(promises).then(function (values) {
+    clientList = values[0];
+    notification = values[1];
+    targetURL = notification.url;
+    for (var i = 0; i < clientList.length; i++) {
+      var client = clientList[i];
+      if (client.url.indexOf(targetURL) > -1 && 'focus' in client)
+        return client.focus();
+    }
+    if (clients.openWindow) {
+      return clients.openWindow(targetURL);
+    }
+  });
+}
+
+// Event Handlers
+
 console.log('Started', self);
 self.addEventListener('install', function(event) {
   self.skipWaiting();
@@ -58,4 +98,14 @@ self.addEventListener('push', function(event) {
       return displayNotifications(currentUser.layerId)
     }
   ));
+});
+self.addEventListener('notificationclick', function(event) {
+  console.log('On notification click: ', event.notification.tag);
+  // Android doesn't close the notification when you click on it
+  // See: http://crbug.com/463146
+  event.notification.close();
+
+  // This looks to see if the current is already open and
+  // focuses if it is
+  event.waitUntil(openNotificationWindow(event.notification.tag));
 });
