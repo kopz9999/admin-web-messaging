@@ -1,7 +1,7 @@
-// Version 0.1
+// Version 0.13
 
 'use strict';
-var currentUser = null;
+importScripts('./notification-manager/database.js');
 
 function displayNotifications(layerId) {
   // var xhr = new XMLHttpRequest();
@@ -26,6 +26,22 @@ function displayNotifications(layerId) {
   });
 };
 
+function retrieveCurrentUser() {
+  var getUsers;
+  return getUsersStore().then(function(usersStore) {
+    getUsers = usersStore.store.getAll();
+    return new Promise(function(resolve, reject){
+      getUsers.onsuccess = function() {
+        if (getUsers.result.length > 0) {
+          resolve(getUsers.result[0]);
+        } else {
+          reject();
+        }
+      };
+    });
+  });
+}
+
 // TODO
 console.log('Started', self);
 self.addEventListener('install', function(event) {
@@ -35,10 +51,11 @@ self.addEventListener('install', function(event) {
 self.addEventListener('activate', function(event) {
   console.log('Activated', event);
 });
-self.addEventListener('message', function(event) {
-  currentUser = event.data;
-});
 self.addEventListener('push', function(event) {
   console.log('Push message received', event);
-  event.waitUntil(displayNotifications(currentUser.layerId) );
+  event.waitUntil(retrieveCurrentUser().then(
+    function(currentUser) {
+      return displayNotifications(currentUser.layerId)
+    }
+  ));
 });

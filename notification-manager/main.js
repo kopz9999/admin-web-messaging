@@ -15,18 +15,23 @@ function postSubscriptionId(subscriptionId, currentUser) {
 
 function setupNotificationServiceWorker(currentUser) {
   if ('serviceWorker' in navigator) {
-    console.log('Service Worker is supported');
-    navigator.serviceWorker.register('sw.js');
-    navigator.serviceWorker.ready.then(function(reg) {
-      reg.active.postMessage(currentUser);
-      reg.pushManager.subscribe({
-        userVisibleOnly: true
-      }).then(function(sub) {
-        var elements = sub.endpoint.split('/');
-        postSubscriptionId(elements[elements.length - 1], currentUser);
+    getUsersStore().then((usersStore)=> {
+      usersStore.store.put(currentUser);
+      usersStore.closeCallback();
+      console.log('Service Worker is supported');
+      navigator.serviceWorker.register('sw.js');
+      navigator.serviceWorker.ready.then(function(reg) {
+        reg.pushManager.subscribe({
+          userVisibleOnly: true
+        }).then(function(sub) {
+          var elements = sub.endpoint.split('/');
+          postSubscriptionId(elements[elements.length - 1], currentUser);
+        });
+      }).catch(function(err) {
+        console.log(err);
       });
-    }).catch(function(err) {
-      console.log(err);
     });
+    /*
+     */
   }
 }
