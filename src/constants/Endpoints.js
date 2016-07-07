@@ -6,7 +6,7 @@ export const CONVERSATIONS_API =
 export const LAYER_USERS_API =
   '/api/layer_users';
 export const APP_INFO_API =
-  '/api/application';
+  'https://curaytor-m-api.herokuapp.com/app';
 export const EVENTS_QUERY_API =
   'https://private-9b421-events59.apiary-mock.com/events/query';
 export const EVENTS_QUERY_COUNT_API =

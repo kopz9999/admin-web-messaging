@@ -31,6 +31,16 @@ export class UserFactory {
     });
   }
 
+  buildFromMessagingAPI(opts) {
+    return new User({
+      id: opts.id,
+      layerId: opts.layer_id,
+      displayName: opts.display_name,
+      color: opts.color,
+      avatarURL: opts.avatar_url
+    });
+  }
+
   buildFromEvent(opts) {
     return new User({
       id: opts.id,

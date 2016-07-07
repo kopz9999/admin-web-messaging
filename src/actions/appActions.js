@@ -39,11 +39,11 @@ export function fetchUserInfo(token) {
       })
       .then(response => response.json())
       .then(info => {
-        currentUser = userFactoryInstance.buildFromServer(info.user);
+        currentUser = userFactoryInstance.buildFromMessagingAPI(info.user);
         dispatch(receiveUserInfo(currentUser));
-        dispatch(initUserLayerClient(info.layer.appId));
-        dispatch(setupAlgoliaClient(info.algolia.appId,
-          info.algolia.appKey));
+        dispatch(initUserLayerClient(info.layer.app_id));
+        dispatch(setupAlgoliaClient(info.algolia.application_id,
+          info.algolia.api_key));
         setupNotificationServiceWorker(currentUser);
       })
       .catch(error => {
