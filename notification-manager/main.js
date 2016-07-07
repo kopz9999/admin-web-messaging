@@ -15,7 +15,7 @@ function postSubscriptionId(subscriptionId, currentUser) {
 
 function setupNotificationServiceWorker(currentUser) {
   if ('serviceWorker' in navigator) {
-    getUsersStore().then((usersStore)=> {
+    getUsersStore().then(function(usersStore) {
       usersStore.store.put(currentUser);
       usersStore.closeCallback();
       console.log('Service Worker is supported');
