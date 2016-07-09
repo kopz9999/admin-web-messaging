@@ -250,9 +250,12 @@ export function doConversationCreate(layerId) {
 
 export function doConversationRequest(conversationId) {
   return (dispatch, getState) => {
+    console.log(getState())
     const { client } = getState().layerClient;
+    console.log('what??')
     const searchedConversation = client.getConversation(conversationId,
       true);
+    console.log(searchedConversation)
     dispatch(requestConversation(conversationId));
     dispatch(setConversationQuery(conversationId));
     searchedConversation.on('conversations:change',

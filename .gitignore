@@ -6,5 +6,5 @@ npm-debug.log
 bundle.js
 bundle.js.map
 .vagrant
-.env
+*.env
 .c9
