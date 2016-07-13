@@ -21,3 +21,6 @@ export const SITES_API =
 
 export const LOGIN_ENDPOINT =
   'https://api.curaytor.com/auth/user_token';
+export const FOLLOW_USERS_API =
+  'https://curaytor-m-api.herokuapp.com/layer_users/:layerId/followers';
+

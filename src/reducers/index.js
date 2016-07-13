@@ -11,6 +11,7 @@ import layerClientReducer from './layerClientReducer';
 import algoliaReducer from './algoliaReducer';
 import timeLineReducer from './timeLineReducer';
 import pagesReducer from './pagesReducer';
+import subjectsReducer from './subjectsReducer';
 
 const rootReducer = combineReducers({
   app: appReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   layerClient: layerClientReducer,
   algolia: algoliaReducer,
   timeLine: timeLineReducer,
+  subjects: subjectsReducer,
 });
 
 export default rootReducer;

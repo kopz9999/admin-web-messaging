@@ -64,4 +64,8 @@ export const RECEIVE_CONVERSATIONS_USERS = 'RECEIVE_CONVERSATIONS_USERS';
 // Imported from messenger
 export const ROUTER_DID_CHANGE = '@@reduxReactRouter/routerDidChange';
 export const LOAD_MORE_MESSAGES = 'LOAD_MORE_MESSAGES'; // TODO: Remove
+// Followers
+export const REMOVE_SUBJECT = 'REMOVE_SUBJECT';
+export const RECEIVE_SUBJECT = 'RECEIVE_SUBJECT';
+export const SET_SUBJECTS = 'SET_SUBJECTS';
 

@@ -1,11 +1,13 @@
 export class User {
-  constructor({id, layerId, displayName, color, iconIdentity, avatarURL}) {
+  constructor({id, layerId, displayName, color, iconIdentity, avatarURL,
+      isSubject}) {
     this.id = id;
     this.layerId = layerId;
     this.displayName = displayName;
     this.color = color;
     this.iconIdentity = iconIdentity;
     this.avatarURL = avatarURL;
+    this.isSubject = isSubject;
   }
 }
 
@@ -37,7 +39,8 @@ export class UserFactory {
       layerId: opts.layer_id,
       displayName: opts.display_name,
       color: opts.color,
-      avatarURL: opts.avatar_url
+      avatarURL: opts.avatar_url,
+      iconIdentity: opts.icon_identity,
     });
   }
 

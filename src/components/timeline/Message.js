@@ -8,6 +8,7 @@ import styles from './Message.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
 import TimeLineItem from './TimeLineItem';
+import FollowButton from './FollowButton';
 
 export default class Message extends TimeLineItem {
   renderConversationUser(user) {
@@ -68,6 +69,7 @@ export default class Message extends TimeLineItem {
             <i className={styles.replyIcon}>&nbsp;</i>
             <span className={styles.linkLabel}>Reply</span>
           </div>
+          <FollowButton subject={displayUser} />
         </div>
       </Link>
     );

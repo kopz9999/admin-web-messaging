@@ -73,6 +73,13 @@
     vertical-align: middle;
 }
 
+.actionButtons {
+    position: absolute;
+    top: 15px;
+    width: auto;
+    left: 455px;
+}
+
 @media screen and (max-width: 400px) {
     .container:before {
         left: 37px;

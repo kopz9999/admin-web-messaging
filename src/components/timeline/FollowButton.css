@@ -1,0 +1,63 @@
+.follow, .following {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.follow span, .following span {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.follow {
+    color: #464e63;
+    border: 1px solid #7383bf;
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+}
+
+.follow:hover {
+    box-shadow: 0px 1px 9px -3px rgba(0,0,0,0.75);
+}
+
+.following:before, .follow:before {
+    content: '';
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+    margin-top: -2px;
+    margin-right: 10px;
+}
+
+.follow:before {
+    background-image: url('/src/components/timeline/images/magic-icon.png');
+}
+
+.following {
+    border-radius: 4px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(115, 131, 191);
+    transition: background-color 250ms linear;
+}
+
+.following:before {
+    background-image: url('/src/components/timeline/images/magic-sprite-icon.png');
+}
+
+.following:hover {
+    background-color: rgb(255, 255, 255);
+    color: rgb(115, 131, 191);
+    border: 1px solid #7383BF;
+}
+
+.following:hover span {
+    padding-left: 10px;
+    padding-right: 28px;
+}
+
+.following:hover:before {
+    background-position-y: -20px;
+}

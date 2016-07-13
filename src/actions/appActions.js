@@ -10,6 +10,7 @@ import { urlWithParams } from '../utils/Helper';
 import { initUserLayerClient } from './layerClientActions';
 import { setupAlgoliaClient } from './algoliaActions';
 import { loginFail } from './authActions';
+import { processUserSubjects } from './subjectsActions';
 
 import {
   userFactoryInstance
@@ -41,6 +42,7 @@ export function fetchUserInfo(token) {
       .then(info => {
         currentUser = userFactoryInstance.buildFromMessagingAPI(info.user);
         dispatch(receiveUserInfo(currentUser));
+        dispatch(processUserSubjects(info.user));
         dispatch(initUserLayerClient(info.layer.app_id));
         dispatch(setupAlgoliaClient(info.algolia.application_id,
           info.algolia.api_key));

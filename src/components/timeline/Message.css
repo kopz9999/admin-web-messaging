@@ -101,10 +101,11 @@
 }
 
 .actionBtn {
-    position: absolute;
-    top: 15px;
+    display: inline-block;
+    margin-right: 75px;
+    /*
     width: 180px;
-    left: 455px;
+    */
 }
 
 .actionBtn > * {

@@ -180,7 +180,7 @@ function processEvents(rawEvents) {
           });
           break;
         case VISIT:
-          eventObject.user = userFactoryInstance.buildFromEvent(evt.user);
+          eventObject.user = registerLayerUser(dispatch, state, evt.user);
           break;
       }
       events.push(eventObject);
@@ -222,7 +222,7 @@ export function doFetchEvents(interval) {
     const state = getState();
     return dispatch(fetchEvents(Date.now(), state.timeLine.eventPagination)).then(()=> {
       /* NOTE: Comment this line to stop the flow */
-      dispatch(setEventsTimeout(setTimeout(()=> dispatch(doFetchEvents(interval)), interval)));
+      // dispatch(setEventsTimeout(setTimeout(()=> dispatch(doFetchEvents(interval)), interval)));
     });
   }
 }

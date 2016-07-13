@@ -4,9 +4,11 @@ import { Link } from 'react-router';
 import { trimUserName } from '../../utils/Helper';
 import { MAX_USER_SIZE } from '../../utils/constants';
 import styles from './Message.css';
+import sharedStyles from './TimeLineItem.css';
 import EventTimestamp from './EventTimestamp';
 import Avatar from './Avatar';
 import TimeLineItem from './TimeLineItem';
+import FollowButton from './FollowButton';
 
 export default class Visit extends TimeLineItem {
   render() {
@@ -37,10 +39,13 @@ export default class Visit extends TimeLineItem {
               </span>
             </Link>
           </div>
-          <Link to={conversationURL} className={styles.actionBtn}>
-            <i className={styles.conversationIcon}>&nbsp;</i>
-            <span className={styles.linkLabel}>Start Conversation</span>
-          </Link>
+          <div className={sharedStyles.actionButtons}>
+            <Link to={conversationURL} className={styles.actionBtn}>
+              <i className={styles.conversationIcon}>&nbsp;</i>
+              <span className={styles.linkLabel}>Start Conversation</span>
+            </Link>
+            <FollowButton subject={user} />
+          </div>
         </div>
       </div>
     );
