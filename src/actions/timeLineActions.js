@@ -222,7 +222,7 @@ export function doFetchEvents(interval) {
     const state = getState();
     return dispatch(fetchEvents(Date.now(), state.timeLine.eventPagination)).then(()=> {
       /* NOTE: Comment this line to stop the flow */
-      // dispatch(setEventsTimeout(setTimeout(()=> dispatch(doFetchEvents(interval)), interval)));
+      dispatch(setEventsTimeout(setTimeout(()=> dispatch(doFetchEvents(interval)), interval)));
     });
   }
 }
