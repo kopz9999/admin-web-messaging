@@ -1,3 +1,10 @@
+/*
+TODO:
+- Remove .actionBtn
+*/
+
+@value medium from "./Breakpoints.css";
+
 .message {
     composes: container from "./TimeLineItem.css";
     height: auto;
@@ -136,8 +143,7 @@
     background-color: #f2f6f9 !important;;
 }
 
-
-@media screen and (max-width: 740px) {
+@media medium {
     .actionBtn {
         width: 35px;
         left: auto;
@@ -152,9 +158,4 @@
     .leftElement {
         width: 75px;
     }
-    /*
-    .metaData .metaDataLabel, .metaData .linkLabel {
-        display: none;
-    }
-    */
 }

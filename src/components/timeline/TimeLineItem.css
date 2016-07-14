@@ -1,3 +1,5 @@
+@value medium from "./Breakpoints.css";
+
 .container {
     display: block;
     width: 100%;
@@ -80,8 +82,12 @@
     left: 455px;
 }
 
-@media screen and (max-width: 400px) {
+@media medium {
     .container:before {
         left: 37px;
+    }
+    .actionButtons {
+        left: auto;
+        right: 0;
     }
 }

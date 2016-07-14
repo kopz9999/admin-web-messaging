@@ -1,3 +1,5 @@
+@value medium from "./Breakpoints.css";
+
 .follow, .following {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
@@ -60,4 +62,16 @@
 
 .following:hover:before {
     background-position-y: -20px;
+}
+
+@media medium {
+    .follow span, .following span {
+        display: none;
+    }
+    .following:before, .follow:before {
+        margin: 0;
+    }
+    .following, .follow {
+        border-radius: 50%;
+    }
 }

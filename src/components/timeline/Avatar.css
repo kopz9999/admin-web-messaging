@@ -1,3 +1,5 @@
+@value medium from "./Breakpoints.css";
+
 .avatar {
     margin-top: 10px;
     margin-left: 37px;
@@ -105,7 +107,7 @@
 
 /* End custom avatars */
 
-@media screen and (max-width: 400px) {
+@media medium {
     .avatar {
         margin-left: 15px;
     }
