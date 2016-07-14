@@ -40,10 +40,6 @@ export default class Visit extends TimeLineItem {
             </Link>
           </div>
           <div className={sharedStyles.actionButtons}>
-            <Link to={conversationURL} className={styles.actionBtn}>
-              <i className={styles.conversationIcon}>&nbsp;</i>
-              <span className={styles.linkLabel}>Start Conversation</span>
-            </Link>
             <FollowButton subject={user} />
           </div>
         </div>
