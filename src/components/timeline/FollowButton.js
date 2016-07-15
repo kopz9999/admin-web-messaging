@@ -28,7 +28,7 @@ export default class FollowButton extends Component {
     const { subject } = this.props;
     const { followUser } = this.props.subjectsActions;
     followUser(subject);
-    this.forceUpdate();
+    this.setState({hover: true});
   }
 
   unFollow() {
