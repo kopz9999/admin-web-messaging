@@ -16,23 +16,20 @@ export default class Visit extends TimeLineItem {
     const displayNameText = trimUserName(user.displayName, MAX_USER_SIZE, '...');
     const pageName = page.title;
     const pageScopeURL = `/sites/${site.id}/pages/${page.id}`;
-    const conversationURL = `/users/${user.layerId}`;
 
     return (
       <div className={styles.message}
             style={this.inlineStyles}>
-        <Link to={conversationURL} className={styles.leftElement}>
+        <div className={styles.leftElement}>
           <Avatar user={user} />
-        </Link>
+        </div>
         <div className={styles.rightElement}>
           <div className={styles.title}>
             <EventTimestamp eventAt={receivedAt} />
           </div>
           <div className={styles.metaData}>
-            <Link to={conversationURL} className={styles.metaDataLink}>
-              <span className={styles.linkLabel}> { displayNameText } </span>
-            </Link>
             <Link to={pageScopeURL} className={styles.metaDataLink}>
+              <span className={styles.linkLabel}> { displayNameText } </span>
               <div className={styles.metaDataLabel}> visited </div>
               <span className={styles.linkLabel}>
                 { pageName }
