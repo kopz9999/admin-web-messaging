@@ -12,7 +12,7 @@ import FollowButton from './FollowButton';
 
 export default class Visit extends TimeLineItem {
   render() {
-    const { user, page, receivedAt, site } = this.props;
+    const { user, page, receivedAt, site, updateParentContainer } = this.props;
     const displayNameText = trimUserName(user.displayName, MAX_USER_SIZE, '...');
     const pageName = page.title;
     const pageScopeURL = `/sites/${site.id}/pages/${page.id}`;
@@ -40,7 +40,8 @@ export default class Visit extends TimeLineItem {
             </Link>
           </div>
           <div className={sharedStyles.actionButtons}>
-            <FollowButton subject={user} />
+            <FollowButton subject={user}
+                          updateParentContainer={updateParentContainer} />
           </div>
         </div>
       </div>

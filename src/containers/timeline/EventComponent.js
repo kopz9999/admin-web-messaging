@@ -16,9 +16,14 @@ export default class EventComponent extends Component {
     el.scrollTop = 0;
   }
 
+  updateParentContainer() {
+    this.forceUpdate();
+  }
+
   renderEventsFeed(opts = {}) {
     const { events, currentUser } = this.props;
     let eventComponents = [];
+    const updateParentContainer = this.updateParentContainer.bind(this);
     events.forEach((event)=> {
       event.addExtraProperties(opts.eventProperties || {});
       switch (event.type) {
@@ -26,7 +31,7 @@ export default class EventComponent extends Component {
           eventComponents.push(<Message { ...{ ...event, currentUser} } />);
           break;
         case VISIT:
-          eventComponents.push(<Visit { ...event } />);
+          eventComponents.push(<Visit { ...{...event, updateParentContainer} } />);
           break;
       }
     });

@@ -152,9 +152,9 @@ function registerLayerUser(dispatch, state, rawUser) {
 
 function processEvents(rawEvents) {
   return function(dispatch, getState) {
-    let events = [], eventObject, layerMessage;
-    const state = getState();
+    let events = [], eventObject, layerMessage, state;
     rawEvents.forEach((evt) => {
+      state = getState();
       eventObject = eventFactoryInstance.buildFromAlgolia(evt);
       if (evt.site) {
         eventObject.site = siteFactoryInstance.buildFromEvent(evt.site);
@@ -166,7 +166,7 @@ function processEvents(rawEvents) {
         case MESSAGE:
           eventObject.user = registerLayerUser(dispatch, state, evt.user);
           if (evt.backend_user) {
-            eventObject.backendUser = registerLayerUser(dispatch, state,
+            eventObject.backendUser = registerLayerUser(dispatch, getState(),
               evt.backend_user);
           }
           if (eventObject.message &&
